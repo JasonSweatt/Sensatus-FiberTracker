@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MSG1" xml:space="preserve">
+    <value>Please enter user ID and Password.</value>
+  </data>
+  <data name="MSG10" xml:space="preserve">
+    <value>Error in adding the record. Please contact admin.</value>
+  </data>
+  <data name="MSG11" xml:space="preserve">
+    <value>Record modified successfully.</value>
+  </data>
+  <data name="MSG12" xml:space="preserve">
+    <value>Error occured in modifying the record. Please contact admin.</value>
+  </data>
+  <data name="MSG13" xml:space="preserve">
+    <value>Insufficient previlege to delete record.</value>
+  </data>
+  <data name="MSG14" xml:space="preserve">
+    <value>Please select any record to delete.</value>
+  </data>
+  <data name="MSG15" xml:space="preserve">
+    <value>Are you sure you want to delete the expense of {0} {1} entered for {2}?</value>
+  </data>
+  <data name="MSG16" xml:space="preserve">
+    <value>Are you sure you want to log off from the application?</value>
+  </data>
+  <data name="MSG17" xml:space="preserve">
+    <value>Are you sure you want to relogin?</value>
+  </data>
+  <data name="MSG18" xml:space="preserve">
+    <value>Please selet a record to update.</value>
+  </data>
+  <data name="MSG19" xml:space="preserve">
+    <value>Please select a role.</value>
+  </data>
+  <data name="MSG2" xml:space="preserve">
+    <value>Invalid user Id or password.</value>
+  </data>
+  <data name="MSG20" xml:space="preserve">
+    <value>Please enter user name.</value>
+  </data>
+  <data name="MSG21" xml:space="preserve">
+    <value>Please enter password.</value>
+  </data>
+  <data name="MSG22" xml:space="preserve">
+    <value>Please enter confirm password.</value>
+  </data>
+  <data name="MSG23" xml:space="preserve">
+    <value>Please enter first name.</value>
+  </data>
+  <data name="MSG24" xml:space="preserve">
+    <value>Password and confirm password does not match.</value>
+  </data>
+  <data name="MSG25" xml:space="preserve">
+    <value>User details modified successfully.</value>
+  </data>
+  <data name="MSG26" xml:space="preserve">
+    <value>Error occured while modifying user details.</value>
+  </data>
+  <data name="MSG27" xml:space="preserve">
+    <value>User '{0}' already exist. Please choose other user ID.</value>
+  </data>
+  <data name="MSG28" xml:space="preserve">
+    <value>User '{0}' created successfully.</value>
+  </data>
+  <data name="MSG29" xml:space="preserve">
+    <value>Error occured while creating new user. Please contact admin.</value>
+  </data>
+  <data name="MSG3" xml:space="preserve">
+    <value>Total No of Records : {0}</value>
+  </data>
+  <data name="MSG30" xml:space="preserve">
+    <value>Error occured while modifying user details. Please contact admin.</value>
+  </data>
+  <data name="MSG31" xml:space="preserve">
+    <value>Are you sure you want to delete user '{0}'?</value>
+  </data>
+  <data name="MSG32" xml:space="preserve">
+    <value>User deleted successfully.</value>
+  </data>
+  <data name="MSG33" xml:space="preserve">
+    <value>Please enter item name.</value>
+  </data>
+  <data name="MSG34" xml:space="preserve">
+    <value>Please enter item description.</value>
+  </data>
+  <data name="MSG35" xml:space="preserve">
+    <value>Item details modified successfully.</value>
+  </data>
+  <data name="MSG36" xml:space="preserve">
+    <value>Error occured in modifying the item details. Please contact admin.</value>
+  </data>
+  <data name="MSG37" xml:space="preserve">
+    <value>Item '{0}' already exist. Please privide different name.</value>
+  </data>
+  <data name="MSG38" xml:space="preserve">
+    <value>Item '{0}' created successfully.</value>
+  </data>
+  <data name="MSG39" xml:space="preserve">
+    <value>No data to display.</value>
+  </data>
+  <data name="MSG4" xml:space="preserve">
+    <value>Insufficient privileges.</value>
+  </data>
+  <data name="MSG40" xml:space="preserve">
+    <value>Are you sure you want to finalize the expense?</value>
+  </data>
+  <data name="MSG41" xml:space="preserve">
+    <value>Finalizing the expense means there are no dues on one another.{0}After finalizing the expenses details would not appaer on the expense details view of the main screen.{1}Click 'OK' to continue finalizing the expense or 'Cancel' to return.</value>
+  </data>
+  <data name="MSG42" xml:space="preserve">
+    <value>Expense details finalized successfully.</value>
+  </data>
+  <data name="MSG43" xml:space="preserve">
+    <value>Error occured while finalizing the expense details. Please contact admin.</value>
+  </data>
+  <data name="MSG44" xml:space="preserve">
+    <value>Please select month and year.</value>
+  </data>
+  <data name="MSG45" xml:space="preserve">
+    <value>Data does not exist for {0}, {1}.</value>
+  </data>
+  <data name="MSG46" xml:space="preserve">
+    <value>Enter first name.</value>
+  </data>
+  <data name="MSG47" xml:space="preserve">
+    <value>Enter password.</value>
+  </data>
+  <data name="MSG48" xml:space="preserve">
+    <value>Enter new password.</value>
+  </data>
+  <data name="MSG49" xml:space="preserve">
+    <value>Enter confirm password.</value>
+  </data>
+  <data name="MSG5" xml:space="preserve">
+    <value>Please select an item.</value>
+  </data>
+  <data name="MSG50" xml:space="preserve">
+    <value>Password and confirm password should be same.</value>
+  </data>
+  <data name="MSG51" xml:space="preserve">
+    <value>Incorrect old password.</value>
+  </data>
+  <data name="MSG52" xml:space="preserve">
+    <value>Profile modified successfully.</value>
+  </data>
+  <data name="MSG53" xml:space="preserve">
+    <value>Error occured in modifying the profile. Please contact admin.</value>
+  </data>
+  <data name="MSG54" xml:space="preserve">
+    <value>Please select location to backup the database.</value>
+  </data>
+  <data name="MSG55" xml:space="preserve">
+    <value>Database backup completed successfully.</value>
+  </data>
+  <data name="MSG56" xml:space="preserve">
+    <value>Total number of {0} file(s) : {1}</value>
+  </data>
+  <data name="MSG57" xml:space="preserve">
+    <value>File(s) exported successfully.</value>
+  </data>
+  <data name="MSG58" xml:space="preserve">
+    <value>There are no file(s) to export.</value>
+  </data>
+  <data name="MSG59" xml:space="preserve">
+    <value>Error occured while exporting the files. Please contact admin.</value>
+  </data>
+  <data name="MSG6" xml:space="preserve">
+    <value>Please enter price.</value>
+  </data>
+  <data name="MSG60" xml:space="preserve">
+    <value>Please select a location to export the files.</value>
+  </data>
+  <data name="MSG61" xml:space="preserve">
+    <value>Invalid price. Price should be &gt; 0.</value>
+  </data>
+  <data name="MSG7" xml:space="preserve">
+    <value>Please enter numeric value.</value>
+  </data>
+  <data name="MSG8" xml:space="preserve">
+    <value>Expence date can't be greater than today's date.</value>
+  </data>
+  <data name="MSG9" xml:space="preserve">
+    <value>Record added successfully.</value>
+  </data>
+</root>

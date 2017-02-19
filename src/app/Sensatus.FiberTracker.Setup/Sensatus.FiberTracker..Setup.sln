@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Sensatus.FiberTracker.Setup", "Sensatus.FiberTracker.Setup\Sensatus.FiberTracker.Setup.vdproj", "{F85DF6F4-5863-47E2-8236-0C0F8A5045BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F85DF6F4-5863-47E2-8236-0C0F8A5045BF}.Debug|Default.ActiveCfg = Debug
+		{F85DF6F4-5863-47E2-8236-0C0F8A5045BF}.Debug|Default.Build.0 = Debug
+		{F85DF6F4-5863-47E2-8236-0C0F8A5045BF}.Release|Default.ActiveCfg = Release
+		{F85DF6F4-5863-47E2-8236-0C0F8A5045BF}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

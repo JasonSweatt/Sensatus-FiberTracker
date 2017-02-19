@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensatus.FiberTracker.UserInterface", "Sensatus.FiberTracker.UserInterface\Sensatus.FiberTracker.UserInterface.csproj", "{1C9748DC-9BC0-4C45-B5E8-C68F5EF9EF25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensatus.FiberTracker.BusinessLogic", "Sensatus.FiberTracker.BusinessLogic\Sensatus.FiberTracker.BusinessLogic.csproj", "{4F04F47A-0984-4C0F-9653-C09AA45A0EE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensatus.FiberTracker.Configurations", "Sensatus.FiberTracker.Configurations\Sensatus.FiberTracker.Configurations.csproj", "{8219A041-ABF4-4278-8EF9-93C5BF992381}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensatus.FiberTracker.Messaging", "Sensatus.FiberTracker.Messaging\Sensatus.FiberTracker.Messaging.csproj", "{75F15526-289A-4D1F-BF44-01CFA3C48017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensatus.FiberTracker.DataAccess", "Sensatus.FiberTracker.DataAccess\Sensatus.FiberTracker.DataAccess.csproj", "{AF9E7495-E441-4258-9B5D-28099523AF2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensatus.FiberTracker.Formatting", "Sensatus.FiberTracker.Formatting\Sensatus.FiberTracker.Formatting.csproj", "{10E357DF-2926-4EC3-87CD-36694F9C4D86}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Sensatus.FiberTracker.Setup", "Sensatus.FiberTracker.Setup\Sensatus.FiberTracker.Setup.vdproj", "{DCDACAB6-FB83-4736-9261-EA69B3576DB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensatus.FiberTracker.Setup.CustomActions", "Sensatus.FiberTracker.Setup\Sensatus.FiberTracker.Setup.CustomActions\Sensatus.FiberTracker.Setup.CustomActions.csproj", "{033B84A4-4368-4367-9C2A-5D45004BA6B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C9748DC-9BC0-4C45-B5E8-C68F5EF9EF25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C9748DC-9BC0-4C45-B5E8-C68F5EF9EF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C9748DC-9BC0-4C45-B5E8-C68F5EF9EF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C9748DC-9BC0-4C45-B5E8-C68F5EF9EF25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F04F47A-0984-4C0F-9653-C09AA45A0EE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F04F47A-0984-4C0F-9653-C09AA45A0EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F04F47A-0984-4C0F-9653-C09AA45A0EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F04F47A-0984-4C0F-9653-C09AA45A0EE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8219A041-ABF4-4278-8EF9-93C5BF992381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8219A041-ABF4-4278-8EF9-93C5BF992381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8219A041-ABF4-4278-8EF9-93C5BF992381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8219A041-ABF4-4278-8EF9-93C5BF992381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75F15526-289A-4D1F-BF44-01CFA3C48017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75F15526-289A-4D1F-BF44-01CFA3C48017}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75F15526-289A-4D1F-BF44-01CFA3C48017}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75F15526-289A-4D1F-BF44-01CFA3C48017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF9E7495-E441-4258-9B5D-28099523AF2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF9E7495-E441-4258-9B5D-28099523AF2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF9E7495-E441-4258-9B5D-28099523AF2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF9E7495-E441-4258-9B5D-28099523AF2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10E357DF-2926-4EC3-87CD-36694F9C4D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10E357DF-2926-4EC3-87CD-36694F9C4D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10E357DF-2926-4EC3-87CD-36694F9C4D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10E357DF-2926-4EC3-87CD-36694F9C4D86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCDACAB6-FB83-4736-9261-EA69B3576DB7}.Debug|Any CPU.ActiveCfg = Debug
+		{DCDACAB6-FB83-4736-9261-EA69B3576DB7}.Debug|Any CPU.Build.0 = Debug
+		{DCDACAB6-FB83-4736-9261-EA69B3576DB7}.Release|Any CPU.ActiveCfg = Release
+		{DCDACAB6-FB83-4736-9261-EA69B3576DB7}.Release|Any CPU.Build.0 = Release
+		{033B84A4-4368-4367-9C2A-5D45004BA6B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{033B84A4-4368-4367-9C2A-5D45004BA6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{033B84A4-4368-4367-9C2A-5D45004BA6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{033B84A4-4368-4367-9C2A-5D45004BA6B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

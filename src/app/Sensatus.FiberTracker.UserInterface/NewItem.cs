@@ -16,7 +16,7 @@ namespace Sensatus.FiberTracker.UI
 {
     public partial class NewItem : AccountPlusBase
     {
-        Items _itemManagement = new Items();
+        private Items _itemManagement = new Items();
         public NewItem()
         {
             InitializeComponent();
@@ -50,9 +50,9 @@ namespace Sensatus.FiberTracker.UI
             errorProvider1.Clear();
             lblMessage.Clear();
 
-            string itemName = txtItemName.Text.Trim();
-            string itemDesc = txtaDesc.Text.Trim();
-            string message = string.Empty;
+            var itemName = txtItemName.Text.Trim();
+            var itemDesc = txtaDesc.Text.Trim();
+            var message = string.Empty;
             
 
 
@@ -74,26 +74,28 @@ namespace Sensatus.FiberTracker.UI
 
             if (_itemId != 0)
             {
-                if (_itemManagement.UpdateItem(_itemId, itemDesc, SessionParameters.UserID.ToString(), System.DateTime.Now.ToShortDateString()))
+                if (_itemManagement.UpdateItem(_itemId, itemDesc, SessionParameters.UserID.ToString(), DateTime.Now.ToShortDateString()))
                 {
                     lblMessage.SetMessage(MessageManager.GetMessage("35"));
                     Clear();
                 }
                 else
+                {
                     lblMessage.SetMessage(MessageManager.GetMessage("36"));
+                }
             }
             else
             {
                 if (!_itemManagement.ItemExist(itemName))
-                {
-                    if (_itemManagement.AddNewItem(itemName, itemDesc, SessionParameters.UserID, System.DateTime.Now.ToShortDateString()))
+                    if (_itemManagement.AddNewItem(itemName, itemDesc, SessionParameters.UserID, DateTime.Now.ToShortDateString()))
                     {
                         lblMessage.SetMessage(MessageManager.GetMessage("38", itemName));
                         Clear();
                     }
                     else
+                    {
                         lblMessage.SetMessage(MessageManager.GetMessage("36"));
-                }
+                    }
                 else
                     lblMessage.SetMessage(MessageManager.GetMessage("37", itemName));
             }
@@ -104,8 +106,8 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -153,7 +155,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void NewItem_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
         }
     }
 }

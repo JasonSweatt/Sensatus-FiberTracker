@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Data.OracleClient;
 using System.Data.Odbc;
 using System.Data.OleDb;
-using System.Text;
-using MySql.Data.MySqlClient;
+using System.Data.OracleClient;
+using System.Data.SqlClient;
 
 namespace Sensatus.FiberTracker.DataAccess
 {
@@ -15,7 +13,6 @@ namespace Sensatus.FiberTracker.DataAccess
     /// </summary>
     internal class ConnectionManager
     {
-
         /// <summary>
         /// Establish Connection to the database and Return an open connection.
         /// </summary>
@@ -23,24 +20,29 @@ namespace Sensatus.FiberTracker.DataAccess
         internal IDbConnection GetConnection()
         {
             IDbConnection connection = null;
-            string connectionString = Configuration.ConnectionString;
+            var connectionString = Configuration.ConnectionString;
             switch (Configuration.DBProvider.Trim().ToUpper())
             {
                 case Common.SQL_SERVER_DB_PROVIDER:
                     connection = new SqlConnection(connectionString);
                     break;
+
                 case Common.MY_SQL_DB_PROVIDER:
                     connection = new MySqlConnection(connectionString);
                     break;
+
                 case Common.ORACLE_DB_PROVIDER:
                     connection = new OracleConnection(connectionString);
                     break;
+
                 case Common.EXCESS_DB_PROVIDER:
                     connection = new OleDbConnection(connectionString);
                     break;
+
                 case Common.ODBC_DB_PROVIDER:
                     connection = new OdbcConnection(connectionString);
                     break;
+
                 case Common.OLE_DB_PROVIDER:
                     connection = new OleDbConnection(connectionString);
                     break;

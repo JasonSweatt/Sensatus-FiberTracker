@@ -18,24 +18,24 @@ namespace Sensatus.FiberTracker.UI
 
         private void ContactAdminOptions_CheckedChanged(object sender, EventArgs e)
         {
-            string optionSelected = ((RadioButton)(sender)).Name;
-            string subject = string.Empty ;
+            var optionSelected = ((RadioButton)sender).Name;
+            var subject = string.Empty ;
             switch (optionSelected)
             {
                 case "rbnReportBug":
-                    if (((RadioButton)(sender)).Checked)
+                    if (((RadioButton)sender).Checked)
                         subject = "Account Plus : Bug Report";
                     break;
                 case "rbnQuery":
-                    if (((RadioButton)(sender)).Checked)
+                    if (((RadioButton)sender).Checked)
                         subject = "Account Plus : Query";
                     break;
                 case "rbnFeatureRequest":
-                    if (((RadioButton)(sender)).Checked)
+                    if (((RadioButton)sender).Checked)
                         subject = "Account Plus : Feature Request";
                     break;
                 case "rbnSuggestion":
-                    if (((RadioButton)(sender)).Checked)
+                    if (((RadioButton)sender).Checked)
                         subject = "Account Plus : Suggestion";
                     break;                    
             }
@@ -51,23 +51,23 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            string message = txtaMessage.Text.Trim(); 
-            string subject = txtSubject.Text.Trim();
-            string toMail = Sensatus.FiberTracker.Configurations.ApplicationConfiguration.SupportMail;
+            var message = txtaMessage.Text.Trim(); 
+            var subject = txtSubject.Text.Trim();
+            var toMail = Configurations.ApplicationConfiguration.SupportMail;
             Process.Start("mailto:"+ toMail +"&subject=" + subject + "&Body=" + message);            
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void txtaMessage_TextChanged(object sender, EventArgs e)
         {
-            int length =  txtaMessage.Text.Trim().Length;
+            var length =  txtaMessage.Text.Trim().Length;
             if (length > 0)
                 btnSend.Enabled = true;
             else
@@ -76,12 +76,12 @@ namespace Sensatus.FiberTracker.UI
 
         private void ContactAdmin_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
         }
 
         private void linkRedirectURL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Sensatus.FiberTracker.Configurations.ApplicationConfiguration.SupportURL);
+            Process.Start(Configurations.ApplicationConfiguration.SupportURL);
         }
       
     }

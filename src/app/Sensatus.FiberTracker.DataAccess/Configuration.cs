@@ -1,37 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace Sensatus.FiberTracker.DataAccess
 {
+    /// <summary>
+    /// Class Configuration.
+    /// </summary>
     internal static class Configuration
     {
-        const string DEFAULT_CONNECTION_KEY = "defaultConnection";
-                        
-        public static string DefaultConnection
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings[DEFAULT_CONNECTION_KEY];
-            }
-        }
+        /// <summary>
+        /// The default connection key
+        /// </summary>
+        private const string DEFAULT_CONNECTION_KEY = "defaultConnection";
 
-        public static string DBProvider
-        {
-            get
-            {
-                return ConfigurationManager.ConnectionStrings[DefaultConnection].ProviderName;
-            }
-        }
+        /// <summary>
+        /// Gets the default connection.
+        /// </summary>
+        /// <value>The default connection.</value>
+        public static string DefaultConnection => ConfigurationManager.AppSettings[DEFAULT_CONNECTION_KEY];
 
-        public static string ConnectionString
-        {
-            get
-            {
-                return ConfigurationManager.ConnectionStrings[DefaultConnection].ConnectionString;
-            }
-        }   
+        /// <summary>
+        /// Gets the database provider.
+        /// </summary>
+        /// <value>The database provider.</value>
+        public static string DBProvider => ConfigurationManager.ConnectionStrings[DefaultConnection].ProviderName;
 
+        /// <summary>
+        /// Gets the connection string.
+        /// </summary>
+        /// <value>The connection string.</value>
+        public static string ConnectionString => ConfigurationManager.ConnectionStrings[DefaultConnection].ConnectionString;
     }
 }

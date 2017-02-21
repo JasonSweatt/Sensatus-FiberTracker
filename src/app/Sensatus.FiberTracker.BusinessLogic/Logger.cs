@@ -1,18 +1,16 @@
 ﻿using log4net;
 using log4net.Appender;
 using log4net.Layout;
-using log4net.Repository.Hierarchy;
-using System.IO;
-using System;
 using Sensatus.FiberTracker.Configurations;
-
+using System;
+using System.IO;
 
 namespace Sensatus.FiberTracker.BusinessLogic
 {
     public class Logger
     {
         private const string APPENDER_NAME = "ApplicationLogger";
-        private static log4net.ILog log = null;
+        private static ILog _log = null;
 
         /// <summary>
         /// Writes the stack trace into the Log file for the passed exception.
@@ -22,14 +20,14 @@ namespace Sensatus.FiberTracker.BusinessLogic
         {
             if (ApplicationConfiguration.LoggingEnabled)
             {
-                string fileName = GetFileName(FileType.Log);
-                FileAppender fileAppender = CreateAppender(fileName);
+                var fileName = GetFileName(FileType.Log);
+                var fileAppender = CreateAppender(fileName);
 
                 CreateLogger(fileAppender, APPENDER_NAME);
-                log = LogManager.GetLogger(APPENDER_NAME);
+                _log = LogManager.GetLogger(APPENDER_NAME);
 
-                string stackTrace = GetStackTraceInfo();
-                log.Info(stackTrace, ex);
+                var stackTrace = GetStackTraceInfo();
+                _log.Info(stackTrace, ex);
             }
         }
 
@@ -41,12 +39,12 @@ namespace Sensatus.FiberTracker.BusinessLogic
         {
             if (ApplicationConfiguration.TracingEnabled)
             {
-                string fileName = GetFileName(FileType.Trace);
-                FileAppender fileAppender = CreateAppender(fileName);
+                var fileName = GetFileName(FileType.Trace);
+                var fileAppender = CreateAppender(fileName);
 
                 CreateLogger(fileAppender, APPENDER_NAME);
-                log = LogManager.GetLogger(APPENDER_NAME);
-                log.Info(traceInfo + Environment.NewLine);
+                _log = LogManager.GetLogger(APPENDER_NAME);
+                _log.Info(traceInfo + Environment.NewLine);
             }
         }
 
@@ -59,60 +57,67 @@ namespace Sensatus.FiberTracker.BusinessLogic
         {
             if (ApplicationConfiguration.TracingEnabled)
             {
-                string fileName = GetFileName(FileType.Trace);
-                FileAppender fileAppender = CreateAppender(fileName);
+                var fileName = GetFileName(FileType.Trace);
+                var fileAppender = CreateAppender(fileName);
 
                 CreateLogger(fileAppender, APPENDER_NAME);
-                log = LogManager.GetLogger(APPENDER_NAME);
+                _log = LogManager.GetLogger(APPENDER_NAME);
 
-                string stackTrace = Environment.NewLine + "Screen/Form Name : " + formName + Environment.NewLine;
+                var stackTrace = Environment.NewLine + "Screen/Form Name : " + formName + Environment.NewLine;
                 stackTrace += "Method/ Action/ Routine Invoked : " + traceInfo + Environment.NewLine;
                 stackTrace += "Start Time : " + DateTime.Now.ToString() + Environment.NewLine;
                 stackTrace += "Username : " + SessionParameters.UserName + Environment.NewLine;
-                log.Info(stackTrace);
+                _log.Info(stackTrace);
             }
         }
 
-
+        /// <summary>
+        /// Gets the stack trace information.
+        /// </summary>
+        /// <returns>System.String.</returns>
         private static string GetStackTraceInfo()
         {
-            string stackTraceInfo = Environment.NewLine;
-
+            var stackTraceInfo = Environment.NewLine;
             stackTraceInfo += "************************************************************" + Environment.NewLine;
-            stackTraceInfo = (stackTraceInfo + "Username : ") + SessionParameters.UserName + Environment.NewLine;
-            stackTraceInfo = (stackTraceInfo + "Date & Time : ") + DateTime.Now.ToString() + Environment.NewLine;
+            stackTraceInfo = stackTraceInfo + "Username : " + SessionParameters.UserName + Environment.NewLine;
+            stackTraceInfo = stackTraceInfo + "Date & Time : " + DateTime.Now.ToString() + Environment.NewLine;
             stackTraceInfo += "************************************************************" + Environment.NewLine;
-
             return stackTraceInfo;
         }
 
-
+        /// <summary>
+        /// Enum FileType
+        /// </summary>
         private enum FileType
         {
             Log,
             Trace
         }
 
+        /// <summary>
+        /// Gets the name of the file.
+        /// </summary>
+        /// <param name="fileType">Type of the file.</param>
+        /// <returns>System.String.</returns>
         private static string GetFileName(FileType fileType)
         {
-            string dirName = (fileType == Logger.FileType.Log ? Environment.CurrentDirectory + @"\Diagnostics\Log" : Environment.CurrentDirectory + @"\Diagnostics\Trace");
-
+            var dirName = fileType == FileType.Log ? Environment.CurrentDirectory + @"\Diagnostics\Log" : Environment.CurrentDirectory + @"\Diagnostics\Trace";
             if (!Directory.Exists(dirName))
                 Directory.CreateDirectory(dirName);
-
-            string fileName = ApplicationConfiguration.LogTraceSetting == ApplicationConfiguration.LogTraceType.DateWise ? DateTime.Now.ToString("dd-MMM-yyyy") + ".txt" : (fileType == FileType.Log ? "Log.txt" : "Trace.txt");                      
-            return (dirName + "\\") + fileName;            
-            
+            var fileName = ApplicationConfiguration.LogTraceSetting == ApplicationConfiguration.LogTraceType.DateWise ? DateTime.Now.ToString("dd-MMM-yyyy") + ".txt" : (fileType == FileType.Log ? "Log.txt" : "Trace.txt");
+            return dirName + "\\" + fileName;
         }
 
-
+        /// <summary>
+        /// Creates the appender.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>FileAppender.</returns>
         private static FileAppender CreateAppender(string fileName)
         {
-            RollingFileAppender rollingFileAppender = new RollingFileAppender();
-            FileAppender fileAppender = new FileAppender();
-            PatternLayout patternLayOut = new PatternLayout();
-            
-            patternLayOut.ConversionPattern = "%d %m%n";
+            var rollingFileAppender = new RollingFileAppender();
+            var fileAppender = new FileAppender();
+            var patternLayOut = new PatternLayout { ConversionPattern = "%d %m%n" };
             patternLayOut.ActivateOptions();
             fileAppender.Layout = patternLayOut;
             fileAppender.AppendToFile = true;
@@ -123,14 +128,18 @@ namespace Sensatus.FiberTracker.BusinessLogic
             return fileAppender;
         }
 
+        /// <summary>
+        /// Creates the logger.
+        /// </summary>
+        /// <param name="fileAppender">The file appender.</param>
+        /// <param name="loggerName">Name of the logger.</param>
         private static void CreateLogger(FileAppender fileAppender, string loggerName)
         {
-            log4net.Repository.Hierarchy.Hierarchy hierarchy = (log4net.Repository.Hierarchy.Hierarchy)log4net.LogManager.GetLoggerRepository();
-            log4net.Repository.Hierarchy.Logger logger = (log4net.Repository.Hierarchy.Logger)hierarchy.GetLogger(APPENDER_NAME);
+            var hierarchy = (log4net.Repository.Hierarchy.Hierarchy)LogManager.GetLoggerRepository();
+            var logger = (log4net.Repository.Hierarchy.Logger)hierarchy.GetLogger(APPENDER_NAME);
             logger.RemoveAllAppenders();
             logger.AddAppender(fileAppender);
             hierarchy.Configured = true;
         }
-
     }
 }

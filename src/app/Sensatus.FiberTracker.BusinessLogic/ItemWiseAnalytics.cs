@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
 using Sensatus.FiberTracker.DataAccess;
+using System;
+using System.Data;
 
 namespace Sensatus.FiberTracker.BusinessLogic
 {
@@ -16,23 +14,23 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         public DataTable ItemWiseTrendReport(string month, string year)
         {
-            DataTable data = new DataTable();
+            var data = new DataTable();
 
             //Checks that Data exist for present month or not?
-            string presentMMYYYY = arch.DecodeMonthYear(month, year);
-            bool dataExistForPresntMonth = commonReportArch.DataExistForMonth(month, year);
+            var presentMMYYYY = arch.DecodeMonthYear(month, year);
+            var dataExistForPresntMonth = commonReportArch.DataExistForMonth(month, year);
 
-            //Checks that Data exist for prev month or not?            
-            string previousMonth = arch.GetPreviousMonth(month);
-            string previousMonthYear = arch.GetPrevMonthsYear(month, year);
-            string prevMMYYYY = arch.DecodeMonthYear(previousMonth, previousMonthYear);
-            bool dataExistForPrevMonth = commonReportArch.DataExistForMonth(previousMonth, previousMonthYear);
+            //Checks that Data exist for prev month or not?
+            var previousMonth = arch.GetPreviousMonth(month);
+            var previousMonthYear = arch.GetPrevMonthsYear(month, year);
+            var prevMMYYYY = arch.DecodeMonthYear(previousMonth, previousMonthYear);
+            var dataExistForPrevMonth = commonReportArch.DataExistForMonth(previousMonth, previousMonthYear);
 
             //Checks that Data exist for next month or not?
-            string nextMonth = arch.GetNextMonth(month);
-            string nextMonthYear = arch.GetNextMonthsYear(month, year);
-            string nextMMYYYY = arch.DecodeMonthYear(nextMonth, nextMonthYear);
-            bool dataExistForNextMonth = commonReportArch.DataExistForMonth(nextMonth, nextMonthYear);
+            var nextMonth = arch.GetNextMonth(month);
+            var nextMonthYear = arch.GetNextMonthsYear(month, year);
+            var nextMMYYYY = arch.DecodeMonthYear(nextMonth, nextMonthYear);
+            var dataExistForNextMonth = commonReportArch.DataExistForMonth(nextMonth, nextMonthYear);
 
             string[,] reportData = null;
 
@@ -51,7 +49,6 @@ namespace Sensatus.FiberTracker.BusinessLogic
                 reportData = new string[itemAnalyticArch.GetAllItems().Length, 4];
                 reportData = GetReportData2(prevMMYYYY, presentMMYYYY);
                 data = arch.GetDataTableFrom2DArray(columnName, reportData);
-
             }
             else if (dataExistForPresntMonth && !dataExistForPrevMonth && !dataExistForNextMonth)
             {
@@ -71,21 +68,20 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         private string[,] GetReportData1(string previousMonthYear, string presentMonthYear, string nextMonthYear)
         {
-            int numberOfItems = itemAnalyticArch.GetAllItems().Length;
-            string[,] reportData = new string[numberOfItems+1, 6];
-            string[] expForItem = itemAnalyticArch.GetAllItems();
-            string[] prevMontExpense = itemAnalyticArch.GetExpenseForItems(previousMonthYear);
-            string[] trndPreviousPresent = new string[prevMontExpense.Length];
-            string[] presentMontExpense = itemAnalyticArch.GetExpenseForItems(presentMonthYear);
-            string[] trendPresentVsNextMonth = new string[presentMontExpense.Length];
-            string[] nextMontExpense = itemAnalyticArch.GetExpenseForItems(nextMonthYear);
+            var numberOfItems = itemAnalyticArch.GetAllItems().Length;
+            var reportData = new string[numberOfItems + 1, 6];
+            var expForItem = itemAnalyticArch.GetAllItems();
+            var prevMontExpense = itemAnalyticArch.GetExpenseForItems(previousMonthYear);
+            var trndPreviousPresent = new string[prevMontExpense.Length];
+            var presentMontExpense = itemAnalyticArch.GetExpenseForItems(presentMonthYear);
+            var trendPresentVsNextMonth = new string[presentMontExpense.Length];
+            var nextMontExpense = itemAnalyticArch.GetExpenseForItems(nextMonthYear);
 
-            double sumPrevMonthExp = GetTotalExpense(prevMontExpense);
-            double sumPresentMonthExp = GetTotalExpense(presentMontExpense);
-            double sumNextMonthExp = GetTotalExpense(nextMontExpense);
+            var sumPrevMonthExp = GetTotalExpense(prevMontExpense);
+            var sumPresentMonthExp = GetTotalExpense(presentMontExpense);
+            var sumNextMonthExp = GetTotalExpense(nextMontExpense);
 
-            for (int row = 0; row <= numberOfItems ; row++)
-            {
+            for (var row = 0; row <= numberOfItems; row++)
                 if (row == numberOfItems)
                 {
                     reportData[row, 0] = "T O T A L :";
@@ -103,27 +99,24 @@ namespace Sensatus.FiberTracker.BusinessLogic
                     reportData[row, 3] = presentMontExpense[row];
                     reportData[row, 4] = GetTrendSymbol(presentMontExpense[row], nextMontExpense[row]);
                     reportData[row, 5] = nextMontExpense[row];
-                }                
-            }
+                }
 
             return reportData;
         }
 
         private double GetTotalExpense(string[] expenses)
         {
-            double totalExpense = 0.0;
-            for (int i = 0; i < expenses.Length; i++)
-            {
+            var totalExpense = 0.0;
+            for (var i = 0; i < expenses.Length; i++)
                 totalExpense = totalExpense + Convert.ToDouble(expenses[i]);
-            }
 
             return totalExpense;
         }
 
         private string GetTrendSymbol(string month1, string month2)
         {
-            double firstMonth = Convert.ToDouble(month1);
-            double secMonth = Convert.ToDouble(month2);
+            var firstMonth = Convert.ToDouble(month1);
+            var secMonth = Convert.ToDouble(month2);
 
             if (firstMonth > secMonth)
                 return " > ";
@@ -135,24 +128,23 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         private string[,] GetReportData2(string previousMonthYear, string presentMonthYear)
         {
-            int numberOfItems = itemAnalyticArch.GetAllItems().Length;
-            string[,] reportData = new string[numberOfItems + 1, 4];
-            string[] expBy = itemAnalyticArch.GetAllItems();
-            string[] prevMontExpense = itemAnalyticArch.GetExpenseForItems(previousMonthYear);
-            string[] trndPreviousPresent = new string[prevMontExpense.Length];
-            string[] presentMontExpense = itemAnalyticArch.GetExpenseForItems(presentMonthYear);
+            var numberOfItems = itemAnalyticArch.GetAllItems().Length;
+            var reportData = new string[numberOfItems + 1, 4];
+            var expBy = itemAnalyticArch.GetAllItems();
+            var prevMontExpense = itemAnalyticArch.GetExpenseForItems(previousMonthYear);
+            var trndPreviousPresent = new string[prevMontExpense.Length];
+            var presentMontExpense = itemAnalyticArch.GetExpenseForItems(presentMonthYear);
 
-            double sumPrevMonthExp = GetTotalExpense(prevMontExpense);
-            double sumPresentMonthExp = GetTotalExpense(presentMontExpense);            
+            var sumPrevMonthExp = GetTotalExpense(prevMontExpense);
+            var sumPresentMonthExp = GetTotalExpense(presentMontExpense);
 
-            for (int row = 0; row <= itemAnalyticArch.GetAllItems().Length; row++)
-            {
+            for (var row = 0; row <= itemAnalyticArch.GetAllItems().Length; row++)
                 if (row == numberOfItems)
                 {
                     reportData[row, 0] = "T O T A L :";
                     reportData[row, 1] = sumPrevMonthExp.ToString();
                     reportData[row, 2] = GetTrendSymbol(sumPrevMonthExp.ToString(), sumPresentMonthExp.ToString());
-                    reportData[row, 3] = sumPresentMonthExp.ToString();                   
+                    reportData[row, 3] = sumPresentMonthExp.ToString();
                 }
                 else
                 {
@@ -161,7 +153,6 @@ namespace Sensatus.FiberTracker.BusinessLogic
                     reportData[row, 2] = GetTrendSymbol(prevMontExpense[row], presentMontExpense[row]);
                     reportData[row, 3] = presentMontExpense[row];
                 }
-            }
             return reportData;
         }
     }

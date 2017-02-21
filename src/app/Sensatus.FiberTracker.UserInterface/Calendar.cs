@@ -17,13 +17,13 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void Calendar_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
         }
     }
 }

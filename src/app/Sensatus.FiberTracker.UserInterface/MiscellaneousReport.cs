@@ -26,9 +26,9 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {            
-            string month = cmbMonth.Text.Trim();
-            string year = cmbYear.Text.Trim();
-            DataSet dsReportData = new DataSet();
+            var month = cmbMonth.Text.Trim();
+            var year = cmbYear.Text.Trim();
+            var dsReportData = new DataSet();
 
             if (month.Equals("") || year.Equals(""))
             {

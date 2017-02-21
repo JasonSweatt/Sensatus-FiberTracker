@@ -24,11 +24,11 @@ namespace Sensatus.FiberTracker.UI
         {
             errorProvider1.Clear();
             message1.Clear();
-            MonthlyReport monthlyReport = new MonthlyReport();
-            string month = cmbMonth.Text.Trim();
-            string year = cmbYear.Text.Trim();
-            DataSet dsReportData = new DataSet();
-            string message = string.Empty;
+            var monthlyReport = new MonthlyReport();
+            var month = cmbMonth.Text.Trim();
+            var year = cmbYear.Text.Trim();
+            var dsReportData = new DataSet();
+            var message = string.Empty;
 
             if (month.Equals("[SELECT]") && year.Equals("[SELECT]"))
             {
@@ -62,8 +62,8 @@ namespace Sensatus.FiberTracker.UI
             }
 
             dsReportData = monthlyReport.MonthlyReportData(month, year);
-            Analytics analytics = new Analytics();
-            DataTable table = new DataTable();
+            var analytics = new Analytics();
+            var table = new DataTable();
 
             if(rbnItemWise.Checked)
                 table = analytics.AnalyticReport(month, year, Analytics.AnalyticReportType.ItemWise );
@@ -97,13 +97,13 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void AnalyticReport_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
             cmbMonth.SelectedIndex = 0;
             cmbYear.SelectedIndex = 0;
         }

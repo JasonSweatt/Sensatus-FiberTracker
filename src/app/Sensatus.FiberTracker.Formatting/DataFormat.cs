@@ -8,7 +8,7 @@ namespace Sensatus.FiberTracker.Formatting
     {
         public static string DateToDB(string date)
         {
-            DateTime dt = Convert.ToDateTime(date);
+            var dt = Convert.ToDateTime(date);
             return dt.ToString("MMddyyyy");
         }
 
@@ -29,27 +29,27 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static string GetCurrentDate()
         {
-            DateTime dt = System.DateTime.Now;
+            var dt = DateTime.Now;
             return dt.ToString("MMddyyyy");
         }
 
         public static string DateToDisp(string date)
         {
-            string[] dateString = new string[3];
-            DateTime dt = Convert.ToDateTime(date);
+            var dateString = new string[3];
+            var dt = Convert.ToDateTime(date);
             dateString = dt.ToString("dd MMM yyyy").Split(Convert.ToChar(" "));
             return dateString[0] + " " + dateString[1] + ", " + dateString[2];
         }
 
         public static string GetDateFromDBDate(string date)
         {
-            string dateReturn = string.Empty;
+            var dateReturn = string.Empty;
             if (date.Trim().Length < 8)
                 date = "0" + date.Trim();
 
-            string month = date.Substring(0, 2);
-            string date1 = date.Substring(2, 2);
-            string year = date.Substring(4);
+            var month = date.Substring(0, 2);
+            var date1 = date.Substring(2, 2);
+            var year = date.Substring(4);
             dateReturn = month + "/" + date1 + "/" + year ;
 
             dateReturn = DateToDisp(dateReturn);
@@ -58,27 +58,27 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static string GetMonth(string date)
         {
-            string dateToDB = DateToDB(date);
+            var dateToDB = DateToDB(date);
             return dateToDB.Substring(0, 2);
         }
 
         public static string GetYear(string date)
         {
-            string dateToDB = DateToDB(date);
+            var dateToDB = DateToDB(date);
             return dateToDB.Substring(4, 4);
         }
 
         public static string GetDate(string date)
         {
-            string dateToDB = DateToDB(date);
+            var dateToDB = DateToDB(date);
             return dateToDB.Substring(2, 2);
         }
 
         #region Core Formatting Metods
         public static bool IsValidDate(string date)
         {
-            bool retValue = false;
-            DateTime result = new DateTime();
+            var retValue = false;
+            var result = new DateTime();
            if (DateTime.TryParse(date, out result))            
                 retValue = true;
 
@@ -87,21 +87,19 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool IsValidDate(object date)
         {
-            bool retValue = false;
-            DateTime result = new DateTime();
+            var retValue = false;
+            var result = new DateTime();
             
             if (date != null)
-            {
                 if (DateTime.TryParse(date.ToString(), out result))
                     retValue = true;
-            }
-            
+
             return retValue;
         }
 
         public static DateTime GetDateTime(string date)
         {            
-            DateTime retValue = new DateTime();
+            var retValue = new DateTime();
             if (IsValidDate(date))
                 retValue = Convert.ToDateTime(date);
             
@@ -110,7 +108,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static DateTime GetDateTime(object date)
         {
-            DateTime retValue = new DateTime();
+            var retValue = new DateTime();
             if (IsValidDate(date))
                 retValue = Convert.ToDateTime(date);
 
@@ -120,7 +118,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool IsNumeric(object value)
         {
-            bool retValue = false;
+            var retValue = false;
             
             if (value != null)            
                 retValue = IsNumeric (value.ToString());
@@ -130,7 +128,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool IsNumeric(string value)
         {
-            bool retValue = false;
+            var retValue = false;
             double result = 0;
             if (value != null)
                 retValue = double.TryParse(value, out result);
@@ -141,7 +139,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool IsInteger(object value)
         {
-            bool retValue = false;
+            var retValue = false;
 
             if (value != null)
                 retValue = IsInteger(value.ToString());
@@ -151,8 +149,8 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool IsInteger(string value)
         {
-            bool retValue = false;
-            int result = 0;
+            var retValue = false;
+            var result = 0;
             if (value != null)
                 retValue = int.TryParse(value, out result);
 
@@ -161,10 +159,10 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool IsBoolean(string value)
         {
-            bool retValue = false;
-            bool result = false ;
+            var retValue = false;
+            var result = false ;
             if (value != null)
-                retValue = Boolean.TryParse(value, out result);
+                retValue = bool.TryParse(value, out result);
 
             return retValue;
         }
@@ -172,7 +170,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool IsBoolean(object value)
         {
-            bool retValue = false;
+            var retValue = false;
             
             if (value != null)
                 retValue = IsBoolean(value.ToString());
@@ -182,7 +180,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static string GetString(object value)
         {
-            string retValue = string.Empty;
+            var retValue = string.Empty;
             if (value != null)
                 retValue = value.ToString();
 
@@ -192,7 +190,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static int GetInteger(object value)
         {
-            int retValue = 0;
+            var retValue = 0;
 
             if (IsInteger(value))
                 retValue = Convert.ToInt16(value);
@@ -203,7 +201,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static int GetInteger(string value)
         {
-            int retValue = 0;
+            var retValue = 0;
 
             if (IsInteger(value))
                 retValue = Convert.ToInt16(value);
@@ -234,7 +232,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool GetBoolean(object value)
         {
-            bool retValue = false;
+            var retValue = false;
 
             if (IsBoolean(value))
                 retValue = Convert.ToBoolean(value);
@@ -245,7 +243,7 @@ namespace Sensatus.FiberTracker.Formatting
 
         public static bool GetBoolean(string value)
         {
-            bool retValue = false;
+            var retValue = false;
 
             if (IsBoolean(value))
                 retValue = Convert.ToBoolean(value);

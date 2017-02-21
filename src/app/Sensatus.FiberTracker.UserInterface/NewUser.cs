@@ -20,7 +20,7 @@ namespace Sensatus.FiberTracker.UI
         public NewUser()
         {          
             InitializeComponent();
-            (new Arch()).FillDataInCombo(cmbRole, Arch.ComboBoxItem.Role);
+            new Arch().FillDataInCombo(cmbRole, Arch.ComboBoxItem.Role);
             cmbRole.SelectedIndex = 0;
             GetData(-1, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
         }
@@ -34,17 +34,17 @@ namespace Sensatus.FiberTracker.UI
         {
             errorProvider1.Clear();
             lblMessage.Clear();
-            Users user = new Users();
-            string userName = txtUserId.Text.Trim();
-            string password = txtPassword.Text.Trim();
-            string confirmPassword = txtConfirmPassword.Text.Trim();
-            string firstName = txtFirstName.Text.Trim();
-            string lastName = txtLastName.Text.Trim();
-            string email = txtEmail.Text.Trim();
-            string mobile = txtMobile.Text.Trim();
-            int roleId = DataFormat.GetInteger(((DictionaryEntry)(cmbRole.SelectedItem)).Key);
+            var user = new Users();
+            var userName = txtUserId.Text.Trim();
+            var password = txtPassword.Text.Trim();
+            var confirmPassword = txtConfirmPassword.Text.Trim();
+            var firstName = txtFirstName.Text.Trim();
+            var lastName = txtLastName.Text.Trim();
+            var email = txtEmail.Text.Trim();
+            var mobile = txtMobile.Text.Trim();
+            var roleId = DataFormat.GetInteger(((DictionaryEntry)cmbRole.SelectedItem).Key);
 
-            string message = string.Empty;
+            var message = string.Empty;
 
             if (SessionParameters.UserRole != Common.UserRole.Admin)
             {
@@ -120,7 +120,9 @@ namespace Sensatus.FiberTracker.UI
                     lblMessage.SetMessage(MessageManager.GetMessage("25"));
                 }
                 else
+                {
                     lblMessage.SetMessage(MessageManager.GetMessage("26"));
+                }
             }
             else
             {
@@ -131,7 +133,9 @@ namespace Sensatus.FiberTracker.UI
                     lblMessage.SetMessage(MessageManager.GetMessage("28", userName));
                 }
                 else
-                    lblMessage.SetMessage(MessageManager.GetMessage("29", userName));                
+                {
+                    lblMessage.SetMessage(MessageManager.GetMessage("29", userName));
+                }
             }
             
         }
@@ -140,7 +144,7 @@ namespace Sensatus.FiberTracker.UI
         {
             errorProvider1.Clear();
             lblMessage.Clear(); 
-            StringBuilder sqlCommand = new StringBuilder("SELECT U.User_Id, U.Pwd , U.User_Name,U.RoleId, R.Role, U.First_Name, U.Last_Name, U.EMail, U.Mobile, U.IsActive "); 
+            var sqlCommand = new StringBuilder("SELECT U.User_Id, U.Pwd , U.User_Name,U.RoleId, R.Role, U.First_Name, U.Last_Name, U.EMail, U.Mobile, U.IsActive "); 
             sqlCommand.Append("FROM User_Info AS U, RoleDetails AS R ");
             sqlCommand.Append("WHERE U.RoleId = R.RoleId ");
 
@@ -163,13 +167,13 @@ namespace Sensatus.FiberTracker.UI
                 sqlCommand.Append("AND U.Mobile = '" + mobile + "'");
 
             GRID_VIEW_USER_DETAILS.AutoGenerateColumns = false;
-            GRID_VIEW_USER_DETAILS.DataSource = (new DataAccess.DBHelper()).ExecuteDataTable(sqlCommand.ToString());
+            GRID_VIEW_USER_DETAILS.DataSource = new DataAccess.DBHelper().ExecuteDataTable(sqlCommand.ToString());
                                         
         }
 
         private void CreaNewUser(int roleId, string userName, string password, string confirmPassword, string firstName, string lastName, string email, string mobile, bool isActive)
         {
-            Users objUsers = new Users();                
+            var objUsers = new Users();                
                                 
             if(objUsers.CreateNewUser(roleId, userName, password, firstName, lastName, email, mobile, isActive))
                 lblMessage.SetMessage(MessageManager.GetMessage("28", userName));
@@ -180,8 +184,8 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -218,10 +222,10 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            GetData(DataFormat.GetInteger(((System.Collections.DictionaryEntry)(cmbRole.SelectedItem)).Key), txtUserId.Text.Trim(), txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtEmail.Text.Trim(), txtMobile.Text.Trim());
+            GetData(DataFormat.GetInteger(((DictionaryEntry)cmbRole.SelectedItem).Key), txtUserId.Text.Trim(), txtFirstName.Text.Trim(), txtLastName.Text.Trim(), txtEmail.Text.Trim(), txtMobile.Text.Trim());
         }
 
-        int _userId = 0;
+        private int _userId = 0;
         private void GRID_VIEW_USER_DETAILS_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             errorProvider1.Clear();
@@ -230,8 +234,8 @@ namespace Sensatus.FiberTracker.UI
             if (e.RowIndex == -1)
                 return;
     
-            int userId = DataFormat.GetInteger(GRID_VIEW_USER_DETAILS.Rows[e.RowIndex].Cells["UserId"].Value);
-            string password = (new DataSecurity()).Decrypt(DataFormat.GetString(GRID_VIEW_USER_DETAILS.Rows[e.RowIndex].Cells["Password"].Value));
+            var userId = DataFormat.GetInteger(GRID_VIEW_USER_DETAILS.Rows[e.RowIndex].Cells["UserId"].Value);
+            var password = new DataSecurity().Decrypt(DataFormat.GetString(GRID_VIEW_USER_DETAILS.Rows[e.RowIndex].Cells["Password"].Value));
             _userId = userId;
             txtUserId.Text  = DataFormat.GetString(GRID_VIEW_USER_DETAILS.Rows[e.RowIndex].Cells["UserName"].Value);
             txtFirstName.Text = DataFormat.GetString(GRID_VIEW_USER_DETAILS.Rows[e.RowIndex].Cells["FirstName"].Value);
@@ -252,13 +256,11 @@ namespace Sensatus.FiberTracker.UI
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (MessageManager.DisplayMessage("31", txtUserId.Text.Trim() , MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                if ((new Users()).DeleteUser(_userId))
+                if (new Users().DeleteUser(_userId))
                 {
                     Clear();
                     lblMessage.SetMessage(MessageManager.GetMessage("32"));
-               }                
-            }            
+                }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -268,7 +270,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void NewUser_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
         }
 
        

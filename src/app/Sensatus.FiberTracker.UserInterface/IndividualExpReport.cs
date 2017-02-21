@@ -22,26 +22,26 @@ namespace Sensatus.FiberTracker.UI
 
         private void ExpenseReport_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
             btnFinalize.Enabled = SessionParameters.UserRole == Common.UserRole.Admin ? true : false;
             InitScreenData();
         }
 
         private void InitScreenData()
         {            
-            ExpenseReport objReport = new ExpenseReport();
-            string otherDetails = string.Empty;
-            string totalExpense = objReport.GetTotalExpenses();
+            var objReport = new ExpenseReport();
+            var otherDetails = string.Empty;
+            var totalExpense = objReport.GetTotalExpenses();
 
             if (objReport.GetDataTableForDisplay().Rows.Count > 0)
             {
                 dataGridView1.DataSource = objReport.GetDataTableForDisplay();
-                string message = "Total Expense " + Sensatus.FiberTracker.Configurations.ApplicationConfiguration.ExpenseCCY + " : " + totalExpense + "\n" + "No of participants : " + objReport.GetAllUsers().Length.ToString() + "\n" + "Individual Contribution (" + Sensatus.FiberTracker.Configurations.ApplicationConfiguration.ExpenseCCY + ") : " + objReport.GetIndividualExpense();
+                var message = "Total Expense " + Configurations.ApplicationConfiguration.ExpenseCCY + " : " + totalExpense + "\n" + "No of participants : " + objReport.GetAllUsers().Length.ToString() + "\n" + "Individual Contribution (" + Configurations.ApplicationConfiguration.ExpenseCCY + ") : " + objReport.GetIndividualExpense();
                 lblMessage.Text = message;
 
-                otherDetails = "Date : " + System.DateTime.Now.ToLongDateString();
+                otherDetails = "Date : " + DateTime.Now.ToLongDateString();
                 otherDetails = otherDetails + "\n" + "Days : " + objReport.ReportForDays();
-                otherDetails = otherDetails + "\n" + "Per Day Expense (" + Sensatus.FiberTracker.Configurations.ApplicationConfiguration.ExpenseCCY + ") : " + objReport.PerDayExpense();
+                otherDetails = otherDetails + "\n" + "Per Day Expense (" + Configurations.ApplicationConfiguration.ExpenseCCY + ") : " + objReport.PerDayExpense();
 
                 btnFinalize.Enabled = totalExpense != "0" ? true : false;
                 lblDateTime.Text = otherDetails;
@@ -55,9 +55,9 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-            this.Dispose();
+            DialogResult = DialogResult.OK;
+            Close();
+            Dispose();
         }
 
         private void btnFinalize_Click(object sender, EventArgs e)
@@ -70,8 +70,8 @@ namespace Sensatus.FiberTracker.UI
 
         private void FinalizeExpense()
         {
-            string message = string.Empty;
-            DialogResult dr = MessageManager.DisplayMessage("40", MessageBoxButtons.YesNo);           
+            var message = string.Empty;
+            var dr = MessageManager.DisplayMessage("40", MessageBoxButtons.YesNo);           
 
             if (!dr.Equals(DialogResult.Yes))            
                 return;                        
@@ -79,8 +79,8 @@ namespace Sensatus.FiberTracker.UI
 
             if (dr == DialogResult.OK)
             {
-                FinalizeReport finalizeReport = new FinalizeReport();
-                bool finalizeStatus = false;                               
+                var finalizeReport = new FinalizeReport();
+                var finalizeStatus = false;                               
                 finalizeStatus = finalizeReport.Finalize();
 
                 if (finalizeStatus)
@@ -89,10 +89,14 @@ namespace Sensatus.FiberTracker.UI
                     InitScreenData();
                 }
                 else
-                    MessageManager.DisplayMessage("43");                   
+                {
+                    MessageManager.DisplayMessage("43");
+                }
             }
-            else            
-                return;                        
+            else
+            {
+                return;
+            }
         }
     }
 }

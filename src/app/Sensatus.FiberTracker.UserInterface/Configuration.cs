@@ -22,22 +22,22 @@ namespace Sensatus.FiberTracker.UI
                       
         private void Configuration_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
             InitScreenData();
         }
                      
         private void InitScreenData()
         {
-            lblDBName.Text = Sensatus.FiberTracker.Configurations.ApplicationConfiguration.DBProvider;
+            lblDBName.Text = Configurations.ApplicationConfiguration.DBProvider;
             if (string.Compare(lblDBName.Text.Trim(), "MSACCESS", true) == 0 && SessionParameters.UserRole == Common.UserRole.Admin )
                 btnBackup.Enabled = true;                      
         }
              
         private void btnBackup_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folderBrowse = new FolderBrowserDialog();
+            var folderBrowse = new FolderBrowserDialog();
             folderBrowse.ShowDialog();
-            string selectedPath = folderBrowse.SelectedPath;
+            var selectedPath = folderBrowse.SelectedPath;
 
             if (selectedPath == string.Empty)
             {
@@ -45,7 +45,7 @@ namespace Sensatus.FiberTracker.UI
                 return;
             }
 
-            string sourceFileName = GetDBLocation();
+            var sourceFileName = GetDBLocation();
 
             try
             {
@@ -60,25 +60,23 @@ namespace Sensatus.FiberTracker.UI
 
         private string GetDBLocation()
         {
-            string msAccessDBPath = string.Empty;
-            string dbNameAttribute = Sensatus.FiberTracker.Configurations.ApplicationConfiguration.DBProvider == "MSACCESS" ? "Data Source" : "dbq";
-            foreach (string str in Sensatus.FiberTracker.Configurations.ApplicationConfiguration.ConnectionString.Split(Convert.ToChar(";")))
-            {
+            var msAccessDBPath = string.Empty;
+            var dbNameAttribute = Configurations.ApplicationConfiguration.DBProvider == "MSACCESS" ? "Data Source" : "dbq";
+            foreach (var str in Configurations.ApplicationConfiguration.ConnectionString.Split(Convert.ToChar(";")))
                 if (str.Contains("="))
                     if (string.Compare(str.Split(Convert.ToChar("="))[0], dbNameAttribute, true) == 0)
                     {
                         msAccessDBPath = str.Split(Convert.ToChar("="))[1];
                         break;
-                    }                
-            }
+                    }
 
             return msAccessDBPath;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
        

@@ -1,21 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
 using Sensatus.FiberTracker.DataAccess;
 using Sensatus.FiberTracker.Formatting;
+using System;
+using System.Data;
 
 namespace Sensatus.FiberTracker.BusinessLogic
 {
+    /// <summary>
+    /// Class Users.
+    /// </summary>
     public class Users
     {
+        /// <summary>
+        /// The database helper
+        /// </summary>
         private DBHelper _dbHelper = new DBHelper();
+        /// <summary>
+        /// The security provider
+        /// </summary>
         private DataSecurity _securityProvider = new DataSecurity();
-
+        /// <summary>
+        /// The arch
+        /// </summary>
         private Arch _arch = new Arch();
 
         /// <summary>
-        /// Createates new user for the specified values.
+        /// Creates new user for the specified values.
         /// </summary>
         /// <param name="roleId">Role id</param>
         /// <param name="userName">User name</param>
@@ -25,29 +34,28 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <param name="email">Email id</param>
         /// <param name="mobile">Mobile number</param>
         /// <param name="isActive">true if user is active otherwise false</param>
-        /// <returns>true if success otherwise false</returns>       
+        /// <returns>true if success otherwise false</returns>
         public bool CreateNewUser(int roleId, string userName, string password, string firstName, string lastName, string email, string mobile, bool isActive)
         {
-            int isActiveFlag = isActive ? 1 : 0;
-            string Query = string.Empty;            
-      
-            DBParameterCollection paramCollection = new DBParameterCollection();
+            var isActiveFlag = isActive ? 1 : 0;
+            var Query = string.Empty;
+
+            var paramCollection = new DBParameterCollection();
             paramCollection.Add(new DBParameter("@roleId", roleId));
             paramCollection.Add(new DBParameter("@userName", userName));
             paramCollection.Add(new DBParameter("@password", _securityProvider.Encrypt(password)));
             paramCollection.Add(new DBParameter("@firstName", firstName));
-            paramCollection.Add(new DBParameter("@lastName", lastName));            
+            paramCollection.Add(new DBParameter("@lastName", lastName));
             paramCollection.Add(new DBParameter("@email", email));
-            paramCollection.Add(new DBParameter("@mobile", mobile));            
-            
+            paramCollection.Add(new DBParameter("@mobile", mobile));
+
             Query = "INSERT INTO User_Info(RoleId, User_Name, Pwd, First_Name, Last_Name, " +
                 "Last_Login_Date,Password_Change_Date, Email, Mobile ,IsActive) VALUES (" +
                 "@roleId , @userName , @password, @firstName, @lastName, " +
-                "'"+ DateTime.Now.ToString() + "', '" +  DateTime.Now.ToString() + "', @email, @mobile, 1)";
-            
-            return  _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;                
-        }
+                "'" + DateTime.Now.ToString() + "', '" + DateTime.Now.ToString() + "', @email, @mobile, 1)";
 
+            return _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;
+        }
 
         /// <summary>
         /// Updates the user details with the specified values.
@@ -61,12 +69,12 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <param name="mobile">Mobile number</param>
         /// <param name="isActive">True if user is active otherwise False</param>
         /// <returns>True if success otherwise False</returns>
-        public bool UpdateUserDetails(int userId, int roleId, string password, string firstName, string lastName, string email, string mobile, bool isActive) 
+        public bool UpdateUserDetails(int userId, int roleId, string password, string firstName, string lastName, string email, string mobile, bool isActive)
         {
-            string Query = string.Empty;
-            string isActiveFlag = isActive ? "1" : "0";                        
+            var Query = string.Empty;
+            var isActiveFlag = isActive ? "1" : "0";
 
-            DBParameterCollection paramCollection = new DBParameterCollection();
+            var paramCollection = new DBParameterCollection();
             paramCollection.Add(new DBParameter("@roleId", roleId));
             paramCollection.Add(new DBParameter("@password", _securityProvider.Encrypt(password)));
             paramCollection.Add(new DBParameter("@firstName", firstName));
@@ -76,28 +84,28 @@ namespace Sensatus.FiberTracker.BusinessLogic
             paramCollection.Add(new DBParameter("@isActiveFlag", isActiveFlag));
             paramCollection.Add(new DBParameter("@userId", userId));
 
-            Query = "UPDATE User_Info SET RoleId = @roleId, Pwd = @password , " + 
-            "First_Name = @firstName , Last_Name =@lastName , " + 
-            "Email = @email , Mobile = @mobile, IsActive = @isActiveFlag " + 
+            Query = "UPDATE User_Info SET RoleId = @roleId, Pwd = @password , " +
+            "First_Name = @firstName , Last_Name =@lastName , " +
+            "Email = @email , Mobile = @mobile, IsActive = @isActiveFlag " +
             "WHERE User_Id = @userId";
             return _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;
         }
-      
+
         /// <summary>
         /// Checks whether user exists for the name given or not.
         /// </summary>
         /// <param name="userName">User name</param>
         /// <returns>True if user exists otherwise False</returns>
         public bool CheckUserExist(string userName)
-        {            
-            string Query = string.Empty;
-            DBParameterCollection paramCollection  = new DBParameterCollection();
+        {
+            var Query = string.Empty;
+            var paramCollection = new DBParameterCollection();
             paramCollection.Add(new DBParameter("@userName", userName));
             paramCollection.Add(new DBParameter("@isActive", 1));
 
             Query = "SELECT COUNT(*) FROM User_Info where User_Name=@userName AND IsActive=@isActive";
 
-            return Convert.ToInt16(_dbHelper.ExecuteScalar(Query, paramCollection).ToString()) > 0;                
+            return Convert.ToInt16(_dbHelper.ExecuteScalar(Query, paramCollection).ToString()) > 0;
         }
 
         /// <summary>
@@ -107,8 +115,8 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>True if user is deleted successfully otherwise false</returns>
         public bool DeleteUser(int userID)
         {
-            string Query = "Update User_Info Set IsActive=0 where User_Id=" + userID.ToString();
-            return (_dbHelper.ExecuteNonQuery(Query) > 0);
+            var Query = "Update User_Info Set IsActive=0 where User_Id=" + userID.ToString();
+            return _dbHelper.ExecuteNonQuery(Query) > 0;
         }
 
         /// <summary>
@@ -118,9 +126,9 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>Username</returns>
         public string GetUserId(string userName)
         {
-            DBParameterCollection paramCollection = new DBParameterCollection();
-            paramCollection.Add(new DBParameter("@userName", userName));            
-            string Query = "SELECT User_Id from User_Info where User_Name=@userName";
+            var paramCollection = new DBParameterCollection();
+            paramCollection.Add(new DBParameter("@userName", userName));
+            var Query = "SELECT User_Id from User_Info where User_Name=@userName";
 
             return _dbHelper.ExecuteScalar(Query).ToString();
         }
@@ -132,7 +140,7 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>User Id</returns>
         public string GetUserName(int userID)
         {
-            string Query = "SELECT User_Name from User_Info where User_Id=" + userID.ToString();
+            var Query = "SELECT User_Name from User_Info where User_Id=" + userID.ToString();
 
             return _dbHelper.ExecuteScalar(Query).ToString();
         }
@@ -144,24 +152,23 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>True if user is active otherwise false.</returns>
         public bool IsActiveUser(int userID)
         {
-            string Query = "SELECT IsActive from User_Info where User_Id=" + userID.ToString();
+            var Query = "SELECT IsActive from User_Info where User_Id=" + userID.ToString();
 
-            if(_dbHelper.ExecuteScalar(Query).ToString().Equals("1"))
+            if (_dbHelper.ExecuteScalar(Query).ToString().Equals("1"))
                 return true;
             else
                 return false;
-            
         }
 
         /// <summary>
-        /// Gets profile for the specified user 
+        /// Gets profile for the specified user
         /// </summary>
         /// <param name="userID">User Id</param>
         /// <returns>User profile in the form of DataTable</returns>
         public DataTable GetUserProfile(int userID)
-        {            
-            DataTable dtProfile = new DataTable();
-            string Query = "SELECT User_Name, First_Name, Last_Name, Email, Mobile from User_Info where User_Id=" + userID.ToString();
+        {
+            var dtProfile = new DataTable();
+            var Query = "SELECT User_Name, First_Name, Last_Name, Email, Mobile from User_Info where User_Id=" + userID.ToString();
             dtProfile = _dbHelper.ExecuteDataTable(Query);
             return dtProfile;
         }
@@ -173,13 +180,12 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>FirstName + ' ' + LastName </returns>
         public string GetUserFirstLastName(int userID)
         {
-            string userName = string.Empty;
-            string Query = "SELECT First_Name + ' ' + Last_Name from User_Info where User_Id=" + userID.ToString();
+            var userName = string.Empty;
+            var Query = "SELECT First_Name + ' ' + Last_Name from User_Info where User_Id=" + userID.ToString();
             userName = _dbHelper.ExecuteScalar(Query).ToString();
 
             return userName;
         }
-
 
         /// <summary>
         /// Updates user details for the specified values.
@@ -192,18 +198,18 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>true if profile updated successfully otherwise false.</returns>
         public bool UpdateUserProfile(int userID, string firstName, string lastName, string email, string mobile)
         {
-            DBParameterCollection paramCollection = new DBParameterCollection();                        
+            var paramCollection = new DBParameterCollection();
             paramCollection.Add(new DBParameter("@firstName", firstName));
             paramCollection.Add(new DBParameter("@lastName", lastName));
             paramCollection.Add(new DBParameter("@email", email));
-            paramCollection.Add(new DBParameter("@mobile", mobile));            
+            paramCollection.Add(new DBParameter("@mobile", mobile));
             paramCollection.Add(new DBParameter("@userId", userID));
 
-            string Query = "UPDATE User_Info SET First_Name=@firstName, " +
+            var Query = "UPDATE User_Info SET First_Name=@firstName, " +
                 "Last_Name=@lastName, Email = @email, Mobile = @mobile " +
                 "WHERE User_Id=@userId";
 
-            return _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;                
+            return _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;
         }
 
         /// <summary>
@@ -217,21 +223,21 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <param name="mobile">Mobile number</param>
         /// <returns>true if profile updated successfully otherwise false.</returns>
         public bool UpdateUserProfile(int userID, string firstName, string lastName, string password, string email, string mobile)
-        {            
-            DBParameterCollection paramCollection = new DBParameterCollection();
+        {
+            var paramCollection = new DBParameterCollection();
             paramCollection.Add(new DBParameter("@firstName", firstName));
             paramCollection.Add(new DBParameter("@lastName", lastName));
-            paramCollection.Add(new DBParameter("@password", _securityProvider.Encrypt(password)));            
+            paramCollection.Add(new DBParameter("@password", _securityProvider.Encrypt(password)));
             paramCollection.Add(new DBParameter("@email", email));
-            paramCollection.Add(new DBParameter("@mobile", mobile));            
+            paramCollection.Add(new DBParameter("@mobile", mobile));
             paramCollection.Add(new DBParameter("@userId", userID));
 
-            string Query = "UPDATE User_Info SET First_Name=@firstName, Last_Name=@lastName, " +
-                "Pwd=@password , Password_Change_Date='" + DateTime.Now.ToString()+ "', " +
-                "Email=@email , Mobile=@mobile"+
+            var Query = "UPDATE User_Info SET First_Name=@firstName, Last_Name=@lastName, " +
+                "Pwd=@password , Password_Change_Date='" + DateTime.Now.ToString() + "', " +
+                "Email=@email , Mobile=@mobile" +
                 " WHERE User_Id=@userId";
 
-            return _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;                
+            return _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;
         }
 
         /// <summary>
@@ -244,14 +250,14 @@ namespace Sensatus.FiberTracker.BusinessLogic
         {
             password = _securityProvider.Encrypt(password);
 
-            DBParameter param = new DBParameter("@userId", userID);
-            string Query = "SELECT Pwd from User_Info where User_Id=@userId";
-            string pwd = _dbHelper.ExecuteScalar(Query, param).ToString();
+            var param = new DBParameter("@userId", userID);
+            var Query = "SELECT Pwd from User_Info where User_Id=@userId";
+            var pwd = _dbHelper.ExecuteScalar(Query, param).ToString();
 
             if (pwd.Trim().Equals(password))
                 return true;
             else
-                return false ;
+                return false;
         }
 
         /// <summary>
@@ -261,10 +267,10 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>True if updated successfully otherwise false</returns>
         public bool UpdateLastLoginDate(int userID)
         {
-            DBParameter param = new DBParameter("@lastLoginDate", System.DateTime.Now, DbType.Date);
-            string Query = "UPDATE User_Info SET Last_Login_Date=@lastLoginDate WHERE User_Id=" + userID.ToString();
+            var param = new DBParameter("@lastLoginDate", DateTime.Now, DbType.Date);
+            var Query = "UPDATE User_Info SET Last_Login_Date=@lastLoginDate WHERE User_Id=" + userID.ToString();
 
-            return _dbHelper.ExecuteNonQuery(Query, param) > 0;                
+            return _dbHelper.ExecuteNonQuery(Query, param) > 0;
         }
 
         /// <summary>
@@ -274,24 +280,27 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>Last login date as string.</returns>
         public string GetLastLastLoginDate(int userID)
         {
-            string Query = "SELECT Last_Login_Date from User_Info WHERE User_Id=" + userID.ToString();
-            string date = string.Empty;
+            var Query = "SELECT Last_Login_Date from User_Info WHERE User_Id=" + userID.ToString();
+            var date = string.Empty;
 
             if (_dbHelper.ExecuteScalar(Query) != null)
             {
                 date = _dbHelper.ExecuteScalar(Query).ToString();
 
                 if (date.Equals(string.Empty))
+                {
                     return "N\\A";
+                }
                 else
                 {
-                    string[] strDate = date.Split(Convert.ToChar(" "));
+                    var strDate = date.Split(Convert.ToChar(" "));
                     return DataFormat.DateToDisp(strDate[0]) + " " + strDate[1] + " " + strDate[2];
                 }
             }
-            else 
+            else
+            {
                 return "N\\A";
+            }
         }
-
     }
 }

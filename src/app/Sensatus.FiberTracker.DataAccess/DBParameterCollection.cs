@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Sensatus.FiberTracker.DataAccess
 {
@@ -26,7 +23,7 @@ namespace Sensatus.FiberTracker.DataAccess
         {
             _parameterCollection.Remove(parameter);
         }
-        
+
         /// <summary>
         /// Removes all the parameters from the Parameter Collection
         /// </summary>
@@ -47,12 +44,6 @@ namespace Sensatus.FiberTracker.DataAccess
         /// <summary>
         /// Gets list of parameters
         /// </summary>
-        internal List<DBParameter> Parameters
-        {
-            get
-            {
-                return _parameterCollection;
-            }
-        }
+        internal List<DBParameter> Parameters => _parameterCollection;
     }
 }

@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
+﻿using System.Data;
 
 namespace Sensatus.FiberTracker.DataAccess
 {
     public class DBParameter
     {
         #region "Private Variables"
-        private string _name = string.Empty;
-        private object _value = null;
-        private DbType _type = DbType.String;
-        private ParameterDirection _paramDirection = ParameterDirection.Input;
-        #endregion
+
+        #endregion "Private Variables"
 
         #region "Constructors"
+
         /// <summary>
-        /// Defaule constructor. Paramete name, vale, type and direction needs to be assigned explicitly by using the public properties exposed.
+        /// Default constructor. Parameter name, vale, type and direction needs to be assigned explicitly by using the public properties exposed.
         /// </summary>
         public DBParameter()
         {
         }
-
 
         /// <summary>
         /// Creates a parameter with the name and value specified. Default data type and direction is String and Input respectively.
@@ -30,8 +24,8 @@ namespace Sensatus.FiberTracker.DataAccess
         /// <param name="value">Value associated with the parameter</param>
         public DBParameter(string name, object value)
         {
-            _name = name;
-            _value = value;
+            Name = name;
+            Value = value;
         }
 
         /// <summary>
@@ -42,26 +36,26 @@ namespace Sensatus.FiberTracker.DataAccess
         /// <param name="paramDirection">Parameter direction</param>
         public DBParameter(string name, object value, ParameterDirection paramDirection)
         {
-            _name = name;
-            _value = value;
-            _paramDirection = paramDirection;
+            Name = name;
+            Value = value;
+            ParamDirection = paramDirection;
         }
 
         /// <summary>
-        /// Creates a parameter with the name, value and Data type specified. Default direction is Input. 
+        /// Creates a parameter with the name, value and Data type specified. Default direction is Input.
         /// </summary>
         /// <param name="name">Parameter name</param>
         /// <param name="value">Value associated with the parameter</param>
         /// <param name="dbType">Data type</param>
         public DBParameter(string name, object value, DbType dbType)
         {
-            _name = name;
-            _value = value;
-            _type = dbType;
+            Name = name;
+            Value = value;
+            Type = dbType;
         }
 
         /// <summary>
-        /// Creates a parameter with the name, value, data type and direction specified. 
+        /// Creates a parameter with the name, value, data type and direction specified.
         /// </summary>
         /// <param name="name">Parameter name</param>
         /// <param name="value">Value associated with the parameter</param>
@@ -69,56 +63,40 @@ namespace Sensatus.FiberTracker.DataAccess
         /// <param name="paramDirection">Parameter direction</param>
         public DBParameter(string name, object value, DbType dbType, ParameterDirection paramDirection)
         {
-            _name = name;
-            _value = value;
-            _type = dbType;
-            _paramDirection = paramDirection;
+            Name = name;
+            Value = value;
+            Type = dbType;
+            ParamDirection = paramDirection;
         }
-        #endregion
+
+        #endregion "Constructors"
 
         #region "Public Properties"
+
         /// <summary>
         /// Gets or sets the name of the parameter.
         /// </summary>
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-        
+        /// <value>The name.</value>
+        public string Name { get; set; } = string.Empty;
+
         /// <summary>
         /// Gets or sets the value associated with the parameter.
         /// </summary>
-        public object Value
-        {
-            get { return _value; }
-            set { _value = value; }
-        }
-        
+        /// <value>The value.</value>
+        public object Value { get; set; } = null;
+
         /// <summary>
         /// Gets or sets the type of the parameter.
         /// </summary>
-        public DbType Type
-        {
-            get {return _type ;}
-            set { _type = value; }
-            
-        }
-        
+        /// <value>The type.</value>
+        public DbType Type { get; set; } = DbType.String;
+
         /// <summary>
         /// Gets or sets the direction of the parameter.
         /// </summary>
-        public ParameterDirection ParamDirection
-        {
-            get
-            {
-                return _paramDirection;
-            }
-            set
-            {
-                _paramDirection = value;
-            }
-        }
-        #endregion
+        /// <value>The parameter direction.</value>
+        public ParameterDirection ParamDirection { get; set; } = ParameterDirection.Input;
+
+        #endregion "Public Properties"
     }
 }

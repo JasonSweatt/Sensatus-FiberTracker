@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Text;
-
-namespace Sensatus.FiberTracker.DataAccess
+﻿namespace Sensatus.FiberTracker.DataAccess
 {
     internal class Common
     {
@@ -12,6 +7,6 @@ namespace Sensatus.FiberTracker.DataAccess
         internal const string ORACLE_DB_PROVIDER = "ORACLE";
         internal const string EXCESS_DB_PROVIDER = "MSACCESS";
         internal const string OLE_DB_PROVIDER = "OLEDB";
-        internal const string ODBC_DB_PROVIDER = "ODBC"; 
+        internal const string ODBC_DB_PROVIDER = "ODBC";
     }
 }

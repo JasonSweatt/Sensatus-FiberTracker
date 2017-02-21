@@ -19,8 +19,8 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void btnCopy_Click(object sender, EventArgs e)
@@ -30,7 +30,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnQuit_Click(object sender, EventArgs e)
         {
-            (new ApplicationContext()).Dispose();
+            new ApplicationContext().Dispose();
         }
 
         public string ExceptionMessage
@@ -41,15 +41,15 @@ namespace Sensatus.FiberTracker.UI
 
         private void Error_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
             txtaExceptionDetails.Text = ExceptionMessage;
         }
 
         private void btnReportBug_Click(object sender, EventArgs e)
         {
-            string supportMail = Sensatus.FiberTracker.Configurations.ApplicationConfiguration.SupportMail;
-            string subject = "Account Plus : Bug Report";
-            string mailBody = txtaExceptionDetails.Text.Trim();
+            var supportMail = Configurations.ApplicationConfiguration.SupportMail;
+            var subject = "Account Plus : Bug Report";
+            var mailBody = txtaExceptionDetails.Text.Trim();
             Process.Start("mailto:" + supportMail + "&subject=" + subject + "&Body=" + mailBody);
         }
     }

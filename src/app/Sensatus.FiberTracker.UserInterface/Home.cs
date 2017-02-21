@@ -37,10 +37,10 @@ namespace Sensatus.FiberTracker.UI
                    
         public void Home_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
             InitScreenData();
             DisplayReport();
-            this.Text = ApplicationDetails.AssemblyProduct + " " + ApplicationDetails.AssemblyVersion;
+            Text = ApplicationDetails.AssemblyProduct + " " + ApplicationDetails.AssemblyVersion;
             if (SessionParameters.UserRole == Common.UserRole.Admin)
                 btnAdd.Enabled = false;
         }
@@ -48,7 +48,7 @@ namespace Sensatus.FiberTracker.UI
         private void InitScreenData()
         {
             DisplayDataInGrid();
-            Arch arch = new Arch();            
+            var arch = new Arch();            
             arch.FillDataInCombo(cmbItem, Arch.ComboBoxItem.Item );
             GetStatusBarDetails();
 
@@ -61,10 +61,10 @@ namespace Sensatus.FiberTracker.UI
         private void GetStatusBarDetails()
         {
             
-            Users user = new Users();
+            var user = new Users();
             STATUS_BAR_USER_NAME.Text = "You are logged in as : " + SessionParameters.UserName;
             STATUS_BAR_LAST_LOGIN_DATE.Text = "Last login : " + user.GetLastLastLoginDate(SessionParameters.UserID);
-            STATUS_BAR_CURRENT_DATE.Text = DataFormat.DateToDisp(System.DateTime.Now.ToShortDateString());
+            STATUS_BAR_CURRENT_DATE.Text = DataFormat.DateToDisp(DateTime.Now.ToShortDateString());
         }
 
      
@@ -88,7 +88,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void GetDataForUpdateAndDelete(int expenseID)
         {         
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             dt = exp.GetDisplayData(expenseID);                       
             cmbItem.Text = DataFormat.GetString(dt.Rows[0][1]);
             //cmbItem.Enabled = false;
@@ -106,9 +106,9 @@ namespace Sensatus.FiberTracker.UI
                 return;
             }         
 
-            int itemId = DataFormat.GetInteger(((DictionaryEntry)(cmbItem.SelectedItem)).Key);
-            string amount = txtPrice.Text.Trim();
-            string message = string.Empty;
+            var itemId = DataFormat.GetInteger(((DictionaryEntry)cmbItem.SelectedItem).Key);
+            var amount = txtPrice.Text.Trim();
+            var message = string.Empty;
 
             if (itemId == -1)
             {
@@ -159,8 +159,8 @@ namespace Sensatus.FiberTracker.UI
         
         private void  AddExpense(int itemId, string expDesc, string expAmount, int expBy, string expDate)
         {            
-            Expense objExp = new Expense();
-            bool addStatus = objExp.AddNewExpense(itemId, expDesc, expAmount, expBy, expDate);
+            var objExp = new Expense();
+            var addStatus = objExp.AddNewExpense(itemId, expDesc, expAmount, expBy, expDate);
 
             if (addStatus)
             {
@@ -169,8 +169,9 @@ namespace Sensatus.FiberTracker.UI
                 STATUS_BAR_STATUS_MESSAGE.Text = MessageManager.GetMessage("9");
             }
             else
+            {
                 STATUS_BAR_STATUS_MESSAGE.Text = MessageManager.GetMessage("10");
-                           
+            }
         }
 
         private void txtItemName_TextChanged(object sender, EventArgs e)
@@ -189,7 +190,9 @@ namespace Sensatus.FiberTracker.UI
                 ClearFunction();
             }
             else
+            {
                 STATUS_BAR_STATUS_MESSAGE.Text = MessageManager.GetMessage("12");
+            }
         }
 
         private void btnDel_Click(object sender, EventArgs e)
@@ -214,7 +217,7 @@ namespace Sensatus.FiberTracker.UI
             }
 
 
-            if (MessageManager.DisplayMessage("15", new string[] { Sensatus.FiberTracker.Configurations.ApplicationConfiguration.ExpenseCCY, GRID_VIEW_EXPENSE_DETAILS.SelectedRows[0].Cells["Amount"].Value.ToString(), GRID_VIEW_EXPENSE_DETAILS.SelectedRows[0].Cells["Item"].Value.ToString() }, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageManager.DisplayMessage("15", new string[] { Configurations.ApplicationConfiguration.ExpenseCCY, GRID_VIEW_EXPENSE_DETAILS.SelectedRows[0].Cells["Amount"].Value.ToString(), GRID_VIEW_EXPENSE_DETAILS.SelectedRows[0].Cells["Item"].Value.ToString() }, MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 Logger.WriteTrace("Home [Delete Expense]", "User : " + SessionParameters.UserName + Environment.NewLine + "Expense Id : " + _expenseID);
                 exp.DeleteExpenses(_expenseID);
@@ -255,21 +258,17 @@ namespace Sensatus.FiberTracker.UI
             STATUS_BAR_STATUS_MESSAGE.Text = string.Empty;
 
             if (GRID_VIEW_EXPENSE_DETAILS.Rows.Count > 0)
-            {
                 foreach (DataGridViewRow row in GRID_VIEW_EXPENSE_DETAILS.Rows)
-                {
                     if (row.Selected)
                     {
                         row.Selected = false;
                         return;
                     }
-                }
-            }
         }
 
         private void MENU_FILE_LOG_OFF_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         
@@ -281,7 +280,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void OpenNewUser()
         {          
-            NewUser objNewUser = new NewUser();
+            var objNewUser = new NewUser();
             objNewUser.ShowDialog();
         }
 
@@ -292,7 +291,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void OpennewItem()
         {            
-            NewItem objItem = new NewItem();
+            var objItem = new NewItem();
             objItem.ShowDialog();
             arch.FillDataInCombo(cmbItem, Arch.ComboBoxItem.Item);
         }
@@ -323,7 +322,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void OpenExpenseReport()
         {
-            IndividualExpReport objExpenseReport = new IndividualExpReport();
+            var objExpenseReport = new IndividualExpReport();
             objExpenseReport.ShowDialog();
             if (DialogResult == DialogResult.OK)
             {
@@ -340,20 +339,22 @@ namespace Sensatus.FiberTracker.UI
             
         }
 
-        bool _isApplicationExit = false;
+        private bool _isApplicationExit = false;
         private bool DoLogOff()
         {
-            DialogResult dr = MessageManager.DisplayMessage("16", MessageBoxButtons.YesNo);
-            bool retValue = false;
+            var dr = MessageManager.DisplayMessage("16", MessageBoxButtons.YesNo);
+            var retValue = false;
             if (dr == DialogResult.Yes)
             {
                 _isApplicationExit = true;
                 //Application.Exit();
-                (new ApplicationContext()).Dispose();
+                new ApplicationContext().Dispose();
                 retValue = true;
             }
             else
+            {
                 retValue = false;
+            }
 
             return retValue;
         }
@@ -364,7 +365,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void MENU_HELP_ABOUT_Click(object sender, EventArgs e)
         {
-            AboutAccountPlus aboutAccountPlus = new AboutAccountPlus();
+            var aboutAccountPlus = new AboutAccountPlus();
             aboutAccountPlus.ShowDialog();
         }
 
@@ -375,7 +376,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void OpenCustomReport()
         {
-            CustomReport customReport = new CustomReport();
+            var customReport = new CustomReport();
             customReport.ShowDialog();
         }
 
@@ -386,7 +387,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void EditProfileForm()
         {
-            Profile profile = new Profile();
+            var profile = new Profile();
             profile.ShowDialog();
 
             DisplayDataInGrid();
@@ -396,7 +397,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void backupDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Configuration config = new Configuration();
+            var config = new Configuration();
             config.Show();           
         }
 
@@ -424,7 +425,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void TOOL_LOG_OFF_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void TOOL_EXPENSE_REPORT_Click(object sender, EventArgs e)
@@ -445,7 +446,7 @@ namespace Sensatus.FiberTracker.UI
         private void ShowAnalyticReport()
         {
             ClearMessage();
-            AnalyticReport analyticReport = new AnalyticReport();
+            var analyticReport = new AnalyticReport();
             analyticReport.ShowDialog();
         }
 
@@ -470,13 +471,13 @@ namespace Sensatus.FiberTracker.UI
 
         private void MENU_FILE_SWITCH_USER_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageManager.DisplayMessage("17", MessageBoxButtons.YesNo);
+            var dr = MessageManager.DisplayMessage("17", MessageBoxButtons.YesNo);
 
             if (dr == DialogResult.Yes)
             {
                 Preferences.ClearCredentials();
-                this.Hide();
-                Login objLogin = new Login();
+                Hide();
+                var objLogin = new Login();
                 objLogin.Show();
             }
         }
@@ -485,7 +486,7 @@ namespace Sensatus.FiberTracker.UI
         private void GRID_VIEW_EXPENSE_DETAILS_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             errorProvider1.Clear();
-            STATUS_BAR_STATUS_MESSAGE.Text = String.Empty;
+            STATUS_BAR_STATUS_MESSAGE.Text = string.Empty;
             _expenseID = DataFormat.GetInteger( GRID_VIEW_EXPENSE_DETAILS.SelectedRows[0].Cells[0].Value.ToString());
             _expenseByUserID = DataFormat.GetInteger(GRID_VIEW_EXPENSE_DETAILS.SelectedRows[0].Cells["UserId"].Value.ToString());
             GetDataForUpdateAndDelete(_expenseID);
@@ -510,7 +511,7 @@ namespace Sensatus.FiberTracker.UI
         {
             STATUS_BAR_STATUS_MESSAGE.Text = string.Empty;
             errorProvider1.Clear();
-            string message = string.Empty;
+            var message = string.Empty;
 
             if (SessionParameters.UserRole == Common.UserRole.Admin)
             {
@@ -530,8 +531,8 @@ namespace Sensatus.FiberTracker.UI
                 return;
             }
                                     
-            int itemId = DataFormat.GetInteger(((DictionaryEntry)(cmbItem.SelectedItem)).Key);
-            string amount = txtPrice.Text.Trim();
+            var itemId = DataFormat.GetInteger(((DictionaryEntry)cmbItem.SelectedItem).Key);
+            var amount = txtPrice.Text.Trim();
 
             if (itemId == -1)
             {
@@ -588,25 +589,25 @@ namespace Sensatus.FiberTracker.UI
 
         private void MENU_REPORT_EXPENCE_REPORT_Click(object sender, EventArgs e)
         {
-            IndividualExpReport expReport = new IndividualExpReport();
+            var expReport = new IndividualExpReport();
             expReport.ShowDialog();
         }
 
         private void MENU_REPORT_ANALYTIC_REPORT_Click(object sender, EventArgs e)
         {
-            AnalyticReport analyticRep = new AnalyticReport();
+            var analyticRep = new AnalyticReport();
             analyticRep.ShowDialog();
         }
 
         private void MENU_TOOLS_CONFIGURATION_Click(object sender, EventArgs e)
         {
-            Configuration config = new Configuration();
+            var config = new Configuration();
             config.ShowDialog();
         }
 
         private void MENU_TOOLS_DIAGNOSTICS_Click(object sender, EventArgs e)
         {
-            (new Diagnostic()).ShowDialog();
+            new Diagnostic().ShowDialog();
         }
 
         private void MENU_TOOLS_CALCULATOR_Click(object sender, EventArgs e)
@@ -626,7 +627,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void MENU_TOOLS_CALENDAR_Click(object sender, EventArgs e)
         {
-            (new Calendar()).Show();
+            new Calendar().Show();
         }
 
         private void TOOL_HELP_Click(object sender, EventArgs e)
@@ -636,18 +637,18 @@ namespace Sensatus.FiberTracker.UI
 
         private void cmbItem_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int itemId = DataFormat.GetInteger(((DictionaryEntry)(cmbItem.SelectedItem)).Key);
+            var itemId = DataFormat.GetInteger(((DictionaryEntry)cmbItem.SelectedItem).Key);
             if ( itemId == -1) 
             {
                 txtaDesc.Clear();
                 return;
             }
-            txtaDesc.Text = (new Items()).GetItemDescription(itemId.ToString());            
+            txtaDesc.Text = new Items().GetItemDescription(itemId.ToString());            
         }
 
         private void MENU_HELP_CONTACT_ADMIN_Click(object sender, EventArgs e)
         {
-            (new ContactAdmin()).ShowDialog();
+            new ContactAdmin().ShowDialog();
         }
 
         private void MENU_HELP_HELP_Click(object sender, EventArgs e)

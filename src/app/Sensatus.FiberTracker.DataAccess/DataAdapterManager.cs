@@ -1,47 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Data.OracleClient;
 using System.Data.Odbc;
 using System.Data.OleDb;
-using System.Text;
-using MySql.Data;
-using MySql.Data.MySqlClient;
+using System.Data.OracleClient;
+using System.Data.SqlClient;
 
 namespace Sensatus.FiberTracker.DataAccess
 {
     internal class DataAdapterManager
     {
-
+        /// <summary>
+        /// Gets the data adapter.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="connection">The connection.</param>
+        /// <returns>IDataAdapter.</returns>
         internal IDataAdapter GetDataAdapter(string sqlCommand, IDbConnection connection)
         {
             return GetDataAdapter(sqlCommand, connection, CommandType.Text);
         }
 
-
-        internal IDataAdapter GetDataAdapter(string sqlCommand, IDbConnection connection, DBParameter param , CommandType commandType)
+        /// <summary>
+        /// Gets the data adapter.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="param">The parameter.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <returns>IDataAdapter.</returns>
+        internal IDataAdapter GetDataAdapter(string sqlCommand, IDbConnection connection, DBParameter param, CommandType commandType)
         {
-            IDataAdapter adapter = null;            
-            IDbCommand command = (new CommandBuilder()).GetCommand(sqlCommand, connection, param , commandType);
+            IDataAdapter adapter = null;
+            var command = new CommandBuilder().GetCommand(sqlCommand, connection, param, commandType);
 
             switch (Configuration.DBProvider.Trim().ToUpper())
             {
                 case Common.SQL_SERVER_DB_PROVIDER:
                     adapter = new SqlDataAdapter((SqlCommand)command);
                     break;
+
                 case Common.MY_SQL_DB_PROVIDER:
                     adapter = new MySqlDataAdapter((MySqlCommand)command);
                     break;
+
                 case Common.ORACLE_DB_PROVIDER:
                     adapter = new OracleDataAdapter((OracleCommand)command);
                     break;
+
                 case Common.EXCESS_DB_PROVIDER:
                     adapter = new OleDbDataAdapter((OleDbCommand)command);
                     break;
+
                 case Common.OLE_DB_PROVIDER:
                     adapter = new OleDbDataAdapter((OleDbCommand)command);
                     break;
+
                 case Common.ODBC_DB_PROVIDER:
                     adapter = new OdbcDataAdapter((OdbcCommand)command);
                     break;
@@ -50,28 +64,41 @@ namespace Sensatus.FiberTracker.DataAccess
             return adapter;
         }
 
+        /// <summary>
+        /// Gets the data adapter.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="paramCollection">The parameter collection.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <returns>IDataAdapter.</returns>
         internal IDataAdapter GetDataAdapter(string sqlCommand, IDbConnection connection, DBParameterCollection paramCollection, CommandType commandType)
         {
             IDataAdapter adapter = null;
-            IDbCommand command = (new CommandBuilder()).GetCommand(sqlCommand, connection, paramCollection, commandType);
+            var command = new CommandBuilder().GetCommand(sqlCommand, connection, paramCollection, commandType);
 
             switch (Configuration.DBProvider.Trim().ToUpper())
             {
                 case Common.SQL_SERVER_DB_PROVIDER:
                     adapter = new SqlDataAdapter((SqlCommand)command);
                     break;
+
                 case Common.MY_SQL_DB_PROVIDER:
                     adapter = new MySqlDataAdapter((MySqlCommand)command);
                     break;
+
                 case Common.ORACLE_DB_PROVIDER:
                     adapter = new OracleDataAdapter((OracleCommand)command);
                     break;
+
                 case Common.EXCESS_DB_PROVIDER:
                     adapter = new OleDbDataAdapter((OleDbCommand)command);
                     break;
+
                 case Common.OLE_DB_PROVIDER:
                     adapter = new OleDbDataAdapter((OleDbCommand)command);
                     break;
+
                 case Common.ODBC_DB_PROVIDER:
                     adapter = new OdbcDataAdapter((OdbcCommand)command);
                     break;
@@ -80,28 +107,40 @@ namespace Sensatus.FiberTracker.DataAccess
             return adapter;
         }
 
+        /// <summary>
+        /// Gets the data adapter.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <returns>IDataAdapter.</returns>
         internal IDataAdapter GetDataAdapter(string sqlCommand, IDbConnection connection, CommandType commandType)
         {
             IDataAdapter adapter = null;
-            IDbCommand command = (new CommandBuilder()).GetCommand(sqlCommand, connection, commandType);
+            var command = new CommandBuilder().GetCommand(sqlCommand, connection, commandType);
 
             switch (Configuration.DBProvider.Trim().ToUpper())
             {
                 case Common.SQL_SERVER_DB_PROVIDER:
                     adapter = new SqlDataAdapter((SqlCommand)command);
                     break;
+
                 case Common.MY_SQL_DB_PROVIDER:
                     adapter = new MySqlDataAdapter((MySqlCommand)command);
                     break;
+
                 case Common.ORACLE_DB_PROVIDER:
                     adapter = new OracleDataAdapter((OracleCommand)command);
                     break;
+
                 case Common.EXCESS_DB_PROVIDER:
                     adapter = new OleDbDataAdapter((OleDbCommand)command);
                     break;
+
                 case Common.OLE_DB_PROVIDER:
                     adapter = new OleDbDataAdapter((OleDbCommand)command);
                     break;
+
                 case Common.ODBC_DB_PROVIDER:
                     adapter = new OdbcDataAdapter((OdbcCommand)command);
                     break;
@@ -110,36 +149,31 @@ namespace Sensatus.FiberTracker.DataAccess
             return adapter;
         }
 
+        /// <summary>
+        /// Gets the data table.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="paramCollection">The parameter collection.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <returns>DataTable.</returns>
         internal DataTable GetDataTable(string sqlCommand, DBParameterCollection paramCollection, IDbConnection connection, string tableName, CommandType commandType)
         {
-            DataTable dt = null;
-
-            if(tableName != string.Empty)
-                dt = new DataTable(tableName);
-            else
-                dt = new DataTable();
-
-            IDbCommand command = null;
-            if (paramCollection != null)
-            {
-                if(paramCollection.Parameters.Count > 0)
-                    command = (new CommandBuilder()).GetCommand(sqlCommand, connection, paramCollection, commandType);
-                else
-                    command = (new CommandBuilder()).GetCommand(sqlCommand, connection, commandType);
-            }
-            else
-                command = (new CommandBuilder()).GetCommand(sqlCommand, connection, commandType);
+            var dataTable = tableName != string.Empty ? new DataTable(tableName) : new DataTable();
+            var command = (paramCollection != null)
+                ? paramCollection.Parameters.Count > 0
+                    ? new CommandBuilder().GetCommand(sqlCommand, connection, paramCollection, commandType)
+                    : new CommandBuilder().GetCommand(sqlCommand, connection, commandType)
+                : new CommandBuilder().GetCommand(sqlCommand, connection, commandType);
 
             switch (Configuration.DBProvider.Trim().ToUpper())
             {
-                    
                 case Common.SQL_SERVER_DB_PROVIDER:
-
-                    SqlDataAdapter sqlAdapter = null;
-                    sqlAdapter = new SqlDataAdapter((SqlCommand)command);
+                    var sqlDataAdapter = new SqlDataAdapter((SqlCommand)command);
                     try
-                    {                        
-                        sqlAdapter.Fill(dt);
+                    {
+                        sqlDataAdapter.Fill(dataTable);
                     }
                     catch (Exception ex1)
                     {
@@ -148,22 +182,18 @@ namespace Sensatus.FiberTracker.DataAccess
                     finally
                     {
                         if (command != null)
-                        {
                             command.Dispose();
-                        }
 
-                        if (sqlAdapter != null)
-                        {
-                            sqlAdapter.Dispose();
-                        }
+                        if (sqlDataAdapter != null)
+                            sqlDataAdapter.Dispose();
                     }
                     break;
+
                 case Common.MY_SQL_DB_PROVIDER:
-                    MySqlDataAdapter mySqlAdapter = null;
-                    mySqlAdapter = new MySqlDataAdapter((MySqlCommand)command);
+                    var mySqlDataAdapter = new MySqlDataAdapter((MySqlCommand)command);
                     try
                     {
-                        mySqlAdapter.Fill(dt);
+                        mySqlDataAdapter.Fill(dataTable);
                     }
                     catch (Exception ex2)
                     {
@@ -172,22 +202,18 @@ namespace Sensatus.FiberTracker.DataAccess
                     finally
                     {
                         if (command != null)
-                        {
                             command.Dispose();
-                        }
 
-                        if (mySqlAdapter != null)
-                        {
-                            mySqlAdapter.Dispose();
-                        }
+                        if (mySqlDataAdapter != null)
+                            mySqlDataAdapter.Dispose();
                     }
                     break;
+
                 case Common.ORACLE_DB_PROVIDER:
-                    OracleDataAdapter oracleAdapter = null;
-                    oracleAdapter = new OracleDataAdapter((OracleCommand)command);
+                    var oracleDataAdapter = new OracleDataAdapter((OracleCommand)command);
                     try
                     {
-                        oracleAdapter.Fill(dt);
+                        oracleDataAdapter.Fill(dataTable);
                     }
                     catch (Exception ex3)
                     {
@@ -196,22 +222,18 @@ namespace Sensatus.FiberTracker.DataAccess
                     finally
                     {
                         if (command != null)
-                        {
                             command.Dispose();
-                        }
 
-                        if (oracleAdapter != null)
-                        {
-                            oracleAdapter.Dispose();
-                        }
+                        if (oracleDataAdapter != null)
+                            oracleDataAdapter.Dispose();
                     }
                     break;
+
                 case Common.EXCESS_DB_PROVIDER:
-                    OleDbDataAdapter oleDBAdapterAccess = null;
-                    oleDBAdapterAccess = new OleDbDataAdapter((OleDbCommand)command);
+                    var oleDbDataAdapter = new OleDbDataAdapter((OleDbCommand)command);
                     try
                     {
-                        oleDBAdapterAccess.Fill(dt);
+                        oleDbDataAdapter.Fill(dataTable);
                     }
                     catch (Exception ex4)
                     {
@@ -220,22 +242,18 @@ namespace Sensatus.FiberTracker.DataAccess
                     finally
                     {
                         if (command != null)
-                        {
                             command.Dispose();
-                        }
 
-                        if (oleDBAdapterAccess != null)
-                        {
-                            oleDBAdapterAccess.Dispose();
-                        }
+                        if (oleDbDataAdapter != null)
+                            oleDbDataAdapter.Dispose();
                     }
                     break;
+
                 case Common.OLE_DB_PROVIDER:
-                    OleDbDataAdapter oleAdapter = null;
-                    oleAdapter = new OleDbDataAdapter((OleDbCommand)command);
+                    var dbDataAdapter = new OleDbDataAdapter((OleDbCommand)command);
                     try
                     {
-                        oleAdapter.Fill(dt);
+                        dbDataAdapter.Fill(dataTable);
                     }
                     catch (Exception ex4)
                     {
@@ -244,22 +262,18 @@ namespace Sensatus.FiberTracker.DataAccess
                     finally
                     {
                         if (command != null)
-                        {
                             command.Dispose();
-                        }
 
-                        if (oleAdapter != null)
-                        {
-                            oleAdapter.Dispose();
-                        }
-                    }                    
+                        if (dbDataAdapter != null)
+                            dbDataAdapter.Dispose();
+                    }
                     break;
+
                 case Common.ODBC_DB_PROVIDER:
-                    OdbcDataAdapter odbcAdapter = null;
-                    odbcAdapter = new OdbcDataAdapter((OdbcCommand)command);
+                    var odbcDataAdapter = new OdbcDataAdapter((OdbcCommand)command);
                     try
                     {
-                        odbcAdapter.Fill(dt);
+                        odbcDataAdapter.Fill(dataTable);
                     }
                     catch (Exception ex4)
                     {
@@ -268,38 +282,63 @@ namespace Sensatus.FiberTracker.DataAccess
                     finally
                     {
                         if (command != null)
-                        {
                             command.Dispose();
-                        }
 
-                        if (odbcAdapter != null)
-                        {
-                            odbcAdapter.Dispose();
-                        }
+                        if (odbcDataAdapter != null)
+                            odbcDataAdapter.Dispose();
                     }
-                    break;            
+                    break;
             }
-
-            return dt;
+            return dataTable;
         }
 
+        /// <summary>
+        /// Gets the data table.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="param">The parameter.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <returns>DataTable.</returns>
         internal DataTable GetDataTable(string sqlCommand, DBParameter param, IDbConnection connection, string tableName, CommandType commandType)
         {
-            DBParameterCollection paramCollection = new DBParameterCollection();
+            var paramCollection = new DBParameterCollection();
             paramCollection.Add(param);
-            return GetDataTable(sqlCommand, paramCollection , connection, tableName, commandType);
+            return GetDataTable(sqlCommand, paramCollection, connection, tableName, commandType);
         }
 
+        /// <summary>
+        /// Gets the data table.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <returns>DataTable.</returns>
         internal DataTable GetDataTable(string sqlCommand, IDbConnection connection, string tableName, CommandType commandType)
-        {            
+        {
             return GetDataTable(sqlCommand, new DBParameterCollection(), connection, tableName, commandType);
         }
 
+        /// <summary>
+        /// Gets the data table.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="commandType">Type of the command.</param>
+        /// <returns>DataTable.</returns>
         internal DataTable GetDataTable(string sqlCommand, IDbConnection connection, CommandType commandType)
         {
             return GetDataTable(sqlCommand, new DBParameterCollection(), connection, string.Empty, commandType);
         }
 
+        /// <summary>
+        /// Gets the data table.
+        /// </summary>
+        /// <param name="sqlCommand">The SQL command.</param>
+        /// <param name="connection">The connection.</param>
+        /// <returns>DataTable.</returns>
         internal DataTable GetDataTable(string sqlCommand, IDbConnection connection)
         {
             return GetDataTable(sqlCommand, new DBParameterCollection(), connection, string.Empty, CommandType.Text);

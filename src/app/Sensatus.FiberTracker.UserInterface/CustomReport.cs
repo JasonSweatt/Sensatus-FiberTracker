@@ -28,12 +28,12 @@ namespace Sensatus.FiberTracker.UI
         {
             errorProvider1.Clear();
             message1.Clear();
-            string month = cmbMonth.Text.Trim();
-            string year = cmbYear.Text.Trim();
-            DataSet dsReportData = new DataSet();
-            int columnIndex = 0;
-            string reportStatistics = string.Empty;
-            string message = string.Empty;
+            var month = cmbMonth.Text.Trim();
+            var year = cmbYear.Text.Trim();
+            var dsReportData = new DataSet();
+            var columnIndex = 0;
+            var reportStatistics = string.Empty;
+            var message = string.Empty;
 
             if (month.Equals("[SELECT]"))
             {
@@ -95,14 +95,14 @@ namespace Sensatus.FiberTracker.UI
 
         private string GetReportFinalizationDetails(string month, string year)
         {
-            string[] finalizationDetails = monthlyReport.ReportFinalizeDetails(month, year);
-            string details = string.Empty;
-            int serialNo =0;
+            var finalizationDetails = monthlyReport.ReportFinalizeDetails(month, year);
+            var details = string.Empty;
+            var serialNo =0;
             
             if(finalizationDetails != null && finalizationDetails.Length > 0)
             {
                 details = details + "Finalization Dates" + Environment.NewLine;
-                for(int i=0;i<finalizationDetails.Length ;i++)
+                for(var i=0;i<finalizationDetails.Length ;i++)
                 {                    
                     serialNo = i+1;
                     if(!finalizationDetails[i].Equals("N\\A"))
@@ -118,13 +118,13 @@ namespace Sensatus.FiberTracker.UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void CustomReport_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
             cmbMonth.SelectedIndex = 0;
             cmbYear.SelectedIndex = 0;
         }       

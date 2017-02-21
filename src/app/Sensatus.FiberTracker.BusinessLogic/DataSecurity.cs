@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Security.Cryptography;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Sensatus.FiberTracker.BusinessLogic
 {
@@ -11,7 +10,10 @@ namespace Sensatus.FiberTracker.BusinessLogic
     /// </summary>
     public class DataSecurity
     {
-        static byte[] bytes = ASCIIEncoding.ASCII.GetBytes("ZeroCool");
+        /// <summary>
+        /// The bytes
+        /// </summary>
+        private static byte[] _bytes = Encoding.ASCII.GetBytes("ZeroCool");
 
         /// <summary>
         /// Encrypt normal string.
@@ -20,14 +22,13 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>Encrypted string</returns>
         public string Encrypt(string originalString)
         {
-            if (String.IsNullOrEmpty(originalString))            
+            if (string.IsNullOrEmpty(originalString))
                 return string.Empty;
-            
-            DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
-            MemoryStream memoryStream = new MemoryStream();
-            CryptoStream cryptoStream = new CryptoStream(memoryStream,
-                cryptoProvider.CreateEncryptor(bytes, bytes), CryptoStreamMode.Write);
-            StreamWriter writer = new StreamWriter(cryptoStream);
+
+            var cryptoProvider = new DESCryptoServiceProvider();
+            var memoryStream = new MemoryStream();
+            var cryptoStream = new CryptoStream(memoryStream, cryptoProvider.CreateEncryptor(_bytes, _bytes), CryptoStreamMode.Write);
+            var writer = new StreamWriter(cryptoStream);
             writer.Write(originalString);
             writer.Flush();
             cryptoStream.FlushFinalBlock();
@@ -40,19 +41,15 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// </summary>
         /// <param name="cryptedString">Decrypted string</param>
         /// <returns>Normal (Decrypted) string</returns>
+        /// <exception cref="ArgumentNullException">The string which needs to be decrypted can not be null.</exception>
         public string Decrypt(string cryptedString)
         {
-            if (String.IsNullOrEmpty(cryptedString))
-            {
-                throw new ArgumentNullException
-                   ("The string which needs to be decrypted can not be null.");
-            }
-            DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
-            MemoryStream memoryStream = new MemoryStream
-                    (Convert.FromBase64String(cryptedString));
-            CryptoStream cryptoStream = new CryptoStream(memoryStream,
-                cryptoProvider.CreateDecryptor(bytes, bytes), CryptoStreamMode.Read);
-            StreamReader reader = new StreamReader(cryptoStream);
+            if (string.IsNullOrEmpty(cryptedString))
+                throw new ArgumentNullException("The string which needs to be decrypted can not be null.");
+            var cryptoProvider = new DESCryptoServiceProvider();
+            var memoryStream = new MemoryStream(Convert.FromBase64String(cryptedString));
+            var cryptoStream = new CryptoStream(memoryStream, cryptoProvider.CreateDecryptor(_bytes, _bytes), CryptoStreamMode.Read);
+            var reader = new StreamReader(cryptoStream);
             return reader.ReadToEnd();
         }
     }

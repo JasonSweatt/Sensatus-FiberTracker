@@ -46,14 +46,14 @@ namespace Sensatus.FiberTracker.UI
 
         private void Profile_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
             InitScreenData();
         }
 
         private void InitScreenData()
         {
-            Users manageProfile = new Users();
-            DataTable dtUserProfile = manageProfile.GetUserProfile(SessionParameters.UserID);
+            var manageProfile = new Users();
+            var dtUserProfile = manageProfile.GetUserProfile(SessionParameters.UserID);
             txtUserID.Text = DataFormat.GetString(dtUserProfile.Rows[0]["User_Name"]);
             txtFName.Text = DataFormat.GetString(dtUserProfile.Rows[0]["First_Name"]);
             txtLName.Text = DataFormat.GetString(dtUserProfile.Rows[0]["Last_Name"]);
@@ -71,14 +71,14 @@ namespace Sensatus.FiberTracker.UI
             lblMessage.Clear();
             errorProvider1.Clear();
 
-            string firstName = txtFName.Text.Trim();
-            string lastName = txtLName.Text.Trim();
-            string oldPassword = txtOldPassword.Text.Trim();
-            string newPassword = txtPAssword.Text.Trim();   
-            string confirmNewPassword = txtConfirmPassword.Text.Trim();
-            string email = txtEmail.Text.Trim();
-            string mobile = txtMobile.Text.Trim();
-            string message = string.Empty;
+            var firstName = txtFName.Text.Trim();
+            var lastName = txtLName.Text.Trim();
+            var oldPassword = txtOldPassword.Text.Trim();
+            var newPassword = txtPAssword.Text.Trim();   
+            var confirmNewPassword = txtConfirmPassword.Text.Trim();
+            var email = txtEmail.Text.Trim();
+            var mobile = txtMobile.Text.Trim();
+            var message = string.Empty;
             if (firstName == string.Empty)
             {
                 message = MessageManager.GetMessage("46");
@@ -130,7 +130,7 @@ namespace Sensatus.FiberTracker.UI
                 }
             }
 
-            bool status = false;
+            var status = false;
             status = chkChangePassword.Checked ? _manageProfile.UpdateUserProfile(SessionParameters.UserID, firstName, lastName, newPassword, email, mobile) : _manageProfile.UpdateUserProfile(SessionParameters.UserID, firstName, lastName, email, mobile);
 
             if (status)                            
@@ -139,13 +139,13 @@ namespace Sensatus.FiberTracker.UI
                 lblMessage.MessageText = MessageManager.GetMessage("53");            
         }
 
-        Users _manageProfile = new Users();
+        private Users _manageProfile = new Users();
         
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
         private void txtMobile_KeyPress(object sender, KeyPressEventArgs e)

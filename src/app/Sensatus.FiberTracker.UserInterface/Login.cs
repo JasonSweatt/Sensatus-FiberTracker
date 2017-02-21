@@ -14,7 +14,7 @@ namespace Sensatus.FiberTracker.UI
 {
     public partial class Login : AccountPlusBase
     {
-        UserAuthentication _userAuthentication = new UserAuthentication();
+        private UserAuthentication _userAuthentication = new UserAuthentication();
         public Login()
         {
             InitializeComponent();
@@ -24,8 +24,8 @@ namespace Sensatus.FiberTracker.UI
         {
             try
             {
-                string userName = txtUserID.Text.Trim();
-                string password = txtPassword.Text.Trim();
+                var userName = txtUserID.Text.Trim();
+                var password = txtPassword.Text.Trim();
                 errorProvider1.Clear();
                 lblMessage.Text = string.Empty;
 
@@ -52,14 +52,16 @@ namespace Sensatus.FiberTracker.UI
                     return;
                 }
 
-                int userId = 0;
-                Common.UserRole role = new Common.UserRole();
+                var userId = 0;
+                var role = new Common.UserRole();
 
-                bool validUser = _userAuthentication.IsValidUser(userName, password, out userId, out role);
+                var validUser = _userAuthentication.IsValidUser(userName, password, out userId, out role);
                 Logger.WriteTrace("Login", "Username : " + userName + Environment.NewLine + "Success : " + validUser.ToString());
 
                 if (!validUser)
+                {
                     MessageManager.DisplayCustomMessage("Invalid user Id or password.");
+                }
                 else
                 {
                     if (chkRememberMe.Checked)
@@ -70,10 +72,10 @@ namespace Sensatus.FiberTracker.UI
                     SessionParameters.UserID = userId;
                     SessionParameters.UserName = userName;
                     SessionParameters.UserRole = role;                    
-                    (new Users()).UpdateLastLoginDate(SessionParameters.UserID);
+                    new Users().UpdateLastLoginDate(SessionParameters.UserID);
 
-                    this.Hide();
-                    Home objHome = new Home();
+                    Hide();
+                    var objHome = new Home();
                     objHome.Show();
                 }
             }
@@ -113,7 +115,7 @@ namespace Sensatus.FiberTracker.UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            base.SetBGColor(this);
+            SetBGColor(this);
             LoadPreferences();
             lblProductName.Text = ApplicationDetails.AssemblyProduct;
             lblVersion.Text = ApplicationDetails.AssemblyVersion;
@@ -135,19 +137,19 @@ namespace Sensatus.FiberTracker.UI
  
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
-            (new ApplicationContext()).Dispose();
+            Close();
+            Dispose();
+            new ApplicationContext().Dispose();
         }
 
         private void btnInfo_Click(object sender, EventArgs e)
         {
-            string buttonText = ((Button)(sender)).Text.Trim();
+            var buttonText = ((Button)sender).Text.Trim();
             switch (buttonText)
             {
                 case "&Info >>":
-                    this.Width = 425;
-                    this.Height = 328;
+                    Width = 425;
+                    Height = 328;
                     btnLogin.Location = new Point(198, 268);
                     btnCancel.Location = new Point(261, 268);
                     btnInfo.Location = new Point(348, 268);
@@ -155,8 +157,8 @@ namespace Sensatus.FiberTracker.UI
                     grpLogonInfo.Location = new Point(20, 191);
                     break;
                 case "&Info <<":
-                    this.Width = 425;
-                    this.Height = 255;
+                    Width = 425;
+                    Height = 255;
                     btnLogin.Location = new Point(198, 192);
                     btnCancel.Location = new Point(261, 192);
                     btnInfo.Location = new Point(348, 192);

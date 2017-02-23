@@ -9,26 +9,23 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         public DataTable HomePageDetails()
         {
-            var data = new DataTable();
-            var Query = "SELECT Expense_Details.Exp_Id,Item_Details.Item_Name AS Item, Expense_Details.Exp_Desc AS Details, Expense_Details.Exp_Amount AS Amount, User_Info.First_Name AS ExpensedBy, Expense_Details.Exp_Date AS ExpDate, Expense_Details.Exp_By as UserId " +
-                           "FROM Expense_Details, Item_Details, User_Info " +
-                           "WHERE Expense_Details.Item_Id=Item_Details.Item_Id And Expense_Details.Exp_By=User_Info.User_Id And Expense_Details.FInalized=0 AND Expense_Details.IsDeleted=0; ";
+            var query = "SELECT ExpenseDetails.ExpenseId,ItemDetails.ItemName AS Item, ExpenseDetails.ExpenseDescription AS Details, ExpenseDetails.ExpenseAmount AS Amount, UserInfo.FirstName AS ExpensedBy, ExpenseDetails.ExpenseDate AS ExpDate, ExpenseDetails.ExpenseBy AS UserId " +
+                        "FROM ExpenseDetails, ItemDetails, UserInfo " +
+                        "WHERE ExpenseDetails.ItemId = ItemDetails.ItemId AND ExpenseDetails.ExpenseBy=UserInfo.UserId AND ExpenseDetails.FInalized = 0 AND ExpenseDetails.IsDeleted = 0;";
 
-            data = _dbHelper.ExecuteDataTable(Query);
-            return data;
+            var dataTable = _dbHelper.ExecuteDataTable(query);
+            return dataTable;
         }
 
         public DataTable HomePageReportData()
         {
-            var dt = new DataTable();
-            var Query = "SELECT Distinct(Exp_By) as UserId,User_Info.First_Name as ExpencedBy, Sum(Exp_Amount) as Amount from " +
-            "Expense_Details,User_Info Where " +
-            "Expense_Details.Exp_By=User_Info.User_Id AND " +
-            "Expense_Details.Finalized=0 AND Expense_Details.IsDeleted=0 " +
-            "Group by Exp_By, User_Info.First_Name";
-
-            dt = _dbHelper.ExecuteDataTable(Query);
-            return dt;
+            var query = "SELECT DISTINCT(ExpenseBy) AS UserId, UserInfo.FirstName AS ExpencedBy, SUM(ExpenseAmount) AS Amount FROM " +
+            "ExpenseDetails, UserInfo WHERE " +
+            "ExpenseDetails.ExpenseBy = UserInfo.UserId AND " +
+            "ExpenseDetails.Finalized = 0 AND ExpenseDetails.IsDeleted = 0 " +
+            "GROUP BY ExpenseBy, UserInfo.FirstName";
+            var dataTable = _dbHelper.ExecuteDataTable(query);
+            return dataTable;
         }
     }
 }

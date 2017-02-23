@@ -11,7 +11,7 @@ using Sensatus.FiberTracker.Messaging;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class AnalyticReport : AccountPlusBase
+    public partial class AnalyticReport : FormBase
     {
         //private MonthYearStatic staticData = new MonthYearStatic();        
 

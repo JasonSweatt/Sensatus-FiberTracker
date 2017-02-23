@@ -1,48 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using Sensatus.FiberTracker.BusinessLogic;
-using Sensatus.FiberTracker.Messaging;
 using Sensatus.FiberTracker.Formatting;
-
-
-
+using Sensatus.FiberTracker.Messaging;
+using System;
+using System.Windows.Forms;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class NewItem : AccountPlusBase
+    public partial class NewItem : FormBase
     {
         private Items _itemManagement = new Items();
+
         public NewItem()
         {
             InitializeComponent();
             LoadData(string.Empty, string.Empty);
         }
 
-        private void LoadData(string itemName, string  itemDesc)
+        private void LoadData(string itemName, string itemDesc)
         {
             //StringBuilder sqlCommand = new StringBuilder("SELECT Item_Id, Item_Name, Item_Desc, IsActive From Item_Details ");
-            
+
             //if (itemName != string.Empty)
             //    sqlCommand.Append(" WHERE Item_Name LIKE '" + itemName + "'");
 
-            //if (itemName != string.Empty && itemDesc != string.Empty)            
+            //if (itemName != string.Empty && itemDesc != string.Empty)
             //    sqlCommand.Append(" AND Item_Name LIKE '" + itemDesc + "'");
             //else if (itemName == string.Empty && itemDesc != string.Empty)
             //    sqlCommand.Append(" WHERE Item_Name LIKE '" + itemDesc + "'");
-
-
 
             GRID_VIEW_ITEM_DETAILS.DataSource = _itemManagement.GetItems(itemName, itemDesc);
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            AddUpdateItem();                        
+            AddUpdateItem();
         }
 
         private void AddUpdateItem()
@@ -53,8 +44,6 @@ namespace Sensatus.FiberTracker.UI
             var itemName = txtItemName.Text.Trim();
             var itemDesc = txtaDesc.Text.Trim();
             var message = string.Empty;
-            
-
 
             if (itemName == string.Empty)
             {
@@ -74,7 +63,7 @@ namespace Sensatus.FiberTracker.UI
 
             if (_itemId != 0)
             {
-                if (_itemManagement.UpdateItem(_itemId, itemDesc, SessionParameters.UserID.ToString(), DateTime.Now.ToShortDateString()))
+                if (_itemManagement.UpdateItem(_itemId, itemDesc, SessionParameters.UserId.ToString(), DateTime.Now.ToShortDateString()))
                 {
                     lblMessage.SetMessage(MessageManager.GetMessage("35"));
                     Clear();
@@ -87,7 +76,7 @@ namespace Sensatus.FiberTracker.UI
             else
             {
                 if (!_itemManagement.ItemExist(itemName))
-                    if (_itemManagement.AddNewItem(itemName, itemDesc, SessionParameters.UserID, DateTime.Now.ToShortDateString()))
+                    if (_itemManagement.AddNewItem(itemName, itemDesc, SessionParameters.UserId, DateTime.Now.ToShortDateString()))
                     {
                         lblMessage.SetMessage(MessageManager.GetMessage("38", itemName));
                         Clear();
@@ -100,8 +89,7 @@ namespace Sensatus.FiberTracker.UI
                     lblMessage.SetMessage(MessageManager.GetMessage("37", itemName));
             }
 
-
-            LoadData(string.Empty, string.Empty);            
+            LoadData(string.Empty, string.Empty);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -129,13 +117,14 @@ namespace Sensatus.FiberTracker.UI
         }
 
         private int _itemId = 0;
+
         private void GRID_VIEW_ITEM_DETAILS_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             errorProvider1.Clear();
             lblMessage.Clear();
             _itemId = DataFormat.GetInteger(GRID_VIEW_ITEM_DETAILS.Rows[e.RowIndex].Cells[0].Value);
-            txtItemName.Text = DataFormat.GetString(GRID_VIEW_ITEM_DETAILS.Rows[e.RowIndex].Cells["Item_Name"].Value);
-            txtaDesc.Text = DataFormat.GetString(GRID_VIEW_ITEM_DETAILS.Rows[e.RowIndex].Cells["Item_Desc"].Value);
+            txtItemName.Text = DataFormat.GetString(GRID_VIEW_ITEM_DETAILS.Rows[e.RowIndex].Cells["ItemName"].Value);
+            txtaDesc.Text = DataFormat.GetString(GRID_VIEW_ITEM_DETAILS.Rows[e.RowIndex].Cells["ItemDescription"].Value);
 
             btnAdd.Enabled = false;
             btnUpdate.Enabled = true;

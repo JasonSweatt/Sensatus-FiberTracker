@@ -11,7 +11,7 @@ using Sensatus.FiberTracker.Messaging;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class IndividualExpReport : AccountPlusBase
+    public partial class IndividualExpReport : FormBase
     {
      
 

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class Calendar : AccountPlusBase
+    public partial class Calendar : FormBase
     {
         public Calendar()
         {

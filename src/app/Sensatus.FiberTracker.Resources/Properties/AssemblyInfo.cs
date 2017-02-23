@@ -1,16 +1,17 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Sensatus Fiber Tracker")]
-[assembly: AssemblyDescription("Sensatus Fiber Tracker is a complete Fiber Tracking management system which helps in tracking of the fibers, denier, resistance or temperature.")]
+[assembly: AssemblyTitle("Sensatus.FiberTracker.Resources")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Sensatus")]
-[assembly: AssemblyProduct("Sensatus Fiber Tracker")]
-[assembly: AssemblyCopyright("Copy Right Sensatus")]
-[assembly: AssemblyTrademark("Sensatus")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Sensatus.FiberTracker.Resources")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("26da43fb-2448-4505-ab6b-47c180cabf0b")]
+[assembly: Guid("d703449a-70c6-4cb8-ac68-20ec775d7123")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -28,5 +29,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.1.0")]
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

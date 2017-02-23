@@ -9,7 +9,7 @@ namespace Sensatus.FiberTracker.BusinessLogic
         private DBHelper _dbHelper = new DBHelper();
 
         /// <summary>
-        ///
+        /// Determines whether [is valid user] [the specified user name].
         /// </summary>
         /// <param name="userName">UserName</param>
         /// <param name="password">Password</param>
@@ -19,25 +19,22 @@ namespace Sensatus.FiberTracker.BusinessLogic
         public bool IsValidUser(string userName, string password, out int userId, out Common.UserRole role)
         {
             var isValidUser = false;
-
             password = new DataSecurity().Encrypt(password);
             var paramCollection = new DBParameterCollection();
-            paramCollection.Add(new DBParameter("@userName", userName, DbType.String));
-            paramCollection.Add(new DBParameter("@password", password, DbType.String));
+            paramCollection.Add(new DBParameter("@UserName", userName, DbType.String));
+            paramCollection.Add(new DBParameter("@Password", password, DbType.String));
 
-            var sqlCommand = "SELECT * FROM USER_INFO WHERE User_Name=@userName AND Pwd=@password AND IsActive=1";
+            var sqlCommand = "SELECT * FROM UserInfo WHERE UserName = @UserName AND Password = @Password AND IsActive = 1";
             role = new Common.UserRole();
             userId = 0;
-
             var data = _dbHelper.ExecuteDataTable(sqlCommand, paramCollection);
 
             if (data.Rows.Count > 0)
             {
                 isValidUser = true;
                 role = Common.GetUserRole(DataFormat.GetInteger(data.Rows[0]["RoleId"]));
-                userId = DataFormat.GetInteger(data.Rows[0]["User_Id"]);
+                userId = DataFormat.GetInteger(data.Rows[0]["UserId"]);
             }
-
             return isValidUser;
         }
     }

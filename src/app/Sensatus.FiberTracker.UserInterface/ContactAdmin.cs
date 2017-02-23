@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class ContactAdmin : AccountPlusBase
+    public partial class ContactAdmin : FormBase
     {
         public ContactAdmin()
         {

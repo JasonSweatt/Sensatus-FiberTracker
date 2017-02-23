@@ -11,102 +11,79 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         public DataTable MonthlyReportData(string month, string Year)
         {
-            var dtReportData = new DataTable();
             var monthYear = arch.DecodeMonthYear(month, Year);
+            var query = @"SELECT Distinct(ExpenseBy) AS ExpBy, UserInfo.FirstName AS ExpenseBy, SUM(ExpenseAmount) AS TotalExpense
+                          FROM  ExpenseDetails, UserInfo " +
+                        $"WHERE ExpenseDetails.ExpenseBy = UserInfo.UserId AND ExpenseDetails.MonthYear = '{monthYear}' AND ExpenseDetails.IsDeleted = 0 " +
+                        " GROUP BY ExpenseBy, UserInfo.FirstName";
 
-            var Query = "SELECT Distinct(Exp_By) as ExpBy,User_Info.First_Name as ExpenseBy, Sum(Exp_Amount) as TotalExpense from " +
-            "Expense_Details,User_Info Where " +
-            "Expense_Details.Exp_By=User_Info.User_Id AND " +
-            "Expense_Details.MonthYear='" + monthYear + "' AND Expense_Details.IsDeleted=0" +
-            " Group by Exp_By, User_Info.First_Name";
-
-            dtReportData = _dbHelper.ExecuteDataTable(Query);
-
-            return dtReportData;
+            var dataTable = _dbHelper.ExecuteDataTable(query);
+            return dataTable;
         }
 
         public string[] GetAllUsers()
         {
             string[] nameArray = null;
-
-            var dtUserName = new DataTable();
-            var Query = string.Empty;
-            Query = "SELECT First_Name As Name  From User_Info where IsActive=1 and User_Id<>1";
-            dtUserName = _dbHelper.ExecuteDataTable(Query);
-            var iRowCount = dtUserName.Rows.Count;
-
-            if (iRowCount > 0)
+            var dataTable = new DataTable();
+            var query = "SELECT FirstName AS Name FROM UserInfo WHERE IsActive = 1 and UserId <> 1";
+            dataTable = _dbHelper.ExecuteDataTable(query);
+            var rowCount = dataTable.Rows.Count;
+            if (rowCount > 0)
             {
-                nameArray = new string[iRowCount];
-
-                for (var i = 0; i < iRowCount; i++)
-                    nameArray[i] = dtUserName.Rows[i][0].ToString();
+                nameArray = new string[rowCount];
+                for (var index = 0; index < rowCount; index++)
+                    nameArray[index] = dataTable.Rows[index][0].ToString();
             }
-
             return nameArray;
         }
 
         public string[] GetUsersIds()
         {
             string[] userIdArray = null;
-            var dtUserID = new DataTable();
-            var Query = string.Empty;
-            Query = "SELECT User_Id  From User_Info where IsActive=1 and User_Id<>1";
-            dtUserID = _dbHelper.ExecuteDataTable(Query);
-            var iRowCount = dtUserID.Rows.Count;
-
-            if (iRowCount > 0)
+            var dataTable = new DataTable();
+            var query = "SELECT UserId FROM UserInfo WHERE IsActive = 1 AND UserId <> 1";
+            dataTable = _dbHelper.ExecuteDataTable(query);
+            var rowCount = dataTable.Rows.Count;
+            if (rowCount > 0)
             {
-                userIdArray = new string[iRowCount];
-
-                for (var i = 0; i < iRowCount; i++)
-                    userIdArray[i] = dtUserID.Rows[i][0].ToString();
+                userIdArray = new string[rowCount];
+                for (var index = 0; index < rowCount; index++)
+                    userIdArray[index] = dataTable.Rows[index][0].ToString();
             }
-
             return userIdArray;
         }
 
         public string[] GetExpenseByUsers()
         {
-            var userIDs = GetUsersIds();
-            var Query = string.Empty;
-
-            var expenseAmount = new string[userIDs.Length];
-
-            for (var i = 0; i < userIDs.Length; i++)
+            var usersIds = GetUsersIds();
+            var expenseAmount = new string[usersIds.Length];
+            for (var index = 0; index < usersIds.Length; index++)
             {
-                Query = "SELECT Sum(Exp_Amount) FROM Expense_Details WHERE IsDeleted=0 AND Exp_By=" + userIDs[i];
-
-                if (_dbHelper.ExecuteScalar(Query) != null)
+                var query = $"SELECT SUM(ExpenseAmount) FROM ExpenseDetails WHERE IsDeleted = 0 AND ExpenseBy = {usersIds[index]}";
+                if (_dbHelper.ExecuteScalar(query) != null)
                 {
-                    expenseAmount[i] = _dbHelper.ExecuteScalar(Query).ToString();
-                    if (expenseAmount[i].Equals(""))
-                        expenseAmount[i] = "0";
+                    expenseAmount[index] = _dbHelper.ExecuteScalar(query).ToString();
+                    if (expenseAmount[index].Equals(string.Empty))
+                        expenseAmount[index] = "0";
                 }
             }
-
             return expenseAmount;
         }
 
         public string[] GetExpenseByUsers(string monthYear)
         {
-            var userIDs = GetUsersIds();
-            var Query = string.Empty;
-
-            var expenseAmount = new string[userIDs.Length];
-
-            for (var i = 0; i < userIDs.Length; i++)
+            var usersIds = GetUsersIds();
+            var expenseAmount = new string[usersIds.Length];
+            for (var index = 0; index < usersIds.Length; index++)
             {
-                Query = "SELECT Sum(Exp_Amount) FROM Expense_Details WHERE IsDeleted=0 AND MonthYear='" + monthYear + "' AND Exp_By=" + userIDs[i];
-
-                if (_dbHelper.ExecuteScalar(Query) != null)
+                var query = $"SELECT SUM(ExpenseAmount) FROM ExpenseDetails WHERE IsDeleted = 0 AND MonthYear = '{monthYear}' AND ExpenseBy={usersIds[index]}";
+                if (_dbHelper.ExecuteScalar(query) != null)
                 {
-                    expenseAmount[i] = _dbHelper.ExecuteScalar(Query).ToString();
-                    if (expenseAmount[i].Equals(""))
-                        expenseAmount[i] = "0";
+                    expenseAmount[index] = _dbHelper.ExecuteScalar(query).ToString();
+                    if (expenseAmount[index].Equals(string.Empty))
+                        expenseAmount[index] = "0";
                 }
             }
-
             return expenseAmount;
         }
 
@@ -115,7 +92,6 @@ namespace Sensatus.FiberTracker.BusinessLogic
             var individualExpense = Convert.ToDouble(GetIndividualExpense());
             var amountPaid = Math.Round(Convert.ToDouble(p), 2); ;
             var amount = 0.0;
-
             if (amountPaid > individualExpense)
                 amount = amountPaid - individualExpense;
             else if (amountPaid.Equals(individualExpense))
@@ -128,31 +104,23 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         public string GetIndividualExpense()
         {
-            var indExp = 0.0;
-            var individualExpense = string.Empty;
+            var value = 0.0;
             var noOfParticipents = GetExpenseParticipents();
-
-            indExp = Math.Round(Convert.ToDouble(GetTotalExpenses()) / Convert.ToDouble(noOfParticipents), 2);
-
-            return indExp.ToString();
+            value = Math.Round(Convert.ToDouble(GetTotalExpenses()) / Convert.ToDouble(noOfParticipents), 2);
+            return value.ToString();
         }
 
         public string GetExpenseParticipents()
         {
-            var participents = string.Empty;
-            participents = _dbHelper.ExecuteScalar("Select Count(*) from User_Info WHERE IsActive=1 AND User_Id<>1").ToString();
+            var participents = _dbHelper.ExecuteScalar("SELECT COUNT(*) FROM UserInfo WHERE IsActive = 1 AND UserId <> 1").ToString();
             return participents;
         }
 
         public string GetTotalExpenses()
         {
             var totalExpense = string.Empty;
-            totalExpense = _dbHelper.ExecuteScalar("Select Sum(Exp_Amount) from Expense_Details WHERE Finalized=0").ToString();
-
-            if (totalExpense.Equals(""))
-                return "0";
-            else
-                return totalExpense;
+            totalExpense = _dbHelper.ExecuteScalar("SELECT SUM(ExpenseAmount) FROM ExpenseDetails WHERE Finalized = 0").ToString();
+            return totalExpense.Equals(string.Empty) ? "0" : totalExpense;
         }
     }
 }

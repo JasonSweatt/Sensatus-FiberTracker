@@ -38,7 +38,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Bin\</OutputPath>
+    <OutputPath>Bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,22 +55,26 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SComm64">
+      <HintPath>..\..\..\..\..\Program Files\SComm64\Bin\SComm64.DLL</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutAccountPlus.cs">
+    <Compile Include="AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutAccountPlus.Designer.cs">
-      <DependentUpon>AboutAccountPlus.cs</DependentUpon>
+    <Compile Include="AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AccountPlusBase.cs">
+    <Compile Include="FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AnalyticReport.cs">
@@ -172,8 +176,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AboutAccountPlus.resx">
-      <DependentUpon>AboutAccountPlus.cs</DependentUpon>
+    <Compile Include="TestComm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestComm.Designer.cs">
+      <DependentUpon>TestComm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AnalyticReport.resx">
       <DependentUpon>AnalyticReport.cs</DependentUpon>
@@ -245,8 +255,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TestComm.resx">
+      <DependentUpon>TestComm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config" />
-    <None Include="App_Data\Sensatus.FiberTracker.pdf">
+    <None Include="Help\Sensatus.FiberTracker.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
@@ -280,11 +293,18 @@
       <Project>{75F15526-289A-4D1F-BF44-01CFA3C48017}</Project>
       <Name>Sensatus.FiberTracker.Messaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sensatus.FiberTracker.Resources\Sensatus.FiberTracker.Resources.csproj">
+      <Project>{d703449a-70c6-4cb8-ac68-20ec775d7123}</Project>
+      <Name>Sensatus.FiberTracker.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Preferences.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="App_Data\Sensatus.FiberTracker.accdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="propertiesORoptions.ico" />
   </ItemGroup>
   <ItemGroup>

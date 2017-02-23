@@ -113,6 +113,7 @@ namespace Sensatus.FiberTracker.UI
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.testCommToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GRID_VIEW_EXPENSE_DETAILS)).BeginInit();
@@ -125,9 +126,11 @@ namespace Sensatus.FiberTracker.UI
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.STATUS_BAR.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -153,9 +156,10 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_FILE.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MENU_FILE_ADD,
             this.MENU_FILE_SWITCH_USER,
-            this.MENU_FILE_LOG_OFF});
+            this.MENU_FILE_LOG_OFF,
+            this.testCommToolStripMenuItem});
             this.MENU_FILE.Name = "MENU_FILE";
-            this.MENU_FILE.Size = new System.Drawing.Size(35, 20);
+            this.MENU_FILE.Size = new System.Drawing.Size(37, 20);
             this.MENU_FILE.Text = "&File";
             // 
             // MENU_FILE_ADD
@@ -164,7 +168,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_FILE_ADD_ITEM,
             this.MENU_FILE_ADD_USER});
             this.MENU_FILE_ADD.Name = "MENU_FILE_ADD";
-            this.MENU_FILE_ADD.Size = new System.Drawing.Size(206, 22);
+            this.MENU_FILE_ADD.Size = new System.Drawing.Size(204, 22);
             this.MENU_FILE_ADD.Text = "&Add ";
             // 
             // MENU_FILE_ADD_ITEM
@@ -172,7 +176,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_FILE_ADD_ITEM.Image = ((System.Drawing.Image)(resources.GetObject("MENU_FILE_ADD_ITEM.Image")));
             this.MENU_FILE_ADD_ITEM.Name = "MENU_FILE_ADD_ITEM";
             this.MENU_FILE_ADD_ITEM.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
-            this.MENU_FILE_ADD_ITEM.Size = new System.Drawing.Size(142, 22);
+            this.MENU_FILE_ADD_ITEM.Size = new System.Drawing.Size(135, 22);
             this.MENU_FILE_ADD_ITEM.Text = "&Item";
             this.MENU_FILE_ADD_ITEM.Click += new System.EventHandler(this.MENU_FILE_ADD_ITEM_Click);
             // 
@@ -181,7 +185,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_FILE_ADD_USER.Image = ((System.Drawing.Image)(resources.GetObject("MENU_FILE_ADD_USER.Image")));
             this.MENU_FILE_ADD_USER.Name = "MENU_FILE_ADD_USER";
             this.MENU_FILE_ADD_USER.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.U)));
-            this.MENU_FILE_ADD_USER.Size = new System.Drawing.Size(142, 22);
+            this.MENU_FILE_ADD_USER.Size = new System.Drawing.Size(135, 22);
             this.MENU_FILE_ADD_USER.Text = "&User";
             this.MENU_FILE_ADD_USER.Click += new System.EventHandler(this.MENU_FILE_ADD_USER_Click);
             // 
@@ -189,9 +193,9 @@ namespace Sensatus.FiberTracker.UI
             // 
             this.MENU_FILE_SWITCH_USER.Image = ((System.Drawing.Image)(resources.GetObject("MENU_FILE_SWITCH_USER.Image")));
             this.MENU_FILE_SWITCH_USER.Name = "MENU_FILE_SWITCH_USER";
-            this.MENU_FILE_SWITCH_USER.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.R)));
-            this.MENU_FILE_SWITCH_USER.Size = new System.Drawing.Size(206, 22);
+            this.MENU_FILE_SWITCH_USER.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.R)));
+            this.MENU_FILE_SWITCH_USER.Size = new System.Drawing.Size(204, 22);
             this.MENU_FILE_SWITCH_USER.Text = "&Switch User";
             this.MENU_FILE_SWITCH_USER.Click += new System.EventHandler(this.MENU_FILE_SWITCH_USER_Click);
             // 
@@ -199,9 +203,9 @@ namespace Sensatus.FiberTracker.UI
             // 
             this.MENU_FILE_LOG_OFF.Image = ((System.Drawing.Image)(resources.GetObject("MENU_FILE_LOG_OFF.Image")));
             this.MENU_FILE_LOG_OFF.Name = "MENU_FILE_LOG_OFF";
-            this.MENU_FILE_LOG_OFF.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.X)));
-            this.MENU_FILE_LOG_OFF.Size = new System.Drawing.Size(206, 22);
+            this.MENU_FILE_LOG_OFF.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.X)));
+            this.MENU_FILE_LOG_OFF.Size = new System.Drawing.Size(204, 22);
             this.MENU_FILE_LOG_OFF.Text = "&Log Off";
             this.MENU_FILE_LOG_OFF.Click += new System.EventHandler(this.MENU_FILE_LOG_OFF_Click);
             // 
@@ -210,7 +214,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_EDIT.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MENU_EDIT_PROFILE});
             this.MENU_EDIT.Name = "MENU_EDIT";
-            this.MENU_EDIT.Size = new System.Drawing.Size(37, 20);
+            this.MENU_EDIT.Size = new System.Drawing.Size(39, 20);
             this.MENU_EDIT.Text = "&Edit";
             // 
             // MENU_EDIT_PROFILE
@@ -218,7 +222,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_EDIT_PROFILE.Image = ((System.Drawing.Image)(resources.GetObject("MENU_EDIT_PROFILE.Image")));
             this.MENU_EDIT_PROFILE.Name = "MENU_EDIT_PROFILE";
             this.MENU_EDIT_PROFILE.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.P)));
-            this.MENU_EDIT_PROFILE.Size = new System.Drawing.Size(149, 22);
+            this.MENU_EDIT_PROFILE.Size = new System.Drawing.Size(145, 22);
             this.MENU_EDIT_PROFILE.Text = "&Profile";
             this.MENU_EDIT_PROFILE.Click += new System.EventHandler(this.MENU_EDIT_PROFILE_Click);
             // 
@@ -232,16 +236,16 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_TOOLS_NOTEPAD,
             this.MENU_TOOLS_CALENDAR});
             this.MENU_TOOLS.Name = "MENU_TOOLS";
-            this.MENU_TOOLS.Size = new System.Drawing.Size(44, 20);
+            this.MENU_TOOLS.Size = new System.Drawing.Size(47, 20);
             this.MENU_TOOLS.Text = "&Tools";
             // 
             // MENU_TOOLS_CONFIGURATION
             // 
             this.MENU_TOOLS_CONFIGURATION.Image = ((System.Drawing.Image)(resources.GetObject("MENU_TOOLS_CONFIGURATION.Image")));
             this.MENU_TOOLS_CONFIGURATION.Name = "MENU_TOOLS_CONFIGURATION";
-            this.MENU_TOOLS_CONFIGURATION.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.S)));
-            this.MENU_TOOLS_CONFIGURATION.Size = new System.Drawing.Size(204, 22);
+            this.MENU_TOOLS_CONFIGURATION.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.MENU_TOOLS_CONFIGURATION.Size = new System.Drawing.Size(205, 22);
             this.MENU_TOOLS_CONFIGURATION.Text = "&Database";
             this.MENU_TOOLS_CONFIGURATION.Click += new System.EventHandler(this.MENU_TOOLS_CONFIGURATION_Click);
             // 
@@ -249,23 +253,23 @@ namespace Sensatus.FiberTracker.UI
             // 
             this.MENU_TOOLS_DIAGNOSTICS.Image = ((System.Drawing.Image)(resources.GetObject("MENU_TOOLS_DIAGNOSTICS.Image")));
             this.MENU_TOOLS_DIAGNOSTICS.Name = "MENU_TOOLS_DIAGNOSTICS";
-            this.MENU_TOOLS_DIAGNOSTICS.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.D)));
-            this.MENU_TOOLS_DIAGNOSTICS.Size = new System.Drawing.Size(204, 22);
+            this.MENU_TOOLS_DIAGNOSTICS.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.MENU_TOOLS_DIAGNOSTICS.Size = new System.Drawing.Size(205, 22);
             this.MENU_TOOLS_DIAGNOSTICS.Text = "&Diagnostics";
             this.MENU_TOOLS_DIAGNOSTICS.Click += new System.EventHandler(this.MENU_TOOLS_DIAGNOSTICS_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(201, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(202, 6);
             // 
             // MENU_TOOLS_CALCULATOR
             // 
             this.MENU_TOOLS_CALCULATOR.Image = ((System.Drawing.Image)(resources.GetObject("MENU_TOOLS_CALCULATOR.Image")));
             this.MENU_TOOLS_CALCULATOR.Name = "MENU_TOOLS_CALCULATOR";
             this.MENU_TOOLS_CALCULATOR.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-            this.MENU_TOOLS_CALCULATOR.Size = new System.Drawing.Size(204, 22);
+            this.MENU_TOOLS_CALCULATOR.Size = new System.Drawing.Size(205, 22);
             this.MENU_TOOLS_CALCULATOR.Text = "&Calculator";
             this.MENU_TOOLS_CALCULATOR.Click += new System.EventHandler(this.MENU_TOOLS_CALCULATOR_Click);
             // 
@@ -274,7 +278,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_TOOLS_NOTEPAD.Image = ((System.Drawing.Image)(resources.GetObject("MENU_TOOLS_NOTEPAD.Image")));
             this.MENU_TOOLS_NOTEPAD.Name = "MENU_TOOLS_NOTEPAD";
             this.MENU_TOOLS_NOTEPAD.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.N)));
-            this.MENU_TOOLS_NOTEPAD.Size = new System.Drawing.Size(204, 22);
+            this.MENU_TOOLS_NOTEPAD.Size = new System.Drawing.Size(205, 22);
             this.MENU_TOOLS_NOTEPAD.Text = "&Notepad";
             this.MENU_TOOLS_NOTEPAD.Click += new System.EventHandler(this.MENU_TOOLS_NOTEPAD_Click);
             // 
@@ -283,7 +287,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_TOOLS_CALENDAR.Image = ((System.Drawing.Image)(resources.GetObject("MENU_TOOLS_CALENDAR.Image")));
             this.MENU_TOOLS_CALENDAR.Name = "MENU_TOOLS_CALENDAR";
             this.MENU_TOOLS_CALENDAR.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
-            this.MENU_TOOLS_CALENDAR.Size = new System.Drawing.Size(204, 22);
+            this.MENU_TOOLS_CALENDAR.Size = new System.Drawing.Size(205, 22);
             this.MENU_TOOLS_CALENDAR.Text = "Ca&lendar";
             this.MENU_TOOLS_CALENDAR.Click += new System.EventHandler(this.MENU_TOOLS_CALENDAR_Click);
             // 
@@ -294,7 +298,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_REPORT_MONTHLY_REPORT,
             this.MENU_REPORT_ANALYTIC_REPORT});
             this.MENU_REPORTS.Name = "MENU_REPORTS";
-            this.MENU_REPORTS.Size = new System.Drawing.Size(52, 20);
+            this.MENU_REPORTS.Size = new System.Drawing.Size(54, 20);
             this.MENU_REPORTS.Text = "&Report";
             // 
             // MENU_REPORT_EXPENCE_REPORT
@@ -302,7 +306,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_REPORT_EXPENCE_REPORT.Image = ((System.Drawing.Image)(resources.GetObject("MENU_REPORT_EXPENCE_REPORT.Image")));
             this.MENU_REPORT_EXPENCE_REPORT.Name = "MENU_REPORT_EXPENCE_REPORT";
             this.MENU_REPORT_EXPENCE_REPORT.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.MENU_REPORT_EXPENCE_REPORT.Size = new System.Drawing.Size(181, 22);
+            this.MENU_REPORT_EXPENCE_REPORT.Size = new System.Drawing.Size(176, 22);
             this.MENU_REPORT_EXPENCE_REPORT.Text = "&Expense Report";
             this.MENU_REPORT_EXPENCE_REPORT.Click += new System.EventHandler(this.MENU_REPORT_EXPENCE_REPORT_Click);
             // 
@@ -311,7 +315,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_REPORT_MONTHLY_REPORT.Image = ((System.Drawing.Image)(resources.GetObject("MENU_REPORT_MONTHLY_REPORT.Image")));
             this.MENU_REPORT_MONTHLY_REPORT.Name = "MENU_REPORT_MONTHLY_REPORT";
             this.MENU_REPORT_MONTHLY_REPORT.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.MENU_REPORT_MONTHLY_REPORT.Size = new System.Drawing.Size(181, 22);
+            this.MENU_REPORT_MONTHLY_REPORT.Size = new System.Drawing.Size(176, 22);
             this.MENU_REPORT_MONTHLY_REPORT.Text = "&Monthly Report";
             this.MENU_REPORT_MONTHLY_REPORT.Click += new System.EventHandler(this.MENU_REPORT_MONTHLY_REPORT_Click);
             // 
@@ -320,7 +324,7 @@ namespace Sensatus.FiberTracker.UI
             this.MENU_REPORT_ANALYTIC_REPORT.Image = ((System.Drawing.Image)(resources.GetObject("MENU_REPORT_ANALYTIC_REPORT.Image")));
             this.MENU_REPORT_ANALYTIC_REPORT.Name = "MENU_REPORT_ANALYTIC_REPORT";
             this.MENU_REPORT_ANALYTIC_REPORT.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.MENU_REPORT_ANALYTIC_REPORT.Size = new System.Drawing.Size(181, 22);
+            this.MENU_REPORT_ANALYTIC_REPORT.Size = new System.Drawing.Size(176, 22);
             this.MENU_REPORT_ANALYTIC_REPORT.Text = "&Analytic Report";
             this.MENU_REPORT_ANALYTIC_REPORT.Click += new System.EventHandler(this.MENU_REPORT_ANALYTIC_REPORT_Click);
             // 
@@ -332,7 +336,7 @@ namespace Sensatus.FiberTracker.UI
             this.toolStripMenuItem2,
             this.MENU_HELP_CONTACT_ADMIN});
             this.MENU_HELP.Name = "MENU_HELP";
-            this.MENU_HELP.Size = new System.Drawing.Size(40, 20);
+            this.MENU_HELP.Size = new System.Drawing.Size(44, 20);
             this.MENU_HELP.Text = "&Help";
             this.MENU_HELP.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
@@ -590,7 +594,7 @@ namespace Sensatus.FiberTracker.UI
             this.GRID_VIEW_EXPENSE_DETAILS.Name = "GRID_VIEW_EXPENSE_DETAILS";
             this.GRID_VIEW_EXPENSE_DETAILS.RowHeadersVisible = false;
             this.GRID_VIEW_EXPENSE_DETAILS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.GRID_VIEW_EXPENSE_DETAILS.Size = new System.Drawing.Size(600, 267);
+            this.GRID_VIEW_EXPENSE_DETAILS.Size = new System.Drawing.Size(600, 266);
             this.GRID_VIEW_EXPENSE_DETAILS.TabIndex = 3;
             this.GRID_VIEW_EXPENSE_DETAILS.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GRID_VIEW_EXPENSE_DETAILS_CellClick);
             this.GRID_VIEW_EXPENSE_DETAILS.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -667,7 +671,7 @@ namespace Sensatus.FiberTracker.UI
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(606, 286);
+            this.groupBox1.Size = new System.Drawing.Size(606, 285);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Expenses Details : ";
@@ -679,7 +683,7 @@ namespace Sensatus.FiberTracker.UI
             this.grpReport.ForeColor = System.Drawing.Color.Black;
             this.grpReport.Location = new System.Drawing.Point(0, 0);
             this.grpReport.Name = "grpReport";
-            this.grpReport.Size = new System.Drawing.Size(606, 283);
+            this.grpReport.Size = new System.Drawing.Size(606, 282);
             this.grpReport.TabIndex = 16;
             this.grpReport.TabStop = false;
             this.grpReport.Text = "Expense Summary : ";
@@ -720,7 +724,7 @@ namespace Sensatus.FiberTracker.UI
             this.GRID_VIEW_INDIVIDUAL_EXP_REPORT.Name = "GRID_VIEW_INDIVIDUAL_EXP_REPORT";
             this.GRID_VIEW_INDIVIDUAL_EXP_REPORT.RowHeadersVisible = false;
             this.GRID_VIEW_INDIVIDUAL_EXP_REPORT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.GRID_VIEW_INDIVIDUAL_EXP_REPORT.Size = new System.Drawing.Size(600, 264);
+            this.GRID_VIEW_INDIVIDUAL_EXP_REPORT.Size = new System.Drawing.Size(600, 263);
             this.GRID_VIEW_INDIVIDUAL_EXP_REPORT.TabIndex = 19;
             // 
             // ExpUserId
@@ -851,7 +855,7 @@ namespace Sensatus.FiberTracker.UI
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1028, 581);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1028, 579);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -875,48 +879,48 @@ namespace Sensatus.FiberTracker.UI
             this.STATUS_BAR_USER_NAME});
             this.STATUS_BAR.Location = new System.Drawing.Point(0, 0);
             this.STATUS_BAR.Name = "STATUS_BAR";
-            this.STATUS_BAR.Size = new System.Drawing.Size(1028, 22);
+            this.STATUS_BAR.Size = new System.Drawing.Size(1028, 24);
             this.STATUS_BAR.TabIndex = 0;
             // 
             // STATUS_BAR_STATUS_MESSAGE
             // 
-            this.STATUS_BAR_STATUS_MESSAGE.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.STATUS_BAR_STATUS_MESSAGE.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.STATUS_BAR_STATUS_MESSAGE.Name = "STATUS_BAR_STATUS_MESSAGE";
-            this.STATUS_BAR_STATUS_MESSAGE.Size = new System.Drawing.Size(4, 17);
+            this.STATUS_BAR_STATUS_MESSAGE.Size = new System.Drawing.Size(4, 19);
             // 
             // STATUS_BAR_BLANK_LABEL
             // 
             this.STATUS_BAR_BLANK_LABEL.Name = "STATUS_BAR_BLANK_LABEL";
-            this.STATUS_BAR_BLANK_LABEL.Size = new System.Drawing.Size(863, 17);
+            this.STATUS_BAR_BLANK_LABEL.Size = new System.Drawing.Size(851, 19);
             this.STATUS_BAR_BLANK_LABEL.Spring = true;
             // 
             // STATUS_BAR_CURRENT_DATE
             // 
-            this.STATUS_BAR_CURRENT_DATE.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.STATUS_BAR_CURRENT_DATE.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.STATUS_BAR_CURRENT_DATE.Name = "STATUS_BAR_CURRENT_DATE";
-            this.STATUS_BAR_CURRENT_DATE.Size = new System.Drawing.Size(34, 17);
+            this.STATUS_BAR_CURRENT_DATE.Size = new System.Drawing.Size(35, 19);
             this.STATUS_BAR_CURRENT_DATE.Text = "Date";
             // 
             // STATUS_BAR_LAST_LOGIN_DATE
             // 
-            this.STATUS_BAR_LAST_LOGIN_DATE.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.STATUS_BAR_LAST_LOGIN_DATE.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.STATUS_BAR_LAST_LOGIN_DATE.Name = "STATUS_BAR_LAST_LOGIN_DATE";
-            this.STATUS_BAR_LAST_LOGIN_DATE.Size = new System.Drawing.Size(53, 17);
+            this.STATUS_BAR_LAST_LOGIN_DATE.Size = new System.Drawing.Size(59, 19);
             this.STATUS_BAR_LAST_LOGIN_DATE.Text = "Lastlogin";
             // 
             // STATUS_BAR_USER_NAME
             // 
-            this.STATUS_BAR_USER_NAME.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.STATUS_BAR_USER_NAME.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.STATUS_BAR_USER_NAME.Name = "STATUS_BAR_USER_NAME";
-            this.STATUS_BAR_USER_NAME.Size = new System.Drawing.Size(59, 17);
+            this.STATUS_BAR_USER_NAME.Size = new System.Drawing.Size(64, 19);
             this.STATUS_BAR_USER_NAME.Text = "Username";
             // 
             // splitContainer1
@@ -937,7 +941,7 @@ namespace Sensatus.FiberTracker.UI
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(150)))), ((int)(((byte)(223)))));
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1028, 581);
+            this.splitContainer1.Size = new System.Drawing.Size(1028, 579);
             this.splitContainer1.SplitterDistance = 414;
             this.splitContainer1.TabIndex = 27;
             // 
@@ -967,13 +971,20 @@ namespace Sensatus.FiberTracker.UI
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grpReport);
-            this.splitContainer2.Size = new System.Drawing.Size(610, 581);
-            this.splitContainer2.SplitterDistance = 290;
+            this.splitContainer2.Size = new System.Drawing.Size(610, 579);
+            this.splitContainer2.SplitterDistance = 289;
             this.splitContainer2.TabIndex = 27;
             // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
+            // 
+            // testCommToolStripMenuItem
+            // 
+            this.testCommToolStripMenuItem.Name = "testCommToolStripMenuItem";
+            this.testCommToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.testCommToolStripMenuItem.Text = "Test Comm";
+            this.testCommToolStripMenuItem.Click += new System.EventHandler(this.testCommToolStripMenuItem_Click);
             // 
             // Home
             // 
@@ -990,8 +1001,8 @@ namespace Sensatus.FiberTracker.UI
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Home";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Home_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Home_FormClosing);
+            this.Load += new System.EventHandler(this.Home_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -1014,9 +1025,11 @@ namespace Sensatus.FiberTracker.UI
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
@@ -1102,5 +1115,6 @@ namespace Sensatus.FiberTracker.UI
         private System.Windows.Forms.DataGridViewTextBoxColumn UserId;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem MENU_HELP_CONTACT_ADMIN;
+        private System.Windows.Forms.ToolStripMenuItem testCommToolStripMenuItem;
     }
 }

@@ -10,27 +10,16 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         public bool UpdateFinalizationDetails()
         {
-            var Query = string.Empty;
             var finalizeDate = DataFormat.DateToDB(System.DateTime.Now.ToShortDateString());
-            Query = "UPDATE Finalization_Details SET Finalize_Date = '" + DataFormat.GetCurrentDate() + "' WHERE IsDeleted=0";
-
-            if (_dbHelper.ExecuteNonQuery(Query) > 0)
-                return true;
-            else
-                return false;
+            var query = $"UPDATE FinalizationDetails SET FinalizeDate = '{DataFormat.GetCurrentDate()}' WHERE IsDeleted = 0";
+            return _dbHelper.ExecuteNonQuery(query) > 0;
         }
 
         public bool Finalize()
         {
-            var Query = string.Empty;
             var finalizeDate = DataFormat.DateToDB(System.DateTime.Now.ToShortDateString());
-
-            Query = "UPDATE Expense_Details SET Finalized = " + finalizeDate + " WHERE Finalized=0";
-
-            if (_dbHelper.ExecuteNonQuery(Query) > 0)
-                return true;
-            else
-                return false;
+            var query = $"UPDATE ExpenseDetails SET Finalized = {finalizeDate} WHERE Finalized = 0";
+            return _dbHelper.ExecuteNonQuery(query) > 0;
         }
     }
 }

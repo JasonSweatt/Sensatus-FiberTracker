@@ -1,6 +1,7 @@
 using Sensatus.FiberTracker.DataAccess;
 using System;
 using System.Data;
+using System.Linq;
 
 namespace Sensatus.FiberTracker.BusinessLogic
 {
@@ -33,31 +34,30 @@ namespace Sensatus.FiberTracker.BusinessLogic
             var dataExistForNextMonth = commonReportArch.DataExistForMonth(nextMonth, nextMonthYear);
 
             string[,] reportData = null;
-
             string[] columnName = null;
 
             if (dataExistForPresntMonth && dataExistForPrevMonth && dataExistForNextMonth)
             {
-                columnName = new string[] { "Item", previousMonth + " (Prev.)", "Trend1", month + " (Pres.)", "Trend2", nextMonth + " (Nxt.)" };
+                columnName = new [] { "Item", previousMonth + " (Prev.)", "Trend1", month + " (Pres.)", "Trend2", nextMonth + " (Nxt.)" };
                 reportData = new string[itemAnalyticArch.GetAllItems().Length, 6];
                 reportData = GetReportData1(prevMMYYYY, presentMMYYYY, nextMMYYYY);
                 data = arch.GetDataTableFrom2DArray(columnName, reportData);
             }
             else if (dataExistForPresntMonth && dataExistForPrevMonth && !dataExistForNextMonth)
             {
-                columnName = new string[] { "Item", previousMonth + " (Prev.)", "Trend", month + " (Pres.)" };
+                columnName = new [] { "Item", previousMonth + " (Prev.)", "Trend", month + " (Pres.)" };
                 reportData = new string[itemAnalyticArch.GetAllItems().Length, 4];
                 reportData = GetReportData2(prevMMYYYY, presentMMYYYY);
                 data = arch.GetDataTableFrom2DArray(columnName, reportData);
             }
             else if (dataExistForPresntMonth && !dataExistForPrevMonth && !dataExistForNextMonth)
             {
-                columnName = new string[] { "Item", month + " (Pres.)" };
+                columnName = new [] { "Item", month + " (Pres.)" };
                 data = itemAnalyticArch.MonthlyReportData(month, year);
             }
             else if (dataExistForPresntMonth && !dataExistForPrevMonth && dataExistForNextMonth)
             {
-                columnName = new string[] { "Item", month + " (Pres.)", "Trend", nextMonth + " (Nxt.)" };
+                columnName = new [] { "Item", month + " (Pres.)", "Trend", nextMonth + " (Nxt.)" };
                 reportData = new string[reportArch.GetAllUsers().Length, 4];
                 reportData = GetReportData2(presentMMYYYY, nextMMYYYY);
                 data = arch.GetDataTableFrom2DArray(columnName, reportData);
@@ -106,24 +106,16 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         private double GetTotalExpense(string[] expenses)
         {
-            var totalExpense = 0.0;
-            for (var i = 0; i < expenses.Length; i++)
-                totalExpense = totalExpense + Convert.ToDouble(expenses[i]);
-
-            return totalExpense;
+            return expenses.Aggregate(0.0, (current, value) => current + Convert.ToDouble(value));
         }
 
         private string GetTrendSymbol(string month1, string month2)
         {
             var firstMonth = Convert.ToDouble(month1);
             var secMonth = Convert.ToDouble(month2);
-
             if (firstMonth > secMonth)
                 return " > ";
-            else if (firstMonth < secMonth)
-                return " < ";
-            else
-                return " = ";
+            return firstMonth < secMonth ? " < " : " = ";
         }
 
         private string[,] GetReportData2(string previousMonthYear, string presentMonthYear)

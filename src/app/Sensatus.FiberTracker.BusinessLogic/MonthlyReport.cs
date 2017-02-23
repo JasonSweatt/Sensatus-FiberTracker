@@ -13,95 +13,83 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         public DataSet MonthlyReportData(string month, string Year)
         {
-            var dsReportData = new DataSet();
             var monthYear = arch.DecodeMonthYear(month, Year);
-
-            var Query = "SELECT Distinct(Exp_By) as ExpBy,User_Info.First_Name + ' ' +User_Info.Last_Name as ExpenseBy, Sum(Exp_Amount) as TotalExpense from " +
-            "Expense_Details,User_Info Where " +
-            "Expense_Details.Exp_By=User_Info.User_Id AND " +
-            "Expense_Details.MonthYear='" + monthYear + "' AND Expense_Details.IsDeleted=0" +
-            " Group by Exp_By, User_Info.First_Name + ' ' +User_Info.Last_Name ";
-
-            dsReportData = _dbHelper.ExecuteDataSet(Query);
-
-            return dsReportData;
+            var query = "SELECT Distinct(ExpenseBy) AS ExpBy, UserInfo.FirstName + ' ' + UserInfo.LastName AS ExpenseBy, SUM(ExpenseAmount) AS TotalExpense FROM " +
+            "ExpenseDetails,UserInfo WHERE " +
+            "ExpenseDetails.ExpenseBy=UserInfo.UserId AND " +
+            $"ExpenseDetails.MonthYear='{monthYear}' AND ExpenseDetails.IsDeleted = 0 " +
+            "GROUP BY ExpenseBy, UserInfo.FirstName + ' ' + UserInfo.LastName";
+            var dataSet = _dbHelper.ExecuteDataSet(query);
+            return dataSet;
         }
 
         public DataSet MonthlyReportData(string month, string Year, ReportType reportType)
         {
-            var dsReportData = new DataSet();
             var monthYear = arch.DecodeMonthYear(month, Year);
-            var Query = string.Empty;
-
+            var query = string.Empty;
             switch (reportType)
             {
                 case ReportType.Individual:
-                    Query = "SELECT Distinct(Exp_By) ,User_Info.First_Name as ExpenseBy, Sum(Exp_Amount) as TotalExpense from " +
-                            "Expense_Details,User_Info Where " +
-                            "Expense_Details.Exp_By=User_Info.User_Id AND " +
-                            "Expense_Details.MonthYear='" + monthYear + "' AND Expense_Details.IsDeleted=0" +
-                            " Group by Exp_By, User_Info.First_Name";
+                    query = "SELECT Distinct(ExpenseBy) ,UserInfo.FirstName AS ExpenseBy, SUM(ExpenseAmount) AS TotalExpense FROM " +
+                            "ExpenseDetails,UserInfo WHERE " +
+                            "ExpenseDetails.ExpenseBy=UserInfo.UserId AND " +
+                            $"ExpenseDetails.MonthYear='{monthYear}' AND ExpenseDetails.IsDeleted = 0 " +
+                            "GROUP BY ExpenseBy, UserInfo.FirstName";
                     break;
 
                 case ReportType.ItemWise:
-                    Query = "SELECT Item_Details.Item_Name as ItemName, Sum(Exp_Amount) as Expense from " +
-                            "Expense_Details,Item_Details Where " +
-                            "Expense_Details.Item_Id=Item_Details.Item_Id AND " +
-                            "Expense_Details.MonthYear='" + monthYear + "' AND Expense_Details.IsDeleted=0 " +
-                            "Group by Item_Details.Item_Name ";
+                    query = "SELECT Item_Details.Item_Name AS ItemName, SUM(ExpenseAmount) AS Expense FROM " +
+                            "ExpenseDetails,Item_Details WHERE " +
+                            "ExpenseDetails.Item_Id=Item_Details.Item_Id AND " +
+                            $"ExpenseDetails.MonthYear='{monthYear}' AND ExpenseDetails.IsDeleted = 0 " +
+                            "GROUP BY Item_Details.Item_Name ";
                     break;
             }
-
-            dsReportData = _dbHelper.ExecuteDataSet(Query);
-            return dsReportData;
+            var dataSet = _dbHelper.ExecuteDataSet(query);
+            return dataSet;
         }
 
         public string GeneralDetails(string month, string Year)
         {
-            var reportText = string.Empty;
             var totalExpense = GetTotalExpense(month, Year);
             var daysInMonth = DateTime.DaysInMonth(Convert.ToInt16(Year), arch.GetMonth(month));
             var participents = GetNumberOfParticipents().ToString();
             var perDayExp = Math.Round(Convert.ToDouble(totalExpense) / daysInMonth, 2);
             var individualExp = Math.Round(Convert.ToDouble(totalExpense) / Convert.ToDouble(participents), 2);
-
-            reportText = "Total Expense : " + totalExpense + " " + ApplicationConfiguration.ExpenseCCY + Environment.NewLine;
-            reportText = reportText + "Participents: " + participents + Environment.NewLine;
-            reportText = reportText + "Days : " + daysInMonth.ToString() + " Days" + Environment.NewLine;
-            reportText = reportText + "Individual Expense : " + individualExp.ToString() + " " + ApplicationConfiguration.ExpenseCCY + Environment.NewLine;
-            reportText = reportText + "Per day expense : " + perDayExp.ToString() + " " + ApplicationConfiguration.ExpenseCCY;
-
+            var reportText = $"{Resources.Labels.TotalExpense} : {totalExpense} {ApplicationConfiguration.ExpenseCCY}{Environment.NewLine}";
+            reportText = $"{reportText}{Resources.Labels.Participents} : {participents}{Environment.NewLine}";
+            reportText = $"{reportText}{Resources.Labels.Days} : {daysInMonth} {Resources.Labels.Days}{Environment.NewLine}";
+            reportText = $"{reportText}{Resources.Labels.IndividualExpense} : {individualExp} {ApplicationConfiguration.ExpenseCCY}{Environment.NewLine}";
+            reportText = $"{reportText}{Resources.Labels.PerDayExpense} : {perDayExp} {ApplicationConfiguration.ExpenseCCY}";
             return reportText;
         }
 
         public string GetTotalExpense(string month, string year)
         {
-            var Query = "SELECT Sum(Exp_Amount) from Expense_Details where MonthYear='" + arch.DecodeMonthYear(month, year) + "' And IsDeleted=0";
-            return _dbHelper.ExecuteScalar(Query).ToString();
+            var query = $"SELECT SUM(ExpenseAmount) FROM ExpenseDetails WHERE MonthYear='{arch.DecodeMonthYear(month, year)}' AND IsDeleted = 0";
+            return _dbHelper.ExecuteScalar(query).ToString();
         }
 
         public int GetNumberOfParticipents()
         {
-            var Query = "SELECT Count(*) from User_Info where User_Id<>1 and IsActive=1";
-            return Convert.ToInt16(_dbHelper.ExecuteScalar(Query).ToString());
+            var query = "SELECT COUNT(*) FROM UserInfo WHERE UserId <> 1 AND IsActive = 1";
+            return Convert.ToInt16(_dbHelper.ExecuteScalar(query).ToString());
         }
 
         public string[] ReportFinalizeDetails(string month, string year)
         {
-            var Query = "SELECT Distinct(Finalized) from Expense_Details where MonthYear='" + arch.DecodeMonthYear(month, year) + "' And IsDeleted=0 And Finalized <> 0";
+            var query = $"SELECT DISTINCT(Finalized) FROM ExpenseDetails WHERE MonthYear='{arch.DecodeMonthYear(month, year)}' AND IsDeleted=0 AND Finalized <> 0";
             var finalizeDetails = new ArrayList();
-
-            if (_dbHelper.GetDataInArrayList(Query) != null)
-                finalizeDetails = _dbHelper.GetDataInArrayList(Query);
+            if (_dbHelper.GetDataInArrayList(query) != null)
+                finalizeDetails = _dbHelper.GetDataInArrayList(query);
             else
                 finalizeDetails.Add("N\\A");
 
-            var strDetails = new string[finalizeDetails.Count];
+            var details = new string[finalizeDetails.Count];
+            for (var index = 0; index < finalizeDetails.Count; index++)
+                details[index] = finalizeDetails[index].ToString();
 
-            for (var i = 0; i < finalizeDetails.Count; i++)
-                strDetails[i] = finalizeDetails[i].ToString();
-
-            return strDetails;
+            return details;
         }
 
         public enum ReportType

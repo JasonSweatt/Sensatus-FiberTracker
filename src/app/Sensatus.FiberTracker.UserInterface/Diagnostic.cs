@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class Diagnostic : AccountPlusBase
+    public partial class Diagnostic : FormBase
     {
         public Diagnostic()
         {

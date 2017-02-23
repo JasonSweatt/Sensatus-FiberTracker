@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Sensatus.FiberTracker.Messaging;
 using Sensatus.FiberTracker.BusinessLogic;
 using Sensatus.FiberTracker.Formatting;
-
+using Sensatus.FiberTracker.Messaging;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class Login : AccountPlusBase
+    public partial class Login : FormBase
     {
         private UserAuthentication _userAuthentication = new UserAuthentication();
+
         public Login()
         {
             InitializeComponent();
@@ -40,7 +36,6 @@ namespace Sensatus.FiberTracker.UI
                 {
                     lblMessage.Text = MessageManager.GetMessage("1", false);
                     errorProvider1.SetError(txtUserID, MessageManager.GetMessage("1", false));
-
                     return;
                 }
 
@@ -48,31 +43,23 @@ namespace Sensatus.FiberTracker.UI
                 {
                     lblMessage.Text = MessageManager.GetMessage("1", false);
                     errorProvider1.SetError(txtPassword, MessageManager.GetMessage("1", false));
-
                     return;
                 }
 
                 var userId = 0;
                 var role = new Common.UserRole();
-
                 var validUser = _userAuthentication.IsValidUser(userName, password, out userId, out role);
                 Logger.WriteTrace("Login", "Username : " + userName + Environment.NewLine + "Success : " + validUser.ToString());
 
                 if (!validUser)
-                {
                     MessageManager.DisplayCustomMessage("Invalid user Id or password.");
-                }
                 else
                 {
-                    if (chkRememberMe.Checked)
-                        SavePreference(true);
-                    else
-                        SavePreference(false);
-                    
-                    SessionParameters.UserID = userId;
+                    SavePreference(chkRememberMe.Checked);
+                    SessionParameters.UserId = userId;
                     SessionParameters.UserName = userName;
-                    SessionParameters.UserRole = role;                    
-                    new Users().UpdateLastLoginDate(SessionParameters.UserID);
+                    SessionParameters.UserRole = role;
+                    new Users().UpdateLastLoginDate(SessionParameters.UserId);
 
                     Hide();
                     var objHome = new Home();
@@ -82,7 +69,7 @@ namespace Sensatus.FiberTracker.UI
             catch (Exception ex)
             {
                 throw ex;
-            }            
+            }
         }
 
         private void SavePreference(bool rememberMe)
@@ -99,19 +86,14 @@ namespace Sensatus.FiberTracker.UI
                 Preferences.SavePreference(Preferences.Preference.Password, string.Empty);
                 Preferences.SavePreference(Preferences.Preference.RememberMe, "false");
             }
-
             Preferences.SavePreference(Preferences.Preference.LastLoginDate, DateTime.Now.ToString());
             Preferences.SavePreference(Preferences.Preference.LastUser, txtUserID.Text.Trim());
             Preferences.Save();
         }
 
-    
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {                 
+        {
         }
-
-        
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -123,18 +105,16 @@ namespace Sensatus.FiberTracker.UI
 
         private void LoadPreferences()
         {
-            if(DataFormat.GetBoolean(Preferences.GetPreference(Preferences.Preference.RememberMe)))
+            if (DataFormat.GetBoolean(Preferences.GetPreference(Preferences.Preference.RememberMe)))
             {
                 txtUserID.Text = Preferences.GetPreference(Preferences.Preference.Username).Trim();
                 txtPassword.Text = Preferences.GetPreference(Preferences.Preference.Password).Trim();
             }
-
-            lblComputerName.Text = "Computer name : " + Environment.MachineName;
-            lblLastLogonBy.Text = "Last logon by : " + Preferences.GetPreference(Preferences.Preference.LastUser);
-            lblLastLogOnDate.Text = "Last logon date : " + Preferences.GetPreference(Preferences.Preference.LastLoginDate);
+            lblComputerName.Text = $"{Resources.Labels.ComputerName} : {Environment.MachineName}";
+            lblLastLogonBy.Text = $"{Resources.Labels.LastLogonBy} : {Preferences.GetPreference(Preferences.Preference.LastUser)}";
+            lblLastLogOnDate.Text = $"{Resources.Labels.LastLogonDate} : {Preferences.GetPreference(Preferences.Preference.LastLoginDate)}";
         }
 
- 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -145,27 +125,27 @@ namespace Sensatus.FiberTracker.UI
         private void btnInfo_Click(object sender, EventArgs e)
         {
             var buttonText = ((Button)sender).Text.Trim();
-            switch (buttonText)
+            var greaterInfo = $"&{Resources.Labels.Info} >>";
+            var lessThanInfo = $"&{Resources.Labels.Info} <<";
+            if (buttonText == greaterInfo)
             {
-                case "&Info >>":
-                    Width = 425;
-                    Height = 328;
-                    btnLogin.Location = new Point(198, 268);
-                    btnCancel.Location = new Point(261, 268);
-                    btnInfo.Location = new Point(348, 268);
-                    btnInfo.Text = "&Info <<";
-                    grpLogonInfo.Location = new Point(20, 191);
-                    break;
-                case "&Info <<":
-                    Width = 425;
-                    Height = 255;
-                    btnLogin.Location = new Point(198, 192);
-                    btnCancel.Location = new Point(261, 192);
-                    btnInfo.Location = new Point(348, 192);
-                    btnInfo.Text = "&Info >>";
-                    grpLogonInfo.Location = new Point(20, 220);
-
-                    break;
+                Width = 425;
+                Height = 328;
+                btnLogin.Location = new Point(198, 268);
+                btnCancel.Location = new Point(261, 268);
+                btnInfo.Location = new Point(348, 268);
+                btnInfo.Text = lessThanInfo;
+                grpLogonInfo.Location = new Point(20, 191);
+            }
+            else if (buttonText == lessThanInfo)
+            {
+                Width = 425;
+                Height = 255;
+                btnLogin.Location = new Point(198, 192);
+                btnCancel.Location = new Point(261, 192);
+                btnInfo.Location = new Point(348, 192);
+                btnInfo.Text = greaterInfo;
+                grpLogonInfo.Location = new Point(20, 220);
             }
         }
     }

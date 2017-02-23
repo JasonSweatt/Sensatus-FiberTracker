@@ -9,15 +9,15 @@ namespace Sensatus.FiberTracker.DataAccess
     /// </summary>
     public class DBHelper
     {
-        #region "Private Variables"
+        #region Private Variables
 
         private ConnectionManager _connectionManager = new ConnectionManager();
         private CommandBuilder _commandBuilder = new CommandBuilder();
         private DataAdapterManager _dbAdapterManager = new DataAdapterManager();
 
-        #endregion "Private Variables"
+        #endregion Private Variables
 
-        #region "Execute Scalar"
+        #region Execute Scalar
 
         /// <summary>
         /// Executes the Sql Command or Stored Procedure and returns result.
@@ -155,7 +155,7 @@ namespace Sensatus.FiberTracker.DataAccess
             return ExecuteScalar(commandText, paramCollection, CommandType.Text);
         }
 
-        #endregion "Execute Scalar"
+        #endregion Execute Scalar
 
         #region ExecuteNonQuery
 
@@ -429,7 +429,7 @@ namespace Sensatus.FiberTracker.DataAccess
 
         #endregion GetDataSet
 
-        #region "ExecuteDataTable"
+        #region ExecuteDataTable
 
         /// <summary>
         /// Executes the Sql Command or Stored Procedure and return resultset in the form of DataTable.
@@ -441,12 +441,12 @@ namespace Sensatus.FiberTracker.DataAccess
         /// <returns>Result in the form of DataTable</returns>
         public DataTable ExecuteDataTable(string commandText, string tableName, DBParameterCollection paramCollection, CommandType commandType)
         {
-            var dtReturn = new DataTable();
+            var dataTable = new DataTable();
             IDbConnection connection = null;
             try
             {
                 connection = _connectionManager.GetConnection();
-                dtReturn = _dbAdapterManager.GetDataTable(commandText, paramCollection, connection, tableName, commandType);
+                dataTable = _dbAdapterManager.GetDataTable(commandText, paramCollection, connection, tableName, commandType);
             }
             catch (Exception ex)
             {
@@ -460,7 +460,7 @@ namespace Sensatus.FiberTracker.DataAccess
                     connection.Dispose();
                 }
             }
-            return dtReturn;
+            return dataTable;
         }
 
         /// <summary>
@@ -590,9 +590,9 @@ namespace Sensatus.FiberTracker.DataAccess
             return ExecuteDataTable(commandText, string.Empty, CommandType.Text);
         }
 
-        #endregion "ExecuteDataTable"
+        #endregion ExecuteDataTable
 
-        #region "ExecuteReader"
+        #region ExecuteReader
 
         /// <summary>
         /// Executes the Sql Command or Stored Procedure and returns the DataReader.
@@ -679,7 +679,7 @@ namespace Sensatus.FiberTracker.DataAccess
             return ExecuteDataReader(commandText, con, paramCollection, CommandType.Text);
         }
 
-        #endregion "ExecuteReader"
+        #endregion ExecuteReader
 
         /// <summary>
         /// Gets the data in array.

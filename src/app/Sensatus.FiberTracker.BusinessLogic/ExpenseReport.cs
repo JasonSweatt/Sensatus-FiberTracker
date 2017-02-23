@@ -15,10 +15,8 @@ namespace Sensatus.FiberTracker.BusinessLogic
             var arch = new Arch();
             string[] columnName = { "Sl", "expby", "HasPaid", "PayGet", "Amount" };
             var reportData = GetReportArray();
-
             if (reportData != null)
                 table = arch.GetDataTableFrom2DArray(columnName, reportData);
-
             return table;
         }
 
@@ -55,66 +53,52 @@ namespace Sensatus.FiberTracker.BusinessLogic
         {
             string[] nameArray = null;
             var helper = new DBHelper();
-            var dtUserName = new DataTable();
-            var Query = string.Empty;
-            Query = "SELECT First_Name as Name  From User_Info where IsActive=1 and RoleId<>1";
-            dtUserName = helper.ExecuteDataTable(Query);
-            var iRowCount = dtUserName.Rows.Count;
-
-            if (iRowCount > 0)
+            var query = "SELECT FirstName AS Name FROM UserInfo WHERE IsActive = 1 AND RoleId <> 1";
+            var dataTable = helper.ExecuteDataTable(query);
+            var rowCount = dataTable.Rows.Count;
+            if (rowCount > 0)
             {
-                nameArray = new string[iRowCount];
-
-                for (var i = 0; i < iRowCount; i++)
-                    nameArray[i] = dtUserName.Rows[i][0].ToString();
+                nameArray = new string[rowCount];
+                for (var index = 0; index < rowCount; index++)
+                    nameArray[index] = dataTable.Rows[index][0].ToString();
             }
-
             return nameArray;
         }
 
         private string[] GetUsersIds()
         {
             string[] userIdArray = null;
-            var dtUserID = new DataTable();
-            var Query = string.Empty;
-            Query = "SELECT User_Id  From User_Info where IsActive=1 and RoleId<>1";
-            dtUserID = _dbHelper.ExecuteDataTable(Query);
-            var iRowCount = dtUserID.Rows.Count;
-
-            if (iRowCount > 0)
+            var query = "SELECT UserId FROM UserInfo WHERE IsActive = 1 AND RoleId <> 1";
+            var dataTable = _dbHelper.ExecuteDataTable(query);
+            var rowCount = dataTable.Rows.Count;
+            if (rowCount > 0)
             {
-                userIdArray = new string[iRowCount];
-
-                for (var i = 0; i < iRowCount; i++)
-                    userIdArray[i] = dtUserID.Rows[i][0].ToString();
+                userIdArray = new string[rowCount];
+                for (var index = 0; index < rowCount; index++)
+                    userIdArray[index] = dataTable.Rows[index][0].ToString();
             }
-
             return userIdArray;
         }
 
         private string[] GetExpenseByUsers()
         {
-            var userIDs = GetUsersIds();
-            if (userIDs == null)
+            var usersIds = GetUsersIds();
+            if (usersIds == null)
                 return null;
 
-            var Query = string.Empty;
             object result = null;
-
-            var expenseAmount = new string[userIDs.Length];
-
-            for (var i = 0; i < userIDs.Length; i++)
+            var expenseAmount = new string[usersIds.Length];
+            for (var index = 0; index < usersIds.Length; index++)
             {
-                Query = "SELECT Sum(Exp_Amount) FROM Expense_Details WHERE Finalized=0 AND IsDeleted=0 AND Exp_By=" + userIDs[i];
-                result = _dbHelper.ExecuteScalar(Query);
+                var query = $"SELECT SUM(ExpenseAmount) FROM ExpenseDetails WHERE Finalized = 0 AND IsDeleted = 0 AND ExpenseBy = {usersIds[index]}";
+                result = _dbHelper.ExecuteScalar(query);
                 if (result != null)
                 {
-                    expenseAmount[i] = result.ToString();
-                    if (expenseAmount[i].Equals(""))
-                        expenseAmount[i] = "0";
+                    expenseAmount[index] = result.ToString();
+                    if (expenseAmount[index].Equals(string.Empty))
+                        expenseAmount[index] = "0";
                 }
             }
-
             return expenseAmount;
         }
 
@@ -123,7 +107,6 @@ namespace Sensatus.FiberTracker.BusinessLogic
             var individualExpense = Convert.ToDouble(GetIndividualExpense());
             var amountPaid = Math.Round(Convert.ToDouble(p), 2); ;
             var amount = 0.0;
-
             if (amountPaid > individualExpense)
                 amount = amountPaid - individualExpense;
             else if (amountPaid.Equals(individualExpense))
@@ -138,7 +121,6 @@ namespace Sensatus.FiberTracker.BusinessLogic
         {
             var individualExpense = Convert.ToDouble(GetIndividualExpense());
             var amountPaid = Math.Round(Convert.ToDouble(p), 2); ;
-
             if (amountPaid > individualExpense)
                 return "Has to Get";
             else if (amountPaid.Equals(individualExpense))
@@ -149,68 +131,45 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
         public string GetIndividualExpense()
         {
-            var indExp = 0.0;
-            var individualExpense = string.Empty;
+            var value = 0.0;
             var noOfParticipents = GetExpenseParticipents();
-
-            indExp = Math.Round(Convert.ToDouble(GetTotalExpenses()) / Convert.ToDouble(noOfParticipents), 2);
-
-            return indExp.ToString();
+            value = Math.Round(Convert.ToDouble(GetTotalExpenses()) / Convert.ToDouble(noOfParticipents), 2);
+            return value.ToString();
         }
 
         public string GetExpenseParticipents()
         {
-            var participents = string.Empty;
-            participents = _dbHelper.ExecuteScalar("Select Count(*) from User_Info WHERE IsActive=1 AND RoleId<>1").ToString();
+            var participents = _dbHelper.ExecuteScalar("SELECT COUNT(*) FROM UserInfo WHERE IsActive = 1 AND RoleId <> 1").ToString();
             return participents;
         }
 
         public string GetTotalExpenses()
         {
-            var totalExpense = string.Empty;
-            totalExpense = _dbHelper.ExecuteScalar("Select Sum(Exp_Amount) from Expense_Details WHERE Finalized=0 AND IsDeleted=0").ToString();
-
-            if (totalExpense.Equals(""))
-                return "0";
-            else
-                return totalExpense;
+            var totalExpense = _dbHelper.ExecuteScalar("SELECT SUM(ExpenseAmount) FROM ExpenseDetails WHERE Finalized = 0 AND IsDeleted = 0").ToString();
+            return totalExpense.Equals(string.Empty) ? "0" : totalExpense;
         }
 
         public string ReportForDays()
         {
-            var days = string.Empty;
-            var Query = "SELECT Max(Exp_Date) as FromDate, Min(Exp_Date) as ToDate  from Expense_Details where Finalized=0 AND IsDeleted=0";
-
-            var dtDates = _dbHelper.ExecuteDataTable(Query);
-            var fromDate = DataFormat.GetDateTime(dtDates.Rows[0]["FromDate"]);
-            var ToDate = DataFormat.GetDateTime(dtDates.Rows[0]["ToDate"]);
-
-            var timeDiff = fromDate.Subtract(ToDate);
-            days = Math.Ceiling(timeDiff.TotalDays).ToString();
-
-            if (days.Equals(""))
+            var query = "SELECT MAX(ExpenseDate) AS FromDate, Min(ExpenseDate) AS ToDate FROM ExpenseDetails WHERE Finalized = 0 AND IsDeleted = 0";
+            var dataTable = _dbHelper.ExecuteDataTable(query);
+            var fromDate = DataFormat.GetDateTime(dataTable.Rows[0]["FromDate"]);
+            var toDate = DataFormat.GetDateTime(dataTable.Rows[0]["ToDate"]);
+            var timeDiff = fromDate.Subtract(toDate);
+            var days = Math.Ceiling(timeDiff.TotalDays).ToString();
+            if (days.Equals(string.Empty))
                 return "0";
-            else if (days.Equals("0"))
-                return "1";
-            else
-                return days;
+            return days.Equals("0") ? "1" : days;
         }
 
         public string PerDayExpense()
         {
             var perDayExpense = string.Empty;
-
             var totalExpense = Convert.ToDouble(GetTotalExpenses());
             var perDayExp = 0.0;
             var days = Convert.ToDouble(ReportForDays());
-
-            if (days > 0)
-                perDayExp = Math.Round(totalExpense / days, 2);
-            else
-                perDayExp = 0.0;
-
+            perDayExp = days > 0 ? Math.Round(totalExpense / days, 2) : 0.0;
             perDayExpense = perDayExp.ToString();
-
             return perDayExpense;
         }
     }

@@ -1,5 +1,6 @@
 using Sensatus.FiberTracker.BusinessLogic;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Sensatus.FiberTracker.UI
@@ -12,6 +13,7 @@ namespace Sensatus.FiberTracker.UI
         [STAThread]
         private static void Main()
         {
+            AppData.Set();
             // Add Exception Handler so that for every thread exception Application_ThreadException method would be invoked
             Application.ThreadException += Application_ThreadException;
             Application.EnableVisualStyles();
@@ -40,6 +42,17 @@ namespace Sensatus.FiberTracker.UI
         {
             var err = new Error { ExceptionMessage = stackTrace };
             err.ShowDialog();
+        }
+
+    }
+
+    public static class AppData
+    {
+        public static void Set()
+        {
+            // Set the |DataDirectory| path used in connection strings to point to the correct directory for console app and migrations
+            var absolute = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\App_Data\"));
+            AppDomain.CurrentDomain.SetData("DataDirectory", absolute);
         }
     }
 }

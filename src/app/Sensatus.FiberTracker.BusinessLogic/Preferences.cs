@@ -33,7 +33,7 @@ namespace Sensatus.FiberTracker.BusinessLogic
             LastLoginDate
         }
 
-        #region "Public Methods"
+        #region Public Methods
 
         /// <summary>
         /// Saves the preference value passed.
@@ -97,18 +97,12 @@ namespace Sensatus.FiberTracker.BusinessLogic
             {
                 case Preference.Username:
                     value = xmlHelper.GetValue(USERNAME_KEY);
-                    if (!string.IsNullOrEmpty(value))
-                        value = security.Decrypt(value);
-                    else
-                        value = string.Empty;
+                    value = !string.IsNullOrEmpty(value) ? security.Decrypt(value) : string.Empty;
                     break;
 
                 case Preference.Password:
                     value = xmlHelper.GetValue(PASSWORD_KEY);
-                    if (!string.IsNullOrEmpty(value))
-                        value = security.Decrypt(value);
-                    else
-                        value = string.Empty;
+                    value = !string.IsNullOrEmpty(value) ? security.Decrypt(value) : string.Empty;
                     break;
 
                 case Preference.RememberMe:
@@ -117,10 +111,7 @@ namespace Sensatus.FiberTracker.BusinessLogic
 
                 case Preference.LastUser:
                     value = xmlHelper.GetValue(LAST_LOGGED_IN_USER_KEY);
-                    if (!string.IsNullOrEmpty(value))
-                        value = security.Decrypt(value);
-                    else
-                        value = string.Empty;
+                    value = !string.IsNullOrEmpty(value) ? security.Decrypt(value) : string.Empty;
                     break;
 
                 case Preference.LastLoginDate:
@@ -131,9 +122,9 @@ namespace Sensatus.FiberTracker.BusinessLogic
             return value;
         }
 
-        #endregion "Public Methods"
+        #endregion Public Methods
 
-        #region "Public Properties"
+        #region Public Properties
 
         /// <summary>
         /// Gets PictureBoxSizeMode for the picture box in which scanned image is shown.
@@ -145,38 +136,38 @@ namespace Sensatus.FiberTracker.BusinessLogic
                 var imageSizeMode = PictureBoxSizeMode.StretchImage;
                 var value = xmlHelper.GetValue(IMAGE_SIZE_KEY);
 
-                if (!string.IsNullOrEmpty(value))
-                    switch (value)
-                    {
-                        case "AutoSize":
-                            imageSizeMode = PictureBoxSizeMode.AutoSize;
-                            break;
+                if (string.IsNullOrEmpty(value)) return imageSizeMode;
+                switch (value)
+                {
+                    case "AutoSize":
+                        imageSizeMode = PictureBoxSizeMode.AutoSize;
+                        break;
 
-                        case "CenterImage":
-                            imageSizeMode = PictureBoxSizeMode.CenterImage;
-                            break;
+                    case "CenterImage":
+                        imageSizeMode = PictureBoxSizeMode.CenterImage;
+                        break;
 
-                        case "Normal":
-                            imageSizeMode = PictureBoxSizeMode.Normal;
-                            break;
+                    case "Normal":
+                        imageSizeMode = PictureBoxSizeMode.Normal;
+                        break;
 
-                        case "StretchImage":
-                            imageSizeMode = PictureBoxSizeMode.StretchImage;
-                            break;
+                    case "StretchImage":
+                        imageSizeMode = PictureBoxSizeMode.StretchImage;
+                        break;
 
-                        case "Zoom":
-                            imageSizeMode = PictureBoxSizeMode.Zoom;
-                            break;
+                    case "Zoom":
+                        imageSizeMode = PictureBoxSizeMode.Zoom;
+                        break;
 
-                        default:
-                            imageSizeMode = PictureBoxSizeMode.StretchImage;
-                            break;
-                    }
+                    default:
+                        imageSizeMode = PictureBoxSizeMode.StretchImage;
+                        break;
+                }
 
                 return imageSizeMode;
             }
         }
 
-        #endregion "Public Properties"
+        #endregion Public Properties
     }
 }

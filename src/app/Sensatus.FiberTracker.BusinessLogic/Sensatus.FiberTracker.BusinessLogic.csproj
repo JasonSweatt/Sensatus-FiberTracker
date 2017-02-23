@@ -102,6 +102,10 @@
       <Project>{10E357DF-2926-4EC3-87CD-36694F9C4D86}</Project>
       <Name>Sensatus.FiberTracker.Formatting</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sensatus.FiberTracker.Resources\Sensatus.FiberTracker.Resources.csproj">
+      <Project>{d703449a-70c6-4cb8-ac68-20ec775d7123}</Project>
+      <Name>Sensatus.FiberTracker.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

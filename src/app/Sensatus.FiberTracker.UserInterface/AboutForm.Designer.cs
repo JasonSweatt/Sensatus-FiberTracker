@@ -1,6 +1,6 @@
 ﻿namespace Sensatus.FiberTracker.UI
 {
-    partial class AboutAccountPlus
+    partial class AboutForm
     {
         /// <summary>
         /// Required designer variable.
@@ -27,7 +27,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutAccountPlus));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblProductName = new System.Windows.Forms.Label();
@@ -156,7 +156,7 @@
             this.linkRedirectURL.Text = "Know more /post feedback or suggestion";
             this.linkRedirectURL.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkRedirectURL_LinkClicked);
             // 
-            // AboutAccountPlus
+            // AboutForm
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,12 +168,12 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "AboutAccountPlus";
+            this.Name = "AboutForm";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AboutAccountPlus";
+            this.Text = "AboutForm";
             this.Load += new System.EventHandler(this.AboutAccountPlus_Load);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();

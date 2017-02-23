@@ -321,15 +321,12 @@ namespace Sensatus.FiberTracker.BusinessLogic
         public void FillDataInCombo(ComboBox cmbItems, ComboBoxItem item)
         {
             cmbItems.Items.Clear();
-            var dt = new DataTable();
             cmbItems.Items.Insert(0, new DictionaryEntry("-1", "[ SELECT ]"));
+            var query = item == ComboBoxItem.Item ? "SELECT ItemId, ItemName FROM ItemDetails WHERE IsActive = 1" : "SELECT RoleId, Role FROM RoleDetails";
+            var dataTable = _dbHelper.ExecuteDataTable(query);
 
-            var Query = string.Empty;
-            Query = item == ComboBoxItem.Item ? "SELECT Item_Id, Item_Name from Item_Details where IsActive=1" : "SELECT RoleId, Role from RoleDetails";
-            dt = _dbHelper.ExecuteDataTable(Query);
-
-            for (var i = 0; i < dt.Rows.Count; i++)
-                cmbItems.Items.Add(new DictionaryEntry(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString()));
+            for (var index = 0; index < dataTable.Rows.Count; index++)
+                cmbItems.Items.Add(new DictionaryEntry(dataTable.Rows[index][0].ToString(), dataTable.Rows[index][1].ToString()));
 
             cmbItems.ValueMember = "Key";
             cmbItems.DisplayMember = "Value";
@@ -344,12 +341,10 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <param name="index">The index.</param>
         public void FillDataInCombo(ComboBox cmbItems, string selectQuery, int index)
         {
-            var dt = new DataTable();
             cmbItems.Items.Clear();
-            dt = _dbHelper.ExecuteDataTable(selectQuery);
-
-            for (var i = 0; i < dt.Rows.Count; i++)
-                cmbItems.Items.Add(dt.Rows[i][index].ToString());
+            var dataTable = _dbHelper.ExecuteDataTable(selectQuery);
+            for (var i = 0; i < dataTable.Rows.Count; i++)
+                cmbItems.Items.Add(dataTable.Rows[i][index].ToString());
         }
 
         /// <summary>
@@ -359,59 +354,58 @@ namespace Sensatus.FiberTracker.BusinessLogic
         /// <returns>System.Int32.</returns>
         public int GetMonth(string month)
         {
-            var iMonth = 0;
+            var monthNumber = 0;
             switch (month)
             {
                 case "Jan":
-                    iMonth = 1;
+                    monthNumber = 1;
                     break;
 
                 case "Feb":
-                    iMonth = 2;
+                    monthNumber = 2;
                     break;
 
                 case "Mar":
-                    iMonth = 3;
+                    monthNumber = 3;
                     break;
 
                 case "Apr":
-                    iMonth = 4;
+                    monthNumber = 4;
                     break;
 
                 case "May":
-                    iMonth = 5;
+                    monthNumber = 5;
                     break;
 
                 case "Jun":
-                    iMonth = 6;
+                    monthNumber = 6;
                     break;
 
                 case "Jul":
-                    iMonth = 7;
+                    monthNumber = 7;
                     break;
 
                 case "Aug":
-                    iMonth = 8;
+                    monthNumber = 8;
                     break;
 
                 case "Sep":
-                    iMonth = 9;
+                    monthNumber = 9;
                     break;
 
                 case "Oct":
-                    iMonth = 10;
+                    monthNumber = 10;
                     break;
 
                 case "Nov":
-                    iMonth = 11;
+                    monthNumber = 11;
                     break;
 
                 case "Dec":
-                    iMonth = 12;
+                    monthNumber = 12;
                     break;
             }
-
-            return iMonth;
+            return monthNumber;
         }
     }
 }

@@ -13,7 +13,7 @@ using Sensatus.FiberTracker.Formatting;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class CustomReport : AccountPlusBase
+    public partial class CustomReport : FormBase
     {
         
         private MonthlyReport monthlyReport = new MonthlyReport();

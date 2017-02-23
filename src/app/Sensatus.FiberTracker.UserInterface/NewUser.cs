@@ -14,7 +14,7 @@ using System.Collections;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class NewUser : AccountPlusBase
+    public partial class NewUser : FormBase
     {
         
         public NewUser()

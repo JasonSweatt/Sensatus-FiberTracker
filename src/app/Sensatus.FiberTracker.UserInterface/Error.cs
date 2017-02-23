@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class Error : AccountPlusBase
+    public partial class Error : FormBase
     {
         public Error()
         {

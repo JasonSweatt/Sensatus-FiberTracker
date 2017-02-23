@@ -12,75 +12,63 @@ namespace Sensatus.FiberTracker.BusinessLogic
         public bool AddNewExpense(int itemID, string expenseDesc, string expenseAmount, int expenseBy, string expenseDate)
         {
             var monthYear = DataFormat.GetDateTime(expenseDate).ToString("ddMMyy").Substring(2);
-
             var paramCollection = new DBParameterCollection();
-            paramCollection.Add(new DBParameter("@itemID", itemID));
-            paramCollection.Add(new DBParameter("@expenseDesc", expenseDesc));
-            paramCollection.Add(new DBParameter("@expenseAmount", expenseAmount));
-            paramCollection.Add(new DBParameter("@expenseBy", expenseBy));
-            paramCollection.Add(new DBParameter("@expenseDate", expenseDate, DbType.DateTime));
-            paramCollection.Add(new DBParameter("@monthYear", monthYear));
+            paramCollection.Add(new DBParameter("@ItemId", itemID));
+            paramCollection.Add(new DBParameter("@ExpenseDesc", expenseDesc));
+            paramCollection.Add(new DBParameter("@ExpenseAmount", expenseAmount));
+            paramCollection.Add(new DBParameter("@ExpenseBy", expenseBy));
+            paramCollection.Add(new DBParameter("@ExpenseDate", expenseDate, DbType.DateTime));
+            paramCollection.Add(new DBParameter("@MonthYear", monthYear));
 
-            var Query = "INSERT INTO Expense_Details (Item_Id,  Exp_Desc , " +
-                " Exp_Amount,  Exp_By ,  Exp_Date , MonthYear ,  " +
-                "Finalized, IsDeleted ) " +
-                "VALUES (@itemID, @expenseDesc, @expenseAmount, " +
-                "@expenseBy, @expenseDate, @monthYear, 0, 0)";
-
-            return _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;
+            var query = "INSERT INTO ExpenseDetails (ItemId,  ExpenseDescription, ExpenseAmount, ExpenseBy, ExpenseDate, MonthYear, Finalized, IsDeleted) " +
+                "VALUES (@ItemId, @ExpenseDesc, @ExpenseAmount, @ExpenseBy, @ExpenseDate, @MonthYear, 0, 0)";
+            return _dbHelper.ExecuteNonQuery(query, paramCollection) > 0;
         }
 
         public bool ModifyExpenses(int itemId, int expenseID, string expenseDesc, string expenseAmount, string expenseDate)
         {
             var monthYear = System.DateTime.Now.ToString("ddMMyy").Substring(2);
-
             var paramCollection = new DBParameterCollection();
-            paramCollection.Add(new DBParameter("@expenseDesc", expenseDesc));
-            paramCollection.Add(new DBParameter("@expenseAmount", expenseAmount));
-            paramCollection.Add(new DBParameter("@expDate", expenseDate, DbType.DateTime));
-            paramCollection.Add(new DBParameter("@itemId", itemId));
-            paramCollection.Add(new DBParameter("@monthYear", monthYear));
-            paramCollection.Add(new DBParameter("@expenseID", expenseID));
-
-            var Query = "UPDATE Expense_Details SET Exp_Desc = @expenseDesc , " +
-            "Exp_Amount = @expenseAmount, " +
-            "Exp_Date =@expDate, Item_Id =@itemId, MonthYear=@monthYear WHERE Exp_Id=@expenseID";
-
-            return _dbHelper.ExecuteNonQuery(Query, paramCollection) > 0;
+            paramCollection.Add(new DBParameter("@ExpenseDesc", expenseDesc));
+            paramCollection.Add(new DBParameter("@ExpenseAmount", expenseAmount));
+            paramCollection.Add(new DBParameter("@ExpDate", expenseDate, DbType.DateTime));
+            paramCollection.Add(new DBParameter("@ItemId", itemId));
+            paramCollection.Add(new DBParameter("@MonthYear", monthYear));
+            paramCollection.Add(new DBParameter("@ExpenseId", expenseID));
+            var query = "UPDATE ExpenseDetails SET ExpenseDescription = @ExpenseDesc, ExpenseAmount = @ExpenseAmount, ExpenseDate = @ExpDate, ItemId = @ItemId, MonthYear = @MonthYear WHERE ExpenseId = @ExpenseId";
+            return _dbHelper.ExecuteNonQuery(query, paramCollection) > 0;
         }
 
-        public bool DeleteExpenses(int expenseID)
+        public bool DeleteExpenses(int expenseId)
         {
-            var Query = "UPDATE Expense_Details SET IsDeleted = 1 WHERE Exp_Id=" + expenseID.ToString();
-            return _dbHelper.ExecuteNonQuery(Query) > 0;
+            var update = $"UPDATE ExpenseDetails SET IsDeleted = 1 WHERE ExpenseId = {expenseId}";
+            return _dbHelper.ExecuteNonQuery(update) > 0;
         }
 
-        public DataTable GetDisplayData(int expenseID)
+        public DataTable GetDisplayData(int expenseId)
         {
-            var dt = new DataTable();
-            var Query = "SELECT Expense_Details.Exp_Id,Item_Details.Item_Name,Expense_Details.Exp_Desc,Expense_Details.Exp_Amount, " +
-                            "Expense_Details.Exp_Date from Expense_Details,Item_Details " +
-                            "where Expense_Details.Item_Id=Item_Details.Item_Id  AND  Expense_Details.Exp_Id=" + expenseID.ToString();
-
-            dt = _dbHelper.ExecuteDataTable(Query);
-            return dt;
+            var query = "SELECT ExpenseDetails.ExpenseId,ItemDetails.ItemName,ExpenseDetails.ExpenseDescription,ExpenseDetails.ExpenseAmount, " +
+                        "ExpenseDetails.ExpenseDate FROM ExpenseDetails, ItemDetails " +
+                       $"WHERE ExpenseDetails.ItemId=ItemDetails.ItemId AND ExpenseDetails.ExpenseId = {expenseId}";
+            var dataTable = _dbHelper.ExecuteDataTable(query);
+            return dataTable;
         }
 
-        public string GetExpensedBy(int expenseID)
+        public string GetExpensedBy(int expenseId)
         {
-            var Query = "SELECT First_Name + ' ' + Last_Name from User_Info where User_Id IN (Select Exp_By from Expense_Details Where Exp_Id= " + expenseID.ToString() + ")";
-            return _dbHelper.ExecuteScalar(Query).ToString();
+            var query = $"SELECT FirstName + ' ' + LastName FROM UserInfo WHERE UserId IN (SELECT ExpenseBy FROM ExpenseDetails WHERE ExpenseId= {expenseId})";
+            return _dbHelper.ExecuteScalar(query).ToString();
         }
 
         /// <summary>
-        /// Returns User_Id
+        /// Returns UserId
         /// </summary>
-        /// <param name="expenseID"></param>
+        /// <param name="expenseId"></param>
         /// <returns></returns>
-        public string GetExpBy(int expenseID)
+        public string GetExpBy(int expenseId)
         {
-            var Query = "Select Exp_By from Expense_Details Where Exp_Id= " + expenseID.ToString();
-            return _dbHelper.ExecuteScalar(Query).ToString();
+            var query = $"SELECT ExpenseBy FROM ExpenseDetails WHERE ExpenseId= " + expenseId.ToString();
+            return _dbHelper.ExecuteScalar(query).ToString();
         }
     }
 }

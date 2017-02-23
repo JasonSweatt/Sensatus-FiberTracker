@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class Configuration : AccountPlusBase
+    public partial class Configuration : FormBase
     {        
 
         public Configuration()

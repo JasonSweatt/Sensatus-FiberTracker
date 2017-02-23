@@ -22,10 +22,8 @@ namespace Sensatus.FiberTracker.BusinessLogic
             {
                 var fileName = GetFileName(FileType.Log);
                 var fileAppender = CreateAppender(fileName);
-
                 CreateLogger(fileAppender, APPENDER_NAME);
                 _log = LogManager.GetLogger(APPENDER_NAME);
-
                 var stackTrace = GetStackTraceInfo();
                 _log.Info(stackTrace, ex);
             }
@@ -41,7 +39,6 @@ namespace Sensatus.FiberTracker.BusinessLogic
             {
                 var fileName = GetFileName(FileType.Trace);
                 var fileAppender = CreateAppender(fileName);
-
                 CreateLogger(fileAppender, APPENDER_NAME);
                 _log = LogManager.GetLogger(APPENDER_NAME);
                 _log.Info(traceInfo + Environment.NewLine);
@@ -59,10 +56,8 @@ namespace Sensatus.FiberTracker.BusinessLogic
             {
                 var fileName = GetFileName(FileType.Trace);
                 var fileAppender = CreateAppender(fileName);
-
                 CreateLogger(fileAppender, APPENDER_NAME);
                 _log = LogManager.GetLogger(APPENDER_NAME);
-
                 var stackTrace = Environment.NewLine + "Screen/Form Name : " + formName + Environment.NewLine;
                 stackTrace += "Method/ Action/ Routine Invoked : " + traceInfo + Environment.NewLine;
                 stackTrace += "Start Time : " + DateTime.Now.ToString() + Environment.NewLine;
@@ -124,7 +119,6 @@ namespace Sensatus.FiberTracker.BusinessLogic
             fileAppender.File = fileName;
             fileAppender.Name = APPENDER_NAME;
             fileAppender.ActivateOptions();
-
             return fileAppender;
         }
 

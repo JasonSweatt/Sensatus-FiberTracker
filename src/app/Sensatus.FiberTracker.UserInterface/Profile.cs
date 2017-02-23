@@ -11,7 +11,7 @@ using Sensatus.FiberTracker.Formatting;
 
 namespace Sensatus.FiberTracker.UI
 {
-    public partial class Profile : AccountPlusBase 
+    public partial class Profile : FormBase 
     {
         
 
@@ -53,7 +53,7 @@ namespace Sensatus.FiberTracker.UI
         private void InitScreenData()
         {
             var manageProfile = new Users();
-            var dtUserProfile = manageProfile.GetUserProfile(SessionParameters.UserID);
+            var dtUserProfile = manageProfile.GetUserProfile(SessionParameters.UserId);
             txtUserID.Text = DataFormat.GetString(dtUserProfile.Rows[0]["User_Name"]);
             txtFName.Text = DataFormat.GetString(dtUserProfile.Rows[0]["First_Name"]);
             txtLName.Text = DataFormat.GetString(dtUserProfile.Rows[0]["Last_Name"]);
@@ -121,7 +121,7 @@ namespace Sensatus.FiberTracker.UI
                     return;
                 }
 
-                if(!_manageProfile.IsValidPassword(SessionParameters.UserID, oldPassword))
+                if(!_manageProfile.IsValidPassword(SessionParameters.UserId, oldPassword))
                 {
                     message = MessageManager.GetMessage("51");
                     errorProvider1.SetError(txtOldPassword, message);
@@ -131,7 +131,7 @@ namespace Sensatus.FiberTracker.UI
             }
 
             var status = false;
-            status = chkChangePassword.Checked ? _manageProfile.UpdateUserProfile(SessionParameters.UserID, firstName, lastName, newPassword, email, mobile) : _manageProfile.UpdateUserProfile(SessionParameters.UserID, firstName, lastName, email, mobile);
+            status = chkChangePassword.Checked ? _manageProfile.UpdateUserProfile(SessionParameters.UserId, firstName, lastName, newPassword, email, mobile) : _manageProfile.UpdateUserProfile(SessionParameters.UserId, firstName, lastName, email, mobile);
 
             if (status)                            
                 lblMessage.MessageText = MessageManager.GetMessage("52");            
